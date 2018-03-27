@@ -1,0 +1,27 @@
+#' Convert a FASTA file to a table of sequences
+#' @param fasta_filenames One or more existing FASTA filenames
+#' @return a table of sequences
+#' @author Richel J.C. Bilderbeek
+fasta_file_to_sequences <- function(fasta_filenames) {
+
+  if (!file.exists(fasta_filenames)) {
+    stop("fasta_filenames not found")
+  }
+
+  # Read the file
+  sequences_dnabin <- ape::read.FASTA(fasta_filenames)
+  testit::assert(class(sequences_dnabin) == "DNAbin")
+
+  # Convert the file to a table with labels and sequences
+  labels <- names(sequences_dnabin)
+  chars <- as.character(sequences_dnabin)
+  sequences <- NULL
+
+  for (line in chars) {
+    sequence <- utils::capture.output(cat(line, sep = ""))
+    sequences <- c(sequences, sequence)
+  }
+
+  table <- data.frame(sequences, row.names = labels)
+  return(table)
+}
