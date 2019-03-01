@@ -1,18 +1,20 @@
 #' Creates the XML of an MRCA prior,
 #'   as used in the \code{state} section
 #' @inheritParams default_params_doc
-#' @param is_first is this the first MRCA prior?
 #' @return the tree prior as XML text
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 mrca_prior_to_xml_state <- function(
   mrca_prior,
-  has_non_strict_clock_model = FALSE,
-  is_first = TRUE
+  has_non_strict_clock_model = FALSE
 ) {
-  testit::assert(is_mrca_prior(mrca_prior))
-  if (mrca_prior$is_monophyletic == FALSE) return(NULL)
-  if (is_first == FALSE) return(NULL)
+  testit::assert(is_mrca_prior(mrca_prior)) # nolint beautier function
+  if (mrca_prior$is_monophyletic == FALSE &&
+      is_one_na(mrca_prior$mrca_distr)) return(NULL) # nolint beautier function
+  if (mrca_prior$is_monophyletic == TRUE &&
+    is_one_na(mrca_prior$mrca_distr)) return(NULL) # nolint beautier function
   if (!has_non_strict_clock_model) {
+    testit::assert(!is_one_na(mrca_prior$alignment_id)) # nolint beautier function
     paste0(
       "<parameter ",
       "id=\"clockRate.c:", mrca_prior$alignment_id, "\" ",

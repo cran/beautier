@@ -4,13 +4,42 @@
 \alias{create_beast2_input}
 \title{Create a BEAST2 XML input text}
 \usage{
-create_beast2_input(input_filenames, site_models = create_jc69_site_models(ids
-  = get_ids(input_filenames)), clock_models = create_strict_clock_models(ids =
-  get_ids(input_filenames)), tree_priors = create_yule_tree_priors(ids =
-  get_ids(input_filenames)), mrca_priors = NA, mcmc = create_mcmc(),
-  misc_options = create_misc_options(), posterior_crown_age = NA)
+create_beast2_input(input_filename, tipdates_filename = NA,
+  site_model = create_jc69_site_model(),
+  clock_model = create_strict_clock_model(),
+  tree_prior = create_yule_tree_prior(), mrca_prior = NA,
+  mcmc = create_mcmc(), beauti_options = create_beauti_options(),
+  input_filenames = "deprecated", site_models = "deprecated",
+  clock_models = "deprecated", tree_priors = "deprecated",
+  mrca_priors = "deprecated", posterior_crown_age = "deprecated")
 }
 \arguments{
+\item{input_filename}{A FASTA filename.
+Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.}
+
+\item{tipdates_filename}{name of the file containing the tip dates.
+This file is assumed to have two columns, separated by a tab.
+The first column contains the taxa names, the second column contains
+the date.}
+
+\item{site_model}{a site model,
+as returned by \code{\link{create_site_model}}}
+
+\item{clock_model}{a clock model,
+as returned by \code{\link{create_clock_model}}}
+
+\item{tree_prior}{a tree priors,
+as returned by \code{\link{create_tree_prior}}}
+
+\item{mrca_prior}{a Most Recent Common Ancestor prior,
+as returned by \code{\link{create_mrca_prior}}}
+
+\item{mcmc}{one MCMC
+as returned by \code{\link{create_mcmc}}}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
+
 \item{input_filenames}{One or more FASTA filenames.
 Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.}
 
@@ -26,27 +55,29 @@ as returned by \code{\link{create_tree_prior}}}
 \item{mrca_priors}{a list of one or more Most Recent Common Ancestor priors,
 as returned by \code{\link{create_mrca_prior}}}
 
-\item{mcmc}{one mcmc object,
-as returned by \code{\link{create_mcmc}}}
-
-\item{misc_options}{one misc_options object,
-as returned by \code{\link{create_misc_options}}}
-
-\item{posterior_crown_age}{the crown age the posteriors'
-phylogenies will be fixed at. If NA, crown age is estimated by BEAST2.}
+\item{posterior_crown_age}{deprecated}
+}
+\value{
+a character vector of XML strings
 }
 \description{
 Create a BEAST2 XML input text
 }
 \examples{
-  create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "my_beast.xml"
+  text <- create_beast2_input(
+    input_filename = get_fasta_filename()
   )
+  testit::assert(substr(text[1], 1, 5) == "<?xml")
+  text[1]
+  testit::assert(tail(text, n = 1) == "</beast>")
 }
 \seealso{
+Use \link{create_beast2_input_file} to also save it to file.
+  Use \link{create_beast2_input_file_from_model} to use an inference model
+    as an input argument.
+
 \code{\link{create_beast2_input_file}} shows more examples
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

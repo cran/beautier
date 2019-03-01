@@ -7,7 +7,7 @@
 distr_to_xml_beta(distr)
 }
 \arguments{
-\item{distr}{a beta distibution,
+\item{distr}{a beta distribution,
 as created by \code{\link{create_beta_distr}})}
 }
 \value{
@@ -17,5 +17,5 @@ the distribution as XML text
 Converts a beta distribution to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

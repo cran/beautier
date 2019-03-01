@@ -4,7 +4,8 @@
 \alias{are_equivalent_xml_lines_section}
 \title{Determine if XML lines result in equivalent trees}
 \usage{
-are_equivalent_xml_lines_section(lines_1, lines_2, section, verbose = FALSE)
+are_equivalent_xml_lines_section(lines_1, lines_2, section,
+  verbose = FALSE)
 }
 \arguments{
 \item{lines_1}{lines of a first XML file}
@@ -24,5 +25,5 @@ TRUE if the two XML lines result in equivalent trees,
 Determine if XML lines result in equivalent trees
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

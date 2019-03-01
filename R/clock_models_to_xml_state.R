@@ -3,33 +3,46 @@
 #' @inheritParams default_params_doc
 #' @return lines of XML text, without indentation nor \code{state}
 #'   tags
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 clock_models_to_xml_state <- function(
-  clock_models
+  clock_models,
+  mrca_priors = NA,
+  has_tip_dating = FALSE
 ) {
-  testit::assert(are_clock_models(clock_models))
+  # the mrca_priors are supposed to be temporary :-)
+  testit::assert(are_clock_models(clock_models)) # nolint beautier function
 
-  # Remove the clock models that share a same alignment
-  clock_models <- get_unlinked_clock_models(clock_models) # nolint internal function
-  testit::assert(are_clock_models(clock_models))
+  if (length(clock_models) == 1 &&
+      is_strict_clock_model(clock_models[[1]]) &&
+    has_tip_dating == FALSE
+  ) { # nolint beautier function
+    return(NULL)
+  }
 
   text <- NULL
+
   for (clock_model in clock_models) {
     text <- c(text,
-      clock_model_to_xml_state(clock_model)
+      clock_model_to_xml_state(
+        clock_model = clock_model,
+        has_tip_dating = has_tip_dating
+      )
     )
   }
 
-  # Remove the first line of the first clock model, if any
-  # if no MRCA prior is used
-  clock_model <- clock_models[[1]]
-  line_to_remove <- clock_model_to_xml_state(clock_model) # nolint
-  if (is_rln_clock_model(clock_model)) {
+  # Remove the first line of the first clock model,
+  # if no MRCA prior with a distribution is used
+  if (is_rln_clock_model(clock_models[[1]]) && # nolint beautier function
+      !is_mrca_prior_with_distr(mrca_priors[[1]])) { # nolint beautier function
     # A RLN clock model returns three lines, only remove the first
+    line_to_remove <- clock_model_to_xml_state(clock_models[[1]]) # nolint
     testit::assert(length(line_to_remove) == 3)
-    line_to_remove <- line_to_remove[1]
+    text <- line_to_remove[
+      stringr::str_remove_all(
+        string = line_to_remove, pattern = ".*ucldMean\\.c:.*"
+      ) != ""
+    ]
   }
-  testit::assert(!is.null(line_to_remove))
-  text <- text[text != line_to_remove]
   text
 }

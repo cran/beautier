@@ -9,8 +9,8 @@ create_cbs_tree_prior(id = NA, group_sizes_dimension = 5)
 }
 \arguments{
 \item{id}{an alignment's IDs.
-An ID can be extracted from its FASTA filesname
-with \code{\link{get_ids}})}
+An ID can be extracted from its FASTA filename
+with \code{\link{get_alignment_ids}})}
 
 \item{group_sizes_dimension}{the group sizes' dimension, as used
 by the CBS tree prior (see \code{\link{create_cbs_tree_prior}})}
@@ -24,17 +24,18 @@ Create a Coalescent Bayesian Skyline tree prior
 \examples{
   cbs_tree_prior <- create_cbs_tree_prior()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_beautier_path("test_output_6.fas"),
-    "create_cbs_tree_prior.xml",
-    tree_priors = cbs_tree_prior
+    input_filename = get_beautier_path("test_output_6.fas"),
+    beast2_input_file,
+    tree_prior = cbs_tree_prior
   )
-  testit::assert(file.exists("create_cbs_tree_prior.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 An alignment ID can be extracted from
-  its FASTA filesname using \code{\link{get_id}}
+  its FASTA filename using \code{\link{get_alignment_id}}
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

@@ -13,20 +13,21 @@ create_rln_clock_model(id = NA,
 }
 \arguments{
 \item{id}{an alignment's IDs.
-An ID can be extracted from its FASTA filesname
-with \code{\link{get_ids}})}
+An ID can be extracted from its FASTA filename
+with \code{\link{get_alignment_ids}})}
 
 \item{mean_rate_prior_distr}{the mean clock rate prior distribution,
 as created by a \code{\link{create_distr}} function}
 
-\item{ucldstdev_distr}{the uclstdev distribution,
+\item{ucldstdev_distr}{the standard deviation of the uncorrelated
+log-normal distribution,
 as created by a \code{\link{create_distr}} function}
 
-\item{mparam_id}{the ID of the M paramater in the branchRateModel,
+\item{mparam_id}{the ID of the M parameter in the \code{branchRateModel},
 set to NA to have it initialized}
 
 \item{mean_clock_rate}{the mean clock rate, 1.0 by default
-(is called 'ucld_stdev' in XML, where 'ucld_stdev' is always 0.1)}
+(is called \code{ucld_stdev} in XML, where \code{ucld_stdev} is always 0.1)}
 
 \item{n_rate_categories}{the number of rate categories.
 -1 is default,
@@ -48,24 +49,26 @@ Create a relaxed log-normal clock model
 \examples{
   rln_clock_model <- create_rln_clock_model()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
     get_fasta_filename(),
-    "create_rln_clock_model.xml",
-    clock_models = rln_clock_model
+    beast2_input_file,
+    clock_model = rln_clock_model
   )
-  testit::assert(file.exists("create_rln_clock_model.xml"))
+  testit::assert(file.exists(beast2_input_file))
 
   rln_clock_model_exp <- create_rln_clock_model(
     mean_rate_prior_distr = create_exp_distr()
   )
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
     get_fasta_filename(),
-    "create_rln_clock_model_exp.xml",
-    clock_models = rln_clock_model_exp
+    beast2_input_file,
+    clock_model = rln_clock_model_exp
   )
-  testit::assert(file.exists("create_rln_clock_model_exp.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

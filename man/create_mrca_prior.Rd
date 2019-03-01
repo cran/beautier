@@ -4,15 +4,19 @@
 \alias{create_mrca_prior}
 \title{Create a Most Recent Common Ancestor prior}
 \usage{
-create_mrca_prior(alignment_id, taxa_names, is_monophyletic = FALSE,
-  mrca_distr = NA, name = NA, clock_prior_distr_id = NA)
+create_mrca_prior(alignment_id = NA, taxa_names = NA,
+  is_monophyletic = FALSE, mrca_distr = NA, name = NA,
+  clock_prior_distr_id = NA)
 }
 \arguments{
 \item{alignment_id}{ID of the alignment,
-as returned by \code{\link{get_alignment_id}}}
+as returned by \code{\link{get_alignment_id}}.
+Keep at \code{NA} to have it initialized automatically}
 
 \item{taxa_names}{names of the taxa,
-as returned by \code{\link{get_taxa_names}}}
+as returned by \code{\link{get_taxa_names}}.
+Keep at \code{NA} to have it initialized automatically,
+using all taxa in the alignment}
 
 \item{is_monophyletic}{boolean to indicate monophyly is assumed in
 a Most Recent Common Ancestor prior,
@@ -26,7 +30,7 @@ returned by \code{\link{create_distr}}}
 order or even class name. Leave at NA to have it named automatically}
 
 \item{clock_prior_distr_id}{ID of an MRCA clock model's distribution.
-Keep at NA to have it initialized automatically}
+Keep at \code{NA} to have it initialized automatically}
 }
 \value{
 an MRCA prior
@@ -34,6 +38,22 @@ an MRCA prior
 \description{
 Create a Most Recent Common Ancestor prior
 }
+\examples{
+ fasta_filename <- get_beautier_path("anthus_aco.fas")
+
+ # The first two taxa are sister species
+ mrca_prior <- create_mrca_prior(
+   alignment_id = get_alignment_id(fasta_filename = fasta_filename),
+   taxa_names = get_taxa_names(filename = fasta_filename)[1:2]
+ )
+
+ # Set the crown age
+ mrca_prior <- create_mrca_prior(
+   alignment_id = get_alignment_id(fasta_filename = fasta_filename),
+   taxa_names = get_taxa_names(filename = fasta_filename),
+   is_monophyletic = TRUE
+ )
+}
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

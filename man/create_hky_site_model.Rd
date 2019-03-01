@@ -8,11 +8,11 @@
 create_hky_site_model(id = NA, kappa = "2.0",
   gamma_site_model = create_gamma_site_model(),
   kappa_prior_distr = create_log_normal_distr(m = create_m_param(value =
-  "1.0"), s = create_s_param(value = "1.25")), freq_equilibrium = "estimated")
+  "1.0"), s = 1.25), freq_equilibrium = "estimated")
 }
 \arguments{
 \item{id}{the IDs of the alignment (can be extracted from
-the FASTA filesname using \code{\link{get_id}})}
+the FASTA filename using \code{\link{get_alignment_id}})}
 
 \item{kappa}{the kappa}
 
@@ -26,7 +26,7 @@ by default}
 
 \item{freq_equilibrium}{the frequency in which the rates are at equilibrium
 are either \code{estimated}, \code{empirical} or \code{all_equal}.
-\code{\link{get_freq_equilibrium_names}} returns the possible values
+\code{get_freq_equilibrium_names} returns the possible values
 for \code{freq_equilibrium}}
 }
 \value{
@@ -39,11 +39,11 @@ Create an HKY site model
  hky_site_model <- create_hky_site_model()
 
  create_beast2_input_file(
-   input_filenames = get_fasta_filename(),
+   input_filename = get_fasta_filename(),
    "beast.xml",
-   site_models = hky_site_model
+   site_model = hky_site_model
  )
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

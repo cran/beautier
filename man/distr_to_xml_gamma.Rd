@@ -7,7 +7,7 @@
 distr_to_xml_gamma(distr)
 }
 \arguments{
-\item{distr}{a gamma distibution,
+\item{distr}{a gamma distribution,
 as created by \code{\link{create_gamma_distr}})}
 }
 \value{
@@ -17,5 +17,5 @@ the distribution as XML text
 Converts a gamma distribution to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

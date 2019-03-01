@@ -15,6 +15,17 @@ TRUE or FALSE
 \description{
 Checks if the input is a phylogeny
 }
+\examples{
+  phylogeny <- ape::read.tree(text = "(a:15,b:15):1;")
+  testit::assert(is_phylo(phylogeny))
+
+  testit::assert(!is_phylo("nonsense"))
+  testit::assert(!is_phylo(NA))
+  testit::assert(!is_phylo(NULL))
+}
+\seealso{
+Use \link{check_phylogeny} to check for a phylogeny
+}
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

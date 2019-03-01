@@ -7,7 +7,7 @@
 #'   and \code{\link{create_yule_tree_prior}}
 #'   instead
 #' @param name the tree prior name. Can be any name
-#'   in \code{\link{get_tree_prior_names}}
+#'   in \code{get_tree_prior_names}
 #' @param id the ID of the alignment
 #' @param ... specific tree prior parameters
 #' @return a tree_prior
@@ -18,49 +18,54 @@
 #'   \code{\link{create_cep_tree_prior}}
 #'   and \code{\link{create_yule_tree_prior}}
 #'   for more examples using those functions
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_tree_prior_bd.xml",
-#'     tree_priors = create_bd_tree_prior()
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = create_bd_tree_prior()
 #'   )
-#'   testit::assert(file.exists("create_tree_prior_bd.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_beautier_path("test_output_6.fas"),
-#'     "create_tree_prior_cbs.xml",
-#'     tree_priors = create_cbs_tree_prior()
+#'     input_filename = get_beautier_path("test_output_6.fas"),
+#'     beast2_input_file,
+#'     tree_prior = create_cbs_tree_prior()
 #'   )
-#'   testit::assert(file.exists("create_tree_prior_cbs.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_tree_prior_ccp.xml",
-#'     tree_priors = create_ccp_tree_prior()
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = create_ccp_tree_prior()
 #'   )
-#'   testit::assert(file.exists("create_tree_prior_ccp.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_tree_prior_cep.xml",
-#'     tree_priors = create_cep_tree_prior()
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = create_cep_tree_prior()
 #'   )
-#'   testit::assert(file.exists("create_tree_prior_cep.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_tree_prior_yule.xml",
-#'     tree_priors = create_yule_tree_prior()
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = create_yule_tree_prior()
 #'   )
-#'   testit::assert(file.exists("create_tree_prior_yule.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @export
 create_tree_prior <- function(
   name,
   id,
   ...
 ) {
-  if (!is_tree_prior_name(name)) {
+  if (!is_tree_prior_name(name)) { # nolint beautier function
     tree_priors_as_string <- function() {
       s <- NULL
       for (p in get_tree_prior_names()) {
@@ -92,28 +97,30 @@ create_tree_prior <- function(
 #'   death_rate_distr = create_uniform_distr()
 #' )
 #' @seealso An alignment ID can be extracted from
-#'   its FASTA filesname using \code{\link{get_id}}
-#' @author Richel J.C. Bilderbeek
+#'   its FASTA filename using \code{\link{get_alignment_id}}
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'   bd_tree_prior <- create_bd_tree_prior()
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_bd_tree_prior.xml",
-#'     tree_priors = bd_tree_prior
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = bd_tree_prior
 #'   )
-#'   testit::assert(file.exists("create_bd_tree_prior.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #'
 #'   bd_tree_prior_exp <- create_bd_tree_prior(
 #'     birth_rate_distr = create_exp_distr()
 #'   )
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_bd_tree_prior_exp.xml",
-#'     tree_priors = bd_tree_prior_exp
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = bd_tree_prior_exp
 #'   )
-#'   testit::assert(file.exists("create_bd_tree_prior_exp.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @aliases create_bd_tree_prior create_tree_prior_bd
 #' @export create_bd_tree_prior create_tree_prior_bd
 create_bd_tree_prior <- create_tree_prior_bd <- function(
@@ -133,17 +140,18 @@ create_bd_tree_prior <- create_tree_prior_bd <- function(
 #' @inheritParams default_params_doc
 #' @return a Coalescent Bayesian Skyline tree_prior
 #' @seealso An alignment ID can be extracted from
-#'   its FASTA filesname using \code{\link{get_id}}
-#' @author Richel J.C. Bilderbeek
+#'   its FASTA filename using \code{\link{get_alignment_id}}
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'   cbs_tree_prior <- create_cbs_tree_prior()
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_beautier_path("test_output_6.fas"),
-#'     "create_cbs_tree_prior.xml",
-#'     tree_priors = cbs_tree_prior
+#'     input_filename = get_beautier_path("test_output_6.fas"),
+#'     beast2_input_file,
+#'     tree_prior = cbs_tree_prior
 #'   )
-#'   testit::assert(file.exists("create_cbs_tree_prior.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @aliases create_cbs_tree_prior create_tree_prior_cbs
 #' @export create_cbs_tree_prior create_tree_prior_cbs
 create_cbs_tree_prior <- create_tree_prior_cbs <- function(
@@ -155,7 +163,7 @@ create_cbs_tree_prior <- create_tree_prior_cbs <- function(
     id = id,
     group_sizes_dimension = group_sizes_dimension
   )
-  testit::assert(is_cbs_tree_prior(cbs_tree_prior))
+  testit::assert(is_cbs_tree_prior(cbs_tree_prior)) # nolint beautier function
   cbs_tree_prior
 }
 
@@ -165,17 +173,18 @@ create_cbs_tree_prior <- create_tree_prior_cbs <- function(
 #'   as created by a \code{\link{create_distr}} function
 #' @return a Coalescent Constant Population tree_prior
 #' @seealso An alignment ID can be extracted from
-#'   its FASTA filesname using \code{\link{get_id}}
-#' @author Richel J.C. Bilderbeek
+#'   its FASTA filename using \code{\link{get_alignment_id}}
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'   ccp_tree_prior <- create_ccp_tree_prior()
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_ccp_tree_prior.xml",
-#'     tree_priors = ccp_tree_prior
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = ccp_tree_prior
 #'   )
-#'   testit::assert(file.exists("create_ccp_tree_prior.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @aliases create_ccp_tree_prior create_tree_prior_ccp
 #' @export create_ccp_tree_prior create_tree_prior_ccp
 create_ccp_tree_prior <- create_tree_prior_ccp <- function(
@@ -197,17 +206,18 @@ create_ccp_tree_prior <- create_tree_prior_ccp <- function(
 #'   as created by a \code{\link{create_distr}} function
 #' @return a Coalescent Exponential Population tree_prior
 #' @seealso An alignment ID can be extracted from
-#'   its FASTA filesname using \code{\link{get_id}}
-#' @author Richel J.C. Bilderbeek
+#'   its FASTA filename using \code{\link{get_alignment_id}}
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'   cep_tree_prior <- create_cep_tree_prior()
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_cep_tree_prior.xml",
-#'     tree_priors = cep_tree_prior
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = cep_tree_prior
 #'   )
-#'   testit::assert(file.exists("create_cep_tree_prior.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @aliases create_cep_tree_prior create_tree_prior_cep
 #' @export create_cep_tree_prior create_tree_prior_cep
 create_cep_tree_prior <- create_tree_prior_cep <- function(
@@ -229,22 +239,23 @@ create_cep_tree_prior <- create_tree_prior_cep <- function(
 #'   as created by a \code{\link{create_distr}} function
 #' @return a Yule tree_prior
 #' @seealso An alignment ID can be extracted from
-#'   its FASTA filesname using \code{\link{get_id}}
+#'   its FASTA filename using \code{\link{get_alignment_id}}
 #' @usage
 #' create_yule_tree_prior(
 #'   id = NA,
 #'   birth_rate_distr = create_uniform_distr()
 #' )
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'   yule_tree_prior <- create_yule_tree_prior()
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
-#'     input_filenames = get_fasta_filename(),
-#'     "create_yule_tree_prior.xml",
-#'     tree_priors = yule_tree_prior
+#'     input_filename = get_fasta_filename(),
+#'     beast2_input_file,
+#'     tree_prior = yule_tree_prior
 #'   )
-#'   testit::assert(file.exists("create_yule_tree_prior.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @aliases create_yule_tree_prior create_tree_prior_yule
 #' @export create_yule_tree_prior create_tree_prior_yule
 create_yule_tree_prior <- create_tree_prior_yule <- function(

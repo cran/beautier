@@ -5,17 +5,19 @@
 \alias{create_distr_gamma}
 \title{Create a gamma distribution}
 \usage{
-create_gamma_distr(id = NA, alpha = create_alpha_param(id = NA, estimate =
-  FALSE, value = "0.5396"), beta = create_beta_param(id = NA, estimate =
-  FALSE, value = "0.3819"))
+create_gamma_distr(id = NA, alpha = 0.5396, beta = 0.3819)
 }
 \arguments{
 \item{id}{the distribution's ID}
 
 \item{alpha}{the alpha shape parameter,
+a numeric value.
+For advanced usage, use the structure
 as returned by \code{\link{create_alpha_param}}}
 
 \item{beta}{the beta shape parameter,
+a numeric value.
+For advanced usage, use the structure
 as returned by \code{\link{create_beta_param}}}
 }
 \value{
@@ -26,25 +28,26 @@ Create a gamma distribution
 }
 \examples{
   gamma_distr <- create_gamma_distr(
-     alpha = create_alpha_param(value = 0.05),
-     beta = create_beta_param(value = 10.0)
+     alpha = 0.05,
+     beta = 10.0
   )
 
   gtr_site_model <- create_gtr_site_model(
     rate_ac_prior_distr = gamma_distr
   )
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "create_gamma_distr.xml",
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
     site_model = gtr_site_model
   )
-  testit::assert(file.exists("create_gamma_distr.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_distr}} shows an overview
   of all supported distributions
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

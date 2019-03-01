@@ -5,13 +5,10 @@
 \alias{create_param_sigma}
 \title{Create a parameter called sigma}
 \usage{
-create_sigma_param(id = NA, estimate = FALSE, value = 1)
+create_sigma_param(id = NA, value = 1)
 }
 \arguments{
 \item{id}{the parameter's ID}
-
-\item{estimate}{TRUE if this parameter alpha be estimated by BEAST2,
-FALSE otherwise}
 
 \item{value}{value of the parameter}
 }
@@ -35,19 +32,20 @@ this parameter is used in a normal distribution
   )
 
   # Use the distribution to create a BEAST2 input file
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "create_sigma_param.xml",
-    tree_priors = create_yule_tree_prior(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    tree_prior = create_yule_tree_prior(
       birth_rate_distr = normal_distr
     )
   )
-  testit::assert(file.exists("create_sigma_param.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_param}} contains a list
   of all parameters that can be created
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

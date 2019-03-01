@@ -1,9 +1,10 @@
 #' Converts a clock model to the \code{branchRateModel} section of the
-#' XML as text
+#' XML as text.
+#'
+#' This function will be called only if there are no MRCA priors.
 #' @inheritParams default_params_doc
-#' @param is_non_first_shared is this clock model not the first of
-#'   multiple shared ones?
-#' @author Richel J.C. Bilderbeek
+#' @return a character vector of XML strings
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -12,47 +13,50 @@
 #'  #       HERE, where the ID of the distribution is 'likelihood'
 #'  #     </distribution>
 #'  # </distribution>
+#' @noRd
 clock_model_to_xml_lh_distr <- function(
   clock_model,
-  is_first = TRUE,
-  is_non_first_shared = TRUE
+  mrca_priors = NA,
+  tipdates_filename = NA
 ) {
-  testit::assert(is_clock_model(clock_model))
+  testit::assert(is_clock_model(clock_model)) # nolint beautier function
   id <- clock_model$id
-  testit::assert(is_id(id))
+  testit::assert(is_id(id)) # nolint beautier function
 
   text <- NULL
-  if (is_strict_clock_model(clock_model)) {
-    if (is_first == TRUE) {
+  if (is_strict_clock_model(clock_model)) { # nolint beautier function
+    if (is_one_na(tipdates_filename)) { # nolint beautier function
       text <- c(text, paste0("<branchRateModel id=\"StrictClock.c:",
         id, "\" spec=\"beast.evolution.branchratemodel.StrictClockModel\">"))
       # initialization may happen here
       clock_model$clock_rate_param$id <- id
       text <- c(
         text,
-        indent(
-          parameter_to_xml(clock_model$clock_rate_param),
+        indent( # nolint beautier function
+          parameter_to_xml(clock_model$clock_rate_param), # nolint beautier function
           n_spaces = 4
         )
       )
       text <- c(text, "</branchRateModel>")
-    } else {
-      testit::assert(is_first == FALSE)
-
-      if (is_non_first_shared == FALSE) {
-        text <- c(text, paste0("<branchRateModel id=\"StrictClock.c:", id,
-          "\" spec=\"beast.evolution.branchratemodel.StrictClockModel\" ",
-          "clock.rate=\"@clockRate.c:", id, "\"/>")
-        )
-      }
     }
-  } else if (is_rln_clock_model(clock_model)) {
+    else {
+      text <- c(
+        text,
+        paste0(
+          "<branchRateModel id=\"StrictClock.c:", id, "\" ",
+          "spec=\"beast.evolution.branchratemodel.StrictClockModel\" ",
+          "clock.rate=\"@clockRate.c:", id, "\"/>" # nolint this is no absolute path
+        )
+      )
+    }
+  } else if (is_rln_clock_model(clock_model)) { # nolint beautier function
     n_discrete_rates <- clock_model$n_rate_categories
     mparam_id <- clock_model$mparam_id
     line <- paste0("<branchRateModel ",
       "id=\"RelaxedClock.c:", id, "\" ",
       "spec=\"beast.evolution.branchratemodel.UCRelaxedClockModel\" ",
-      ifelse(is_first == TRUE, "",
+      ifelse(!is_mrca_prior_with_distr(mrca_priors[[1]]),
+        "",
         paste0("clock.rate=\"@ucldMean.c:", id, "\" ")
       ),
       ifelse(clock_model$normalize_mean_clock_rate == TRUE,
@@ -74,7 +78,7 @@ clock_model_to_xml_lh_distr <- function(
       "estimate=\"false\" lower=\"0.0\" name=\"M\" ",
       "upper=\"1.0\">1.0</parameter>"))
     text <- c(text, paste0("    </LogNormal>"))
-    if (is_first == TRUE) {
+    if (!is_mrca_prior_with_distr(mrca_priors[[1]])) {
       text <- c(text, paste0("    <parameter ",
         "id=\"ucldMean.c:", id, "\" estimate=\"false\" ",
         "name=\"clock.rate\">", clock_model$mean_clock_rate, "</parameter>"))
@@ -83,6 +87,6 @@ clock_model_to_xml_lh_distr <- function(
   }
 
 
-  testit::assert(is.null(text) || is_xml(text)) # nolint internal function
+  testit::assert(is.null(text) || is_xml(text)) # nolint beautier function
   text
 }

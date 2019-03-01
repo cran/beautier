@@ -8,6 +8,8 @@ parameter_to_xml_clock_rate(parameter)
 }
 \arguments{
 \item{parameter}{a \code{clockRate} parameter,
+a numeric value.
+For advanced usage, use the structure
 as created by \code{\link{create_clock_rate_param}})}
 }
 \value{
@@ -17,5 +19,5 @@ the parameter as XML text
 Converts a \code{clockRate} parameter to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

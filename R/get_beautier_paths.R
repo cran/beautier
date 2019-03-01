@@ -1,7 +1,8 @@
-#' Get the full paths of files in the 'inst/extdata' folder
+#' Get the full paths of files in the \code{inst/extdata} folder
 #' @param filenames the files' names, without the path
+#' @seealso Use \link{get_beautier_path} to get the path of one file
 #' @return the filenames' full paths
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @seealso for one file, use \code{\link{get_beautier_path}}
 #' @examples
 #'   testit::assert(
@@ -15,7 +16,7 @@
 get_beautier_paths <- function(filenames) {
 
   for (i in seq_along(filenames)) {
-    filenames[i] <- get_beautier_path(filenames[i]) # nolint internal function
+    filenames[i] <- get_beautier_path(filenames[i]) # nolint beautier function
   }
 
   filenames

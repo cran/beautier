@@ -2,7 +2,7 @@
 #'   used in the \code{siteModel} section
 #' @inheritParams default_params_doc
 #' @return the site model as XML text
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -11,12 +11,13 @@
 #'  #       HERE, where the ID of the distribution is 'likelihood'
 #'  #     </distribution>
 #'  # </distribution>
+#' @noRd
 site_model_to_xml_lh_distr <- function(
   site_model
 ) {
-  testit::assert(is_site_model(site_model))
+  testit::assert(is_site_model(site_model)) # nolint beautier function
   id <- site_model$id
-  testit::assert(is_id(id))
+  testit::assert(is_id(id)) # nolint beautier function
 
   text <- NULL
 
@@ -55,8 +56,8 @@ site_model_to_xml_lh_distr <- function(
     "</parameter>"))
 
   text <- c(text,
-    indent(
-      site_model_to_xml_subst_model(site_model),
+    indent( # nolint beautier function
+      site_model_to_xml_subst_model(site_model), # nolint beautier function
       n_spaces = 4
     )
   )

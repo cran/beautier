@@ -11,10 +11,12 @@ create_strict_clock_model(id = NA,
 }
 \arguments{
 \item{id}{an alignment's IDs.
-An ID can be extracted from its FASTA filesname
-with \code{\link{get_ids}})}
+An ID can be extracted from its FASTA filename
+with \code{\link{get_alignment_ids}})}
 
 \item{clock_rate_param}{the clock rate's parameter,
+a numeric value.
+For advanced usage, use the structure
 as created by the \code{\link{create_clock_rate_param}} function}
 
 \item{clock_rate_distr}{the clock rate's distribution,
@@ -27,26 +29,31 @@ a strict clock_model
 Create a strict clock model
 }
 \examples{
-  strict_clock_model <- create_strict_clock_model()
+  strict_clock_model <- create_strict_clock_model(
+    clock_rate_param = 1.0,
+    clock_rate_distr = create_uniform_distr()
+  )
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
     get_fasta_filename(),
-    "create_strict_clock_model.xml",
-    clock_models = strict_clock_model
+    beast2_input_file,
+    clock_model = strict_clock_model
   )
-  testit::assert(file.exists("create_strict_clock_model.xml"))
+  testit::assert(file.exists(beast2_input_file))
 
   strict_clock_model_gamma <- create_strict_clock_model(
     clock_rate_distr = create_gamma_distr()
   )
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
     get_fasta_filename(),
-    "create_strict_clock_model_gamma.xml",
-    clock_models = strict_clock_model_gamma
+    beast2_input_file,
+    clock_model = strict_clock_model_gamma
   )
-  testit::assert(file.exists("create_strict_clock_model_gamma.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

@@ -3,16 +3,18 @@
 #' @inheritParams default_params_doc
 #' @return lines of XML text, without indentation nor \code{state}
 #'   tags
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 clock_model_to_xml_state <- function(
-  clock_model
+  clock_model,
+  has_tip_dating = FALSE
 ) {
-  testit::assert(is_clock_model(clock_model))
+  testit::assert(is_clock_model(clock_model)) # nolint beautier function
   id <- clock_model$id
-  testit::assert(is_id(clock_model$id))
+  testit::assert(is_id(clock_model$id)) # nolint beautier function
 
   text <- NULL
-  if (is_strict_clock_model(clock_model)) {
+  if (is_strict_clock_model(clock_model) || has_tip_dating == TRUE) { # nolint beautier function
     text <- c(
       text,
       paste0("<parameter id=\"clockRate.c:", clock_model$id, "\" ",
@@ -22,13 +24,11 @@ clock_model_to_xml_state <- function(
     )
   } else {
     # Fails on unimplemented clock models
-    testit::assert(is_rln_clock_model(clock_model))
+    testit::assert(is_rln_clock_model(clock_model)) # nolint beautier function
 
-    testit::assert(!is.na(clock_model$mean_clock_rate))
-    testit::assert(!is.na(clock_model$dimension))
+    testit::assert(!is_one_na(clock_model$mean_clock_rate)) # nolint beautier function
+    testit::assert(!is_one_na(clock_model$dimension)) # nolint beautier function
 
-    # ucldMean.c must be the first line, as it will be removed when
-    # the first clock model is an RLN clock model
     text <- c(text, paste0("<parameter id=\"ucldMean.c:", id, "\" ",
         "name=\"stateNode\">", clock_model$mean_clock_rate, "</parameter>")
     )

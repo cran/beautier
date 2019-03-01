@@ -10,7 +10,7 @@ create_jc69_site_model(id = NA,
 }
 \arguments{
 \item{id}{the IDs of the alignment (can be extracted from
-the FASTA filesname using \code{\link{get_id}})}
+the FASTA filename using \code{\link{get_alignment_id}})}
 
 \item{gamma_site_model}{a gamma site model, as created
 by \code{\link{create_gamma_site_model}}}
@@ -25,11 +25,11 @@ Create a JC69 site model
  jc69_site_model <- create_jc69_site_model()
 
  create_beast2_input_file(
-   input_filenames = get_fasta_filename(),
+   input_filename = get_fasta_filename(),
    "beast.xml",
-   site_models = jc69_site_model
+   site_model = jc69_site_model
  )
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

@@ -1,5 +1,8 @@
-#' Is an XML closing tag with short closing text at the end of the text?
+#' Is an XML closing tag with short closing text in
+#' one of the lines of the text?
 #' @param lines lines of an XML text
+#' @return TRUE if there is an XML tag that also closes present in the lines
+#'   of text, FALSE otherwise
 #' @examples
 #'   testit::assert(beautier:::has_xml_short_closing_tag("<my_tag id=1/>"))
 #'   testit::assert(
@@ -7,7 +10,8 @@
 #'       "<my_tag id=1>text</my_tag>"
 #'     )
 #'   )
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 has_xml_short_closing_tag <- function(
   lines
 ) {
@@ -15,10 +19,10 @@ has_xml_short_closing_tag <- function(
     match <- stringr::str_trim(
       stringr::str_extract(
         string = line,
-        pattern = "/>"
+        pattern = "/>" # nolint this is no absolute path
       )
     )
-    if (!is.na(match)) return(TRUE)
+    if (!is_one_na(match)) return(TRUE) # nolint beautier function
   }
   FALSE
 }

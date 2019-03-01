@@ -2,8 +2,7 @@
 % Please edit documentation in R/fastas_to_phylos.R
 \name{fastas_to_phylos}
 \alias{fastas_to_phylos}
-\title{Create a random phylogeny, with the same taxa names as the FASTA file
-  and the desired crown age}
+\title{Create one or more random phylogenies.}
 \usage{
 fastas_to_phylos(fasta_filenames, crown_age)
 }
@@ -14,31 +13,28 @@ Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.}
 \item{crown_age}{the crown age of the phylogeny}
 }
 \value{
-a a random phylogy, with the same taxa names as the FASTA file
-  and the desired crown age
+a \code{multiPhylo} with as much phylogenies
+  as there were FASTA filenames. Each phylogeny has
+  the same taxa names as its corresponding FASTA file.
+  All phylogenies have the same crown age.
 }
 \description{
-Create a random phylogeny, with the same taxa names as the FASTA file
-  and the desired crown age
+Per FASTA file, one random phylogeny is created,
+with the same taxa names as that FASTA file.
+All phylogenies have the same crown age.
 }
 \examples{
   # Create two random phylogies, with
   # - the same taxa names as the FASTA files
   # - the desired crown age
   fasta_filenames <- get_beautier_paths(
-    c("anthus_aco.fas", "anthus_nd2.fas")
+    c("anthus_aco.fas")
   )
   initial_phylogenies <- fastas_to_phylos(
     fasta_filenames,
     crown_age = 15
-   )
-
-  # Crown age fixed to the crown age of the phylogeny
-  create_beast2_input_file_1_12(
-    input_filenames = fasta_filenames,
-    "fastas_to_phylos.xml",
-    fixed_crown_ages = c(TRUE, TRUE),
-    initial_phylogenies = initial_phylogenies
   )
-  testthat::expect_true(file.exists("fastas_to_phylos.xml"))
+}
+\author{
+Richèl J.C. Bilderbeek
 }

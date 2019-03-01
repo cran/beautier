@@ -1,35 +1,35 @@
 #' Creates the data section of a BEAST2 XML parameter file
 #' @inheritParams default_params_doc
-#' @author Richel J.C. Bilderbeek
+#' @return lines of XML text
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 create_beast2_input_data <- function(
   input_filenames,
-  misc_options = create_misc_options()
+  beauti_options = create_beauti_options()
 ) {
-  testit::assert(files_exist(input_filenames)) # nolint internal function
+  testit::assert(files_exist(input_filenames)) # nolint beautier function
 
   text <- NULL
   n <- length(input_filenames)
   for (i in seq(1, n)) {
     input_fasta_filename <- input_filenames[i]
-    id <- beautier::get_id(
+    id <- beautier::get_alignment_id(
       input_fasta_filename,
-      capitalize_first_char_id = misc_options$capitalize_first_char_id
+      capitalize_first_char_id = beauti_options$capitalize_first_char_id
     )
-    if (i == 1) {
-      text <- c(text, "    <data")
-    } else {
-      text <- c(text, "<data")
-    }
-    text <- c(text, paste0("id=\"", id, "\""))
-    text <- c(text, "name=\"alignment\">")
+    text <- c(text, create_data_xml(
+      id = id,
+      beast2_version = beauti_options$beast2_version)
+    )
     text <- c(
       text,
       create_beast2_input_data_sequences(
         input_fasta_filename = input_fasta_filename,
-        nucleotides_uppercase = misc_options$nucleotides_uppercase
+        beauti_options = beauti_options
       )
     )
-    text <- c(text, indent("</data>", n_spaces = 16)) # nolint internal function
+    testit::assert(beauti_options$sequence_indent >= 20)
+    text <- c(text, indent("</data>", n_spaces = beauti_options$sequence_indent - 4)) # nolint beautier function
   }
   text
 }

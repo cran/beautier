@@ -8,6 +8,8 @@ parameter_to_xml_lambda(parameter)
 }
 \arguments{
 \item{parameter}{a lambda parameter,
+a numeric value.
+For advanced usage, use the structure
 as created by \code{\link{create_lambda_param}})}
 }
 \value{
@@ -17,5 +19,5 @@ the parameter as XML text
 Converts a lambda parameter to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

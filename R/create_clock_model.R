@@ -3,45 +3,47 @@
 #'   \code{\link{create_rln_clock_model}}
 #'   and \code{\link{create_strict_clock_model}}
 #' @param name the clock model name. Valid
-#'   names can be found in \code{\link{get_clock_model_names}}
+#'   names can be found in \code{get_clock_model_names}
 #' @param id a clock model's ID
 #' @param ... specific clock model parameters
 #' @return a valid clock model
 #' @seealso An alignment ID can be extracted from
-#'   its FASTA filesname using \code{\link{get_id}}.
+#'   its FASTA filename using \code{\link{get_alignment_id}}.
 #'   For more examples about creating a relaxed log-normal clock
 #'   model, see \code{\link{create_rln_clock_model}}.
 #'   For more examples about creating a strict clock
 #'   model, see \code{\link{create_strict_clock_model}}.
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'   rln_clock_model <- create_rln_clock_model()
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
 #'     get_fasta_filename(),
-#'     "create_clock_model_rln.xml",
-#'     clock_models = rln_clock_model
+#'     beast2_input_file,
+#'     clock_model = rln_clock_model
 #'   )
-#'   testit::assert(file.exists("create_clock_model_rln.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #'
 #'   strict_clock_model <- create_strict_clock_model()
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
 #'     get_fasta_filename(),
-#'     "create_clock_model_strict.xml",
-#'     clock_models = strict_clock_model
+#'     beast2_input_file,
+#'     clock_model = strict_clock_model
 #'   )
-#'   testit::assert(file.exists("create_clock_model_strict.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @export
 create_clock_model <- function(
   name,
   id,
   ...
 ) {
-  if (!is_clock_model_name(name)) {
+  if (!is_clock_model_name(name)) { # nolint beautier function
     clock_models_as_string <- function() {
       s <- NULL
-      for (p in get_clock_model_names()) {
+      for (p in get_clock_model_names()) { # nolint beautier function
         s <- paste0(s, ", ", p)
       }
       s <- substr(s, start = 3, stop = nchar(s))
@@ -60,12 +62,13 @@ create_clock_model <- function(
 #' @inheritParams default_params_doc
 #' @param mean_rate_prior_distr the mean clock rate prior distribution,
 #'   as created by a \code{\link{create_distr}} function
-#' @param ucldstdev_distr the uclstdev distribution,
+#' @param ucldstdev_distr the standard deviation of the uncorrelated
+#'   log-normal distribution,
 #'   as created by a \code{\link{create_distr}} function
-#' @param mparam_id the ID of the M paramater in the branchRateModel,
+#' @param mparam_id the ID of the M parameter in the \code{branchRateModel},
 #'   set to NA to have it initialized
 #' @param mean_clock_rate the mean clock rate, 1.0 by default
-#'   (is called 'ucld_stdev' in XML, where 'ucld_stdev' is always 0.1)
+#'   (is called \code{ucld_stdev} in XML, where \code{ucld_stdev} is always 0.1)
 #' @param n_rate_categories the number of rate categories.
 #'   -1 is default,
 #'   0 denotes as much rates as branches
@@ -75,27 +78,29 @@ create_clock_model <- function(
 #'   Else, the dimensionality of the clock
 #'   equals twice the number of taxa minus two.
 #' @return a relaxed log-normal clock_model
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'   rln_clock_model <- create_rln_clock_model()
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
 #'     get_fasta_filename(),
-#'     "create_rln_clock_model.xml",
-#'     clock_models = rln_clock_model
+#'     beast2_input_file,
+#'     clock_model = rln_clock_model
 #'   )
-#'   testit::assert(file.exists("create_rln_clock_model.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #'
 #'   rln_clock_model_exp <- create_rln_clock_model(
 #'     mean_rate_prior_distr = create_exp_distr()
 #'   )
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
 #'     get_fasta_filename(),
-#'     "create_rln_clock_model_exp.xml",
-#'     clock_models = rln_clock_model_exp
+#'     beast2_input_file,
+#'     clock_model = rln_clock_model_exp
 #'   )
-#'   testit::assert(file.exists("create_rln_clock_model_exp.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @aliases create_rln_clock_model create_clock_model_rln
 #' @export create_rln_clock_model create_clock_model_rln
 create_rln_clock_model <- create_clock_model_rln <- function(
@@ -119,38 +124,45 @@ create_rln_clock_model <- create_clock_model_rln <- function(
     normalize_mean_clock_rate = normalize_mean_clock_rate,
     dimension = dimension
   )
-  testit::assert(is_rln_clock_model(rln_clock_model))
+  testit::assert(is_rln_clock_model(rln_clock_model)) # nolint beautier function
   rln_clock_model
 }
 
 #' Create a strict clock model
 #' @inheritParams default_params_doc
 #' @param clock_rate_param the clock rate's parameter,
+#'   a numeric value.
+#'   For advanced usage, use the structure
 #'   as created by the \code{\link{create_clock_rate_param}} function
 #' @param clock_rate_distr the clock rate's distribution,
 #'   as created by a \code{\link{create_distr}} function
 #' @return a strict clock_model
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   strict_clock_model <- create_strict_clock_model()
+#'   strict_clock_model <- create_strict_clock_model(
+#'     clock_rate_param = 1.0,
+#'     clock_rate_distr = create_uniform_distr()
+#'   )
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
 #'     get_fasta_filename(),
-#'     "create_strict_clock_model.xml",
-#'     clock_models = strict_clock_model
+#'     beast2_input_file,
+#'     clock_model = strict_clock_model
 #'   )
-#'   testit::assert(file.exists("create_strict_clock_model.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #'
 #'   strict_clock_model_gamma <- create_strict_clock_model(
 #'     clock_rate_distr = create_gamma_distr()
 #'   )
 #'
+#'   beast2_input_file <- tempfile(fileext = ".xml")
 #'   create_beast2_input_file(
 #'     get_fasta_filename(),
-#'     "create_strict_clock_model_gamma.xml",
-#'     clock_models = strict_clock_model_gamma
+#'     beast2_input_file,
+#'     clock_model = strict_clock_model_gamma
 #'   )
-#'   testit::assert(file.exists("create_strict_clock_model_gamma.xml"))
+#'   testit::assert(file.exists(beast2_input_file))
 #' @aliases create_strict_clock_model create_clock_model_strict
 #' @export create_strict_clock_model create_clock_model_strict
 create_strict_clock_model <- create_clock_model_strict <- function(
@@ -158,13 +170,16 @@ create_strict_clock_model <- create_clock_model_strict <- function(
   clock_rate_param = create_clock_rate_param(),
   clock_rate_distr = create_uniform_distr()
 ) {
-  if (!is_clock_rate_param(clock_rate_param)) {
+  if (length(clock_rate_param) == 1 && is.numeric(clock_rate_param)) {
+    clock_rate_param <- create_clock_rate_param(clock_rate_param)
+  }
+  if (!is_clock_rate_param(clock_rate_param)) { # nolint beautier function
     stop(
       "'clock_rate_param' must be a clock rate parameter, ",
       "as can be created by 'create_clock_rate_param'"
     )
   }
-  if (!is_distr(clock_rate_distr)) {
+  if (!is_distr(clock_rate_distr)) { # nolint beautier function
     stop(
       "'clock_rate_distr' must be a distribution, ",
       "as can be created by 'create_distr'"
@@ -176,6 +191,6 @@ create_strict_clock_model <- create_clock_model_strict <- function(
     clock_rate_param = clock_rate_param,
     clock_rate_distr = clock_rate_distr
   )
-  testit::assert(is_strict_clock_model(strict_clock_model))
+  testit::assert(is_strict_clock_model(strict_clock_model)) # nolint beautier function
   strict_clock_model
 }

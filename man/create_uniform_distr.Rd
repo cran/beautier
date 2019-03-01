@@ -22,19 +22,20 @@ Create a uniform distribution
 \examples{
   uniform_distr <- create_uniform_distr()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "create_uniform_distr.xml",
-    tree_priors = create_yule_tree_prior(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    tree_prior = create_yule_tree_prior(
       birth_rate_distr = uniform_distr
     )
   )
-  testit::assert(file.exists("create_uniform_distr.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_distr}} shows an overview
   of all supported distributions
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

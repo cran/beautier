@@ -7,7 +7,7 @@
 distr_to_xml_uniform(distr)
 }
 \arguments{
-\item{distr}{a uniform distibution,
+\item{distr}{a uniform distribution,
 as created by \code{\link{create_uniform_distr}})}
 }
 \value{
@@ -17,5 +17,5 @@ the distribution as XML text
 Converts a uniform distribution to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

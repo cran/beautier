@@ -5,16 +5,19 @@
 \alias{create_distr_log_normal}
 \title{Create a log-normal distribution}
 \usage{
-create_log_normal_distr(id = NA, m = create_m_param(),
-  s = create_s_param())
+create_log_normal_distr(id = NA, m = 0, s = 0)
 }
 \arguments{
 \item{id}{the distribution's ID}
 
 \item{m}{the m parameter,
+a numeric value.
+For advanced usage, use the structure
 as returned by \code{\link{create_m_param}}}
 
 \item{s}{the s parameter,
+a numeric value.
+For advanced usage, use the structure
 as returned by \code{\link{create_s_param}}}
 }
 \value{
@@ -26,19 +29,20 @@ Create a log-normal distribution
 \examples{
   log_normal_distr <- create_log_normal_distr()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "my_beast.xml",
-    tree_priors = create_yule_tree_prior(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    tree_prior = create_yule_tree_prior(
       birth_rate_distr = log_normal_distr
     )
   )
-  testit::assert(file.exists("my_beast.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_distr}} shows an overview
   of all supported distributions
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

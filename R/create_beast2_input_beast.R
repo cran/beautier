@@ -1,46 +1,54 @@
 #' Creates the beast section of a BEAST2 XML parameter file
 #' @inheritParams default_params_doc
-#' @author Richel J.C. Bilderbeek
+#' @return lines of XML text
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 create_beast2_input_beast <- function(
   input_filenames,
-  site_models = create_jc69_site_models(ids = get_ids(input_filenames)),
-  clock_models = create_strict_clock_models(
-    ids = get_ids(input_filenames)),
-  tree_priors = create_yule_tree_priors(ids = get_ids(input_filenames)),
+  site_models = list(
+    create_jc69_site_model(
+      id = get_alignment_id(input_filenames)
+    )
+  ),
+  clock_models = list(
+    create_strict_clock_model(
+      id = get_alignment_id(input_filenames)
+    )
+  ),
+  tree_priors = list(
+    create_yule_tree_prior(
+      id = get_alignment_id(input_filenames)
+    )
+  ),
   mrca_priors = NA,
   mcmc = create_mcmc(),
-  misc_options = create_misc_options(),
+  beauti_options = create_beauti_options(),
   fixed_crown_ages = rep(FALSE, times = length(input_filenames)),
-  initial_phylogenies = rep(NA, length(input_filenames))
+  initial_phylogenies = rep(NA, length(input_filenames)),
+  tipdates_filename = NA
 ) {
-  testit::assert(files_exist(input_filenames)) # nolint internal function
+  testit::assert(files_exist(input_filenames)) # nolint beautier function
   testit::assert(length(input_filenames) == length(site_models))
   testit::assert(length(input_filenames) == length(clock_models))
   testit::assert(length(input_filenames) == length(tree_priors))
   testit::assert(length(input_filenames) == length(initial_phylogenies))
   testit::assert(length(input_filenames) == length(fixed_crown_ages))
-  testit::assert(are_site_models(site_models))
-  testit::assert(are_clock_models(clock_models))
-  testit::assert(are_tree_priors(tree_priors))
-  testit::assert(are_mrca_priors(mrca_priors)) # nolint internal function
-  testit::assert(are_init_clock_models(clock_models)) # nolint internal function
-  testit::assert(are_initial_phylogenies(initial_phylogenies)) # nolint internal function
+  testit::assert(are_site_models(site_models)) # nolint beautier function
+  testit::assert(are_clock_models(clock_models)) # nolint beautier function
+  testit::assert(are_tree_priors(tree_priors)) # nolint beautier function
+  testit::assert(are_mrca_priors(mrca_priors)) # nolint beautier function
+  testit::assert(are_init_clock_models(clock_models)) # nolint beautier function
+  testit::assert(are_initial_phylogenies(initial_phylogenies)) # nolint beautier function
 
   # Alignment IDs
-  ids <- beautier::get_id(
+  ids <- beautier::get_alignment_id(
     input_filenames,
-    capitalize_first_char_id = misc_options$capitalize_first_char_id
+    capitalize_first_char_id = beauti_options$capitalize_first_char_id
   )
 
-  text <- paste0(
-    "<beast beautitemplate='Standard' beautistatus='' ",
-    "namespace=\"beast.core:beast.evolution.alignment:",
-    "beast.evolution.tree.coalescent:beast.core.util:",
-    "beast.evolution.nuc:beast.evolution.operators:",
-    "beast.evolution.sitemodel:",
-    "beast.evolution.substitutionmodel:",
-    "beast.evolution.likelihood\" ",
-    "required=\"\" version=\"2.4\">"
+  text <- create_beast2_beast_xml( # nolint beautier function
+    beast2_version = beauti_options$beast2_version,
+    required = beauti_options$required
   )
 
   text <- c(text, "")
@@ -49,7 +57,7 @@ create_beast2_input_beast <- function(
   text <- c(text,
     create_beast2_input_data(
       input_filenames = input_filenames,
-      misc_options = misc_options
+      beauti_options = beauti_options
     )
   )
 
@@ -63,7 +71,7 @@ create_beast2_input_beast <- function(
   text <- c(text, "")
   text <- c(text, "    ")
 
-  text <- c(text, create_beast2_input_map()) # nolint internal function call
+  text <- c(text, create_beast2_input_map()) # nolint beautier function call
 
   text <- c(text, "")
   text <- c(text, "")
@@ -77,7 +85,8 @@ create_beast2_input_beast <- function(
       mcmc = mcmc,
       tree_priors = tree_priors,
       fixed_crown_ages = fixed_crown_ages,
-      initial_phylogenies = initial_phylogenies
+      initial_phylogenies = initial_phylogenies,
+      tipdates_filename = tipdates_filename
     )
   )
 

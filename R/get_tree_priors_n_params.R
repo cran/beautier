@@ -1,7 +1,7 @@
 #' Get the number of parameters a list of tree priors has
 #' @inheritParams default_params_doc
 #' @return the number of parameters the tree priors have
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  testit::assert(
 #'    beautier:::get_tree_priors_n_params(
@@ -11,15 +11,16 @@
 #'      )
 #'    ) == 2
 #'  )
+#' @noRd
 get_tree_priors_n_params <- function(
   tree_priors
 ) {
-  if (!are_tree_priors(tree_priors)) {
+  if (!are_tree_priors(tree_priors)) { # nolint beautier function
     stop("'tree_priors' must be a list of tree priors")
   }
   n <- 0
   for (tree_prior in tree_priors) {
-    n <- n + get_tree_prior_n_params(tree_prior)
+    n <- n + get_tree_prior_n_params(tree_prior) # nolint beautier function
   }
   n
 }

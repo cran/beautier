@@ -6,15 +6,12 @@
 \title{Create a parameter called \code{clock_rate},
   as needed by \code{\link{create_strict_clock_model}}}
 \usage{
-create_clock_rate_param(value = "1.0", estimate = FALSE, id = NA)
+create_clock_rate_param(value = "1.0", id = NA)
 }
 \arguments{
 \item{value}{value of the parameter}
 
-\item{estimate}{TRUE if this parameter is estimated by BEAST2,
-FALSE otherwise}
-
-\item{id}{the alignment id}
+\item{id}{the parameter's ID}
 }
 \value{
 a parameter called rate
@@ -23,9 +20,12 @@ a parameter called rate
 Create a parameter called \code{clock_rate},
   as needed by \code{\link{create_strict_clock_model}}
 }
+\note{
+It cannot be estimated (as a hyper parameter) yet.
+}
 \examples{
   clock_rate_param <- create_clock_rate_param(
-    id = "anthus_aco", estimate = FALSE, value = 1.0
+    id = "anthus_aco", value = 1.0
   )
 
   # Use the parameter in a clock model
@@ -34,17 +34,18 @@ Create a parameter called \code{clock_rate},
   )
 
   # Use the distribution to create a BEAST2 input file
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "create_clock_rate_param.xml",
-    clock_models = strict_clock_model
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    clock_model = strict_clock_model
   )
-  testit::assert(file.exists("create_clock_rate_param.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_param}} contains a list
   of all parameters that can be created
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

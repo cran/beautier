@@ -1,9 +1,9 @@
 #' Creates the distribution section of a BEAST2 XML parameter file.
 #' @inheritParams default_params_doc
+#' @return lines of XML text
 #' @note this function is not intended for regular use, thus its
 #'   long name length is accepted
 #' @seealso \code{\link{create_beast2_input}}
-#' @author Richel J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -12,17 +12,20 @@
 #'  #     <distribution id="likelihood" ...>
 #'  #     </distribution>
 #'  # </distribution>
-create_beast2_input_distr <- function( # nolint internal function
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
+create_beast2_input_distr <- function( # nolint beautier function
   site_models,
   clock_models,
   tree_priors,
-  mrca_priors = NA
+  mrca_priors = NA,
+  tipdates_filename = NA
 ) {
-  testit::assert(are_site_models(site_models))
-  testit::assert(are_clock_models(clock_models))
-  testit::assert(are_tree_priors(tree_priors))
-  testit::assert(are_init_tree_priors(tree_priors)) # nolint internal function call
-  testit::assert(are_mrca_priors(mrca_priors)) # nolint internal function call
+  testit::assert(are_site_models(site_models)) # nolint beautier function
+  testit::assert(are_clock_models(clock_models)) # nolint beautier function
+  testit::assert(are_tree_priors(tree_priors)) # nolint beautier function
+  testit::assert(are_init_tree_priors(tree_priors)) # nolint beautier function call
+  testit::assert(are_mrca_priors(mrca_priors)) # nolint beautier function call
 
   text <- NULL
 
@@ -33,7 +36,8 @@ create_beast2_input_distr <- function( # nolint internal function
       site_models = site_models,
       clock_models = clock_models,
       tree_priors = tree_priors,
-      mrca_priors = mrca_priors
+      mrca_priors = mrca_priors,
+      tipdates_filename = tipdates_filename
     )
   )
 
@@ -43,16 +47,17 @@ create_beast2_input_distr <- function( # nolint internal function
     create_beast2_input_distr_lh(
       site_models = site_models,
       clock_models = clock_models,
-      mrca_priors = mrca_priors
+      mrca_priors = mrca_priors,
+      tipdates_filename = tipdates_filename
     )
   )
-  text <- indent(text, n_spaces = 4) # nolint internal function
+  text <- indent(text, n_spaces = 4) # nolint beautier function
   text <- c(
     "<distribution id=\"posterior\" spec=\"util.CompoundDistribution\">",
     text
   )
   text <- c(text, "</distribution>") # posterior distribution
-  text <- indent(text, n_spaces = 4) # nolint internal function
+  text <- indent(text, n_spaces = 4) # nolint beautier function
   text
 }
 
@@ -60,11 +65,11 @@ create_beast2_input_distr <- function( # nolint internal function
 #' Creates the prior section in the distribution section
 #' of a BEAST2 XML parameter file
 #' @inheritParams default_params_doc
-#' @seealso this function is called by \code{\link{create_beast2_input_distr}},
-#'   together with \code{\link{create_beast2_input_distr_lh}}
+#' @seealso this function is called by \code{create_beast2_input_distr},
+#'   together with \code{create_beast2_input_distr_lh}
 #' @note this function is not intended for regular use, thus its
 #'   long name length is accepted
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -73,23 +78,31 @@ create_beast2_input_distr <- function( # nolint internal function
 #'  #     <distribution id="likelihood" ...>
 #'  #     </distribution>
 #'  # </distribution>
-create_beast2_input_distr_prior <- function( # nolint internal function
+create_beast2_input_distr_prior <- function( # nolint beautier function
   site_models,
   clock_models,
   tree_priors,
-  mrca_priors = NA
+  mrca_priors = NA,
+  tipdates_filename = NA
 ) {
   text <- NULL
-  text <- c(text, tree_priors_to_xml_prior_distr(tree_priors)) # nolint internal function
-  text <- c(text, gamma_site_models_to_xml_prior_distr(site_models)) # nolint internal function
-  text <- c(text, site_models_to_xml_prior_distr(site_models)) # nolint internal function
-  text <- c(text, mrca_priors_to_xml_prior_distr( # nolint internal function
+  text <- c(text, tree_priors_to_xml_prior_distr(tree_priors)) # nolint beautier function
+  text <- c(text, gamma_site_models_to_xml_prior_distr(site_models)) # nolint beautier function
+  text <- c(text, site_models_to_xml_prior_distr(site_models)) # nolint beautier function
+  text <- c(text, mrca_priors_to_xml_prior_distr( # nolint beautier function
     mrca_priors,
     has_non_strict_clock_model = get_has_non_strict_clock_model(clock_models))
   )
-  text <- c(text, clock_models_to_xml_prior_distr(clock_models)) # nolint internal function
+  text <- c(
+    text,
+    clock_models_to_xml_prior_distr( # nolint beautier function
+      clock_models = clock_models,
+      mrca_priors = mrca_priors,
+      tipdates_filename = tipdates_filename
+    )
+  )
 
-  text <- indent(text, n_spaces = 4) # nolint internal function
+  text <- indent(text, n_spaces = 4) # nolint beautier function
 
   # Surround text by prior distribution tag
   text <- c(
@@ -104,9 +117,9 @@ create_beast2_input_distr_prior <- function( # nolint internal function
 #' @inheritParams default_params_doc
 #' @note this function is not intended for regular use, thus its
 #'   long name length is accepted
-#' @author Richel J.C. Bilderbeek
-#' @seealso this function is called by \code{\link{create_beast2_input_distr}},
-#'   together with \code{\link{create_beast2_input_distr_prior}}
+#' @author Richèl J.C. Bilderbeek
+#' @seealso this function is called by \code{create_beast2_input_distr},
+#'   together with \code{create_beast2_input_distr_prior}
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -115,13 +128,14 @@ create_beast2_input_distr_prior <- function( # nolint internal function
 #'  #       HERE, where the ID of the distribution is 'likelihood'
 #'  #     </distribution>
 #'  # </distribution>
-create_beast2_input_distr_lh <- function( # nolint internal function
+create_beast2_input_distr_lh <- function( # nolint beautier function
   site_models,
   clock_models,
-  mrca_priors = NA
+  mrca_priors = NA,
+  tipdates_filename = NA
 ) {
+  testit::assert(length(site_models) == 1)
   testit::assert(length(site_models) == length(clock_models))
-  testit::assert(!has_shared_rln_clock_models(clock_models)) # nolint internal function
 
   text <- NULL
   n <- length(site_models)
@@ -129,58 +143,42 @@ create_beast2_input_distr_lh <- function( # nolint internal function
     site_model <- site_models[[i]]
     clock_model <- clock_models[[i]]
     id <- site_model$id
-    is_first <- i == 1
     brm_line <- ""
-    j <- get_first_clock_model_index(clock_model, clock_models) # nolint internal function
-    if (i != j) {
-      testit::assert(j < i)
-      branch_rate_model_ref <- clock_models[[j]]$id
-      clock_model_str <- get_clock_model_name(clock_models[[j]]) # nolint internal function
-      brm_line <- paste0(
-        "branchRateModel=\"@", clock_model_str, ".c:",
-        branch_rate_model_ref, "\" "
-      )
-    }
     text <- c(text, paste0("<distribution id=\"treeLikelihood.",
       id, "\" spec=\"ThreadedTreeLikelihood\" ",
       brm_line,
       "data=\"@", id,
       "\" tree=\"@Tree.t:", id, "\">"))
     text <- c(text,
-      indent(
-        site_model_to_xml_lh_distr(site_model),
+      indent( # nolint beautier function
+        site_model_to_xml_lh_distr(site_model), # nolint beautier function
         n_spaces = 4
       )
     )
 
-    is_non_first_shared <- is_index_of_non_first_shared_clock_model(i, clock_models) # nolint internal function
-    has_mrca_priors <- TRUE
-    if (length(mrca_priors) == 1 && is.na(mrca_priors)) {
-      has_mrca_priors <- FALSE
-    }
-    if (!has_mrca_priors || get_has_non_strict_clock_model(clock_models)) {
+    if (is_one_na(mrca_priors) || get_has_non_strict_clock_model(clock_models)) { # nolint beautier function
       text <- c(text,
-        indent(
-          clock_model_to_xml_lh_distr(
+        indent( # nolint beautier function
+          clock_model_to_xml_lh_distr( # nolint beautier function
             clock_model,
-            is_first = is_first,
-            is_non_first_shared = is_non_first_shared
+            mrca_priors = mrca_priors,
+            tipdates_filename = tipdates_filename
           ),
           n_spaces = 4
         )
       )
     }
     # Can be either NA or a list of 1 element
-    testit::assert(are_mrca_priors(mrca_priors))
+    testit::assert(are_mrca_priors(mrca_priors)) # nolint beautier function
     testit::assert(length(mrca_priors) >= 1)
     mrca_prior <- NA
     if (!is_one_na(mrca_priors)) mrca_prior <- mrca_priors[[1]] # nolint
-    testit::assert(is_mrca_prior(mrca_prior))
+    testit::assert(is_mrca_prior(mrca_prior)) # nolint beautier function
     text <- c(text,
-      indent(
-        mrca_prior_to_xml_lh_distr(
+      indent( # nolint beautier function
+        mrca_prior_to_xml_lh_distr( # nolint beautier function
           mrca_prior,
-          has_non_strict_clock_model = get_has_non_strict_clock_model(
+          has_non_strict_clock_model = get_has_non_strict_clock_model( # nolint beautier function
             clock_models
           )
         ),
@@ -192,7 +190,7 @@ create_beast2_input_distr_lh <- function( # nolint internal function
   }
 
 
-  text <- indent(text, n_spaces = 4) # nolint internal function
+  text <- indent(text, n_spaces = 4) # nolint beautier function
 
   # Surround by likelihood distribution tags
   text <- c(paste0(
@@ -212,7 +210,7 @@ create_beast2_input_distr_lh <- function( # nolint internal function
 #' the prior section of the distribution section
 #' of a BEAST2 XML parameter file for a Birth-Death tree prior
 #' @inheritParams default_params_doc
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -221,12 +219,12 @@ create_beast2_input_distr_lh <- function( # nolint internal function
 #'  #     <distribution id="likelihood" ...>
 #'  #     </distribution>
 #'  # </distribution>
-bd_tree_prior_to_xml_prior_distr <- function( # nolint internal function
+bd_tree_prior_to_xml_prior_distr <- function( # nolint beautier function
   bd_tree_prior
 ) {
-  testit::assert(is_bd_tree_prior(bd_tree_prior))
+  testit::assert(is_bd_tree_prior(bd_tree_prior)) # nolint beautier function
   id <- bd_tree_prior$id
-  testit::assert(is_id(id))
+  testit::assert(is_id(id)) # nolint beautier function
 
   text <- NULL
 
@@ -234,7 +232,7 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint internal function
     "\" spec=\"beast.evolution.speciation.BirthDeathGernhard08Model\" ",
     "birthDiffRate=\"@BDBirthRate.t:", id, "\" ",
     "relativeDeathRate=\"@BDDeathRate.t:", id, "\" ",
-    "tree=\"@Tree.t:", id, "\"/>"))
+    "tree=\"@Tree.t:", id, "\"/>")) # nolint this is no absolute path
 
   # BDBirthRate
   bd_birth_rate_distr <- bd_tree_prior$birth_rate_distr
@@ -242,8 +240,8 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint internal function
   text <- c(text, paste0("<prior id=\"BirthRatePrior.t:", id,
     "\" name=\"distribution\" x=\"@BDBirthRate.t:", id, "\">"))
   text <- c(text,
-    indent(
-      distr_to_xml(
+    indent( # nolint beautier function
+      distr_to_xml( # nolint beautier function
         distr = bd_birth_rate_distr
       ),
       n_spaces = 4
@@ -257,8 +255,8 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint internal function
   text <- c(text, paste0("<prior id=\"DeathRatePrior.t:", id,
     "\" name=\"distribution\" x=\"@BDDeathRate.t:", id, "\">"))
   text <- c(text,
-    indent(
-      distr_to_xml(
+    indent( # nolint beautier function
+      distr_to_xml( # nolint beautier function
         distr = bd_death_rate_distr
       ),
       n_spaces = 4
@@ -273,7 +271,7 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint internal function
 #' the prior section of the distribution section
 #' of a BEAST2 XML parameter file for a Birth-Death tree prior
 #' @inheritParams default_params_doc
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -282,12 +280,12 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint internal function
 #'  #     <distribution id="likelihood" ...>
 #'  #     </distribution>
 #'  # </distribution>
-cbs_tree_prior_to_xml_prior_distr <- function( # nolint internal function
+cbs_tree_prior_to_xml_prior_distr <- function( # nolint beautier function
   cbs_tree_prior
 ) {
-  testit::assert(is_cbs_tree_prior(cbs_tree_prior))
+  testit::assert(is_cbs_tree_prior(cbs_tree_prior)) # nolint beautier function
   id <- cbs_tree_prior$id
-  testit::assert(is_id(id))
+  testit::assert(is_id(id)) # nolint beautier function
 
   text <- NULL
   text <- c(text, paste0("<distribution ",
@@ -296,11 +294,11 @@ cbs_tree_prior_to_xml_prior_distr <- function( # nolint internal function
     "\" popSizes=\"@bPopSizes.t:", id, "\">"))
   text <- c(text, paste0("    ",
     "<treeIntervals id=\"BSPTreeIntervals.t:", id, "\" ",
-    "spec=\"TreeIntervals\" tree=\"@Tree.t:", id, "\"/>"))
+    "spec=\"TreeIntervals\" tree=\"@Tree.t:", id, "\"/>")) # nolint this is no absolute path
   text <- c(text, paste0("</distribution>"))
   text <- c(text, paste0("<distribution id=\"MarkovChainedPopSizes.t:", id,
     "\" spec=\"beast.math.distributions.MarkovChainDistribution\" ",
-    "jeffreys=\"true\" parameter=\"@bPopSizes.t:", id, "\"/>"))
+    "jeffreys=\"true\" parameter=\"@bPopSizes.t:", id, "\"/>")) # nolint this is no absolute path
   text
 }
 
@@ -309,7 +307,7 @@ cbs_tree_prior_to_xml_prior_distr <- function( # nolint internal function
 #' of a BEAST2 XML parameter file for a
 #' Coalescent Constant Population tree prior
 #' @inheritParams default_params_doc
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -318,12 +316,12 @@ cbs_tree_prior_to_xml_prior_distr <- function( # nolint internal function
 #'  #     <distribution id="likelihood" ...>
 #'  #     </distribution>
 #'  # </distribution>
-ccp_tree_prior_to_xml_prior_distr <- function( # nolint internal function
+ccp_tree_prior_to_xml_prior_distr <- function( # nolint beautier function
   ccp_tree_prior
 ) {
-  testit::assert(is_ccp_tree_prior(ccp_tree_prior))
+  testit::assert(is_ccp_tree_prior(ccp_tree_prior)) # nolint beautier function
   id <- ccp_tree_prior$id
-  testit::assert(is_id(id))
+  testit::assert(is_id(id)) # nolint beautier function
 
   text <- NULL
 
@@ -332,11 +330,11 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint internal function
     "\" spec=\"Coalescent\">"))
   text <- c(text, paste0("    ",
     "<populationModel id=\"ConstantPopulation.t:", id,
-    "\" spec=\"ConstantPopulation\" popSize=\"@popSize.t:", id, "\"/>"))
+    "\" spec=\"ConstantPopulation\" popSize=\"@popSize.t:", id, "\"/>")) # nolint this is no absolute path
   text <- c(text, paste0(
     "    <treeIntervals id=\"TreeIntervals.t:",
     id, "\" spec=\"TreeIntervals\" tree=\"@Tree.t:",
-    id, "\"/>"))
+    id, "\"/>")) # nolint this is no absolute path
   text <- c(text, "</distribution>")
 
   # pop size
@@ -345,8 +343,8 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint internal function
     "\" name=\"distribution\" x=\"@popSize.t:",
     id, "\">"))
   text <- c(text,
-    indent(
-      distr_to_xml(
+    indent( # nolint beautier function
+      distr_to_xml( # nolint beautier function
         distr = ccp_tree_prior$pop_size_distr
       ),
       n_spaces = 4
@@ -360,7 +358,7 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint internal function
 #' of a BEAST2 XML parameter file for a
 #' Coalescent Exponential Population tree prior
 #' @inheritParams default_params_doc
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -369,12 +367,12 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint internal function
 #'  #     <distribution id="likelihood" ...>
 #'  #     </distribution>
 #'  # </distribution>
-cep_tree_prior_to_xml_prior_distr <- function( # nolint internal function
+cep_tree_prior_to_xml_prior_distr <- function( # nolint beautier function
   cep_tree_prior
 ) {
-  testit::assert(is_cep_tree_prior(cep_tree_prior))
+  testit::assert(is_cep_tree_prior(cep_tree_prior)) # nolint beautier function
   id <- cep_tree_prior$id
-  testit::assert(is_id(id))
+  testit::assert(is_id(id)) # nolint beautier function
 
   text <- NULL
 
@@ -384,10 +382,10 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint internal function
   text <- c(text, paste0("    <populationModel ",
     "id=\"ExponentialGrowth.t:", id, "\" spec=\"ExponentialGrowth\" ",
     "growthRate=\"@growthRate.t:", id, "\" ",
-    "popSize=\"@ePopSize.t:", id, "\"/>"))
+    "popSize=\"@ePopSize.t:", id, "\"/>")) # nolint this is no absolute path
   text <- c(text, paste0("    <treeIntervals ",
     "id=\"TreeIntervals.t:", id, "\" spec=\"TreeIntervals\" ",
-    "tree=\"@Tree.t:", id, "\"/>"))
+    "tree=\"@Tree.t:", id, "\"/>")) # nolint this is no absolute path
   text <- c(text, paste0("</distribution>"))
 
   # prior
@@ -395,8 +393,8 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint internal function
     "id=\"ePopSizePrior.t:", id, "\" name=\"distribution\" ",
     "x=\"@ePopSize.t:", id, "\">"))
   text <- c(text,
-    indent(
-      distr_to_xml(
+    indent( # nolint beautier function
+      distr_to_xml( # nolint beautier function
         distr = cep_tree_prior$pop_size_distr
       ),
       n_spaces = 4
@@ -408,8 +406,8 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint internal function
     "id=\"GrowthRatePrior.t:", id, "\" name=\"distribution\" ",
     "x=\"@growthRate.t:", id, "\">"))
   text <- c(text,
-    indent(
-      distr_to_xml(
+    indent( # nolint beautier function
+      distr_to_xml( # nolint beautier function
         distr = cep_tree_prior$growth_rate_distr
       ),
       n_spaces = 4
@@ -423,7 +421,7 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint internal function
 #' the prior section of the distribution section
 #' of a BEAST2 XML parameter file for a Yule tree prior
 #' @inheritParams default_params_doc
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
 #'  #     <distribution id="prior" spec="util.CompoundDistribution">
@@ -432,19 +430,19 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint internal function
 #'  #     <distribution id="likelihood" ...>
 #'  #     </distribution>
 #'  # </distribution>
-yule_tree_prior_to_xml_prior_distr <- function( # nolint internal function
+yule_tree_prior_to_xml_prior_distr <- function( # nolint beautier function
   yule_tree_prior
 ) {
-  testit::assert(is_yule_tree_prior(yule_tree_prior))
+  testit::assert(is_yule_tree_prior(yule_tree_prior)) # nolint beautier function
   id <- yule_tree_prior$id
-  testit::assert(is_id(id))
+  testit::assert(is_id(id)) # nolint beautier function
 
   text <- NULL
 
   # distribution
   text <- c(text, paste0("<distribution id=\"YuleModel.t:", id,
     "\" spec=\"beast.evolution.speciation.YuleModel\" ",
-    "birthDiffRate=\"@birthRate.t:", id, "\" tree=\"@Tree.t:", id, "\"/>"))
+    "birthDiffRate=\"@birthRate.t:", id, "\" tree=\"@Tree.t:", id, "\"/>")) # nolint this is no absolute path
 
   # prior
   text <- c(text, paste0(
@@ -453,8 +451,8 @@ yule_tree_prior_to_xml_prior_distr <- function( # nolint internal function
     )
   )
   text <- c(text,
-    indent(
-      distr_to_xml(yule_tree_prior$birth_rate_distr),
+    indent( # nolint beautier function
+      distr_to_xml(yule_tree_prior$birth_rate_distr), # nolint beautier function
       n_spaces = 4
     )
   )

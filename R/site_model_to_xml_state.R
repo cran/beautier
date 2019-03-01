@@ -2,15 +2,16 @@
 #'   used in the \code{state} section
 #' @inheritParams default_params_doc
 #' @return the site model as XML text
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 site_model_to_xml_state <- function(
   site_model
 ) {
-  testit::assert(is_site_model(site_model))
+  testit::assert(is_site_model(site_model)) # nolint beautier function
   id <- site_model$id
-  testit::assert(is_id(id))
+  testit::assert(is_id(id)) # nolint beautier function
   text <- NULL
-  if (is_gtr_site_model(site_model)) {
+  if (is_gtr_site_model(site_model)) { # nolint beautier function
     site_model$rate_ac_param$id <- id
     site_model$rate_ag_param$id <- id
     site_model$rate_at_param$id <- id
@@ -24,36 +25,40 @@ site_model_to_xml_state <- function(
     testit::assert("estimate" %in% names(site_model$rate_ct_param))
     testit::assert("estimate" %in% names(site_model$rate_gt_param))
     if (site_model$rate_ac_param$estimate == TRUE) {
-      text <- c(text, parameter_to_xml(site_model$rate_ac_param)) # nolint internal function
+      text <- c(text, parameter_to_xml(site_model$rate_ac_param)) # nolint beautier function
     }
     if (site_model$rate_ag_param$estimate == TRUE) {
-      text <- c(text, parameter_to_xml(site_model$rate_ag_param)) # nolint internal function
+      text <- c(text, parameter_to_xml(site_model$rate_ag_param)) # nolint beautier function
     }
     if (site_model$rate_at_param$estimate == TRUE) {
-      text <- c(text, parameter_to_xml(site_model$rate_at_param)) # nolint internal function
+      text <- c(text, parameter_to_xml(site_model$rate_at_param)) # nolint beautier function
     }
     if (site_model$rate_cg_param$estimate == TRUE) {
-      text <- c(text, parameter_to_xml(site_model$rate_cg_param)) # nolint internal function
+      text <- c(text, parameter_to_xml(site_model$rate_cg_param)) # nolint beautier function
     }
     if (site_model$rate_ct_param$estimate == TRUE) {
-      text <- c(text, parameter_to_xml(site_model$rate_ct_param)) # nolint internal function
+      text <- c(text, parameter_to_xml(site_model$rate_ct_param)) # nolint beautier function
     }
     if (site_model$rate_gt_param$estimate == TRUE) {
-      text <- c(text, parameter_to_xml(site_model$rate_gt_param)) # nolint internal function
+      text <- c(text, parameter_to_xml(site_model$rate_gt_param)) # nolint beautier function
     }
-  } else if (is_hky_site_model(site_model)) {
+  } else if (is_hky_site_model(site_model)) { # nolint beautier function
     site_model$kappa_param$id <- id
     text <- c(text, paste0("<parameter id=\"kappa.s:", id, "\" ",
       "lower=\"0.0\" name=\"stateNode\">",
       site_model$kappa, "</parameter>"))
-  } else if (is_tn93_site_model(site_model)) {
+  } else if (is_tn93_site_model(site_model)) { # nolint beautier function
+    if (site_model$kappa_1_param$estimate == TRUE) {
       site_model$kappa_1_param$id <- id
+      text <- c(text, parameter_to_xml(site_model$kappa_1_param)) # nolint beautier function
+    }
+    if (site_model$kappa_2_param$estimate == TRUE) {
       site_model$kappa_2_param$id <- id
-      text <- c(text, parameter_to_xml(site_model$kappa_1_param)) # nolint internal function
-      text <- c(text, parameter_to_xml(site_model$kappa_2_param)) # nolint internal function
+      text <- c(text, parameter_to_xml(site_model$kappa_2_param)) # nolint beautier function
+    }
   }
 
-  if (!is_jc69_site_model(site_model)) {
+  if (!is_jc69_site_model(site_model)) { # nolint beautier function
     text <- c(
       text,
       paste0(
@@ -67,7 +72,7 @@ site_model_to_xml_state <- function(
 
   text <- c(
     text,
-    gamma_site_model_to_xml_state(site_model$gamma_site_model, id)
+    gamma_site_model_to_xml_state(site_model$gamma_site_model, id) # nolint beautier function
   )
   text
 }

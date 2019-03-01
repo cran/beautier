@@ -15,10 +15,15 @@ TRUE if the clock_model is a valid clock_model, FALSE otherwise
 \description{
 Determine if the object is a valid clock_model
 }
+\examples{
+  testit::assert(is_clock_model(create_strict_clock_model()))
+  testit::assert(is_clock_model(create_rln_clock_model()))
+  testit::assert(!is_clock_model("nonsense"))
+}
 \seealso{
 see \code{\link{create_clock_model}} for an overview of functions
   to create valid clock model
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

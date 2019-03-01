@@ -1,8 +1,10 @@
 #' Creates the gamma site models section in the distribution section
 #' of a BEAST2 XML parameter file
 #' @inheritParams default_params_doc
-#' @author Richel J.C. Bilderbeek
-gamma_site_models_to_xml_prior_distr <- function( # nolint internal function
+#' @return lines of XML text
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
+gamma_site_models_to_xml_prior_distr <- function( # nolint beautier function
   site_models
 ) {
   text <- NULL

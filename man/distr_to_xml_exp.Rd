@@ -7,7 +7,7 @@
 distr_to_xml_exp(distr)
 }
 \arguments{
-\item{distr}{an exponential distibution,
+\item{distr}{an exponential distribution,
 as created by \code{\link{create_exp_distr}})}
 }
 \value{
@@ -17,5 +17,5 @@ the distribution as XML text
 Converts an exponential distribution to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

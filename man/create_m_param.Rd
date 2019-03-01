@@ -5,13 +5,10 @@
 \alias{create_param_m}
 \title{Create a parameter called m}
 \usage{
-create_m_param(id = NA, estimate = FALSE, value = 0)
+create_m_param(id = NA, value = 0)
 }
 \arguments{
 \item{id}{the parameter's ID}
-
-\item{estimate}{TRUE if this parameter alpha be estimated by BEAST2,
-FALSE otherwise}
 
 \item{value}{value of the parameter}
 }
@@ -24,6 +21,7 @@ Create a parameter called m
 \note{
 this parameter is used in a log-normal distribution
   (as returned by \code{\link{create_log_normal_distr}})
+  It cannot be estimated (as a hyper parameter) yet.
 }
 \examples{
   # Create the parameter
@@ -35,19 +33,20 @@ this parameter is used in a log-normal distribution
   )
 
   # Use the distribution to create a BEAST2 input file
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "create_m_param.xml",
-    tree_priors = create_yule_tree_prior(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    tree_prior = create_yule_tree_prior(
       birth_rate_distr = log_normal_distr
     )
   )
-  testit::assert(file.exists("create_m_param.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_param}} contains a list
   of all parameters that can be created
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

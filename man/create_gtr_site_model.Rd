@@ -5,67 +5,81 @@
 \alias{create_site_model_gtr}
 \title{Create a GTR site model}
 \usage{
-create_gtr_site_model(id = NA, gamma_site_model = create_gamma_site_model(),
-  rate_ac_prior_distr = create_gamma_distr(alpha = create_alpha_param(value =
-  "0.05"), beta = create_beta_param(value = "10.0")),
-  rate_ag_prior_distr = create_gamma_distr(alpha = create_alpha_param(value =
-  "0.05"), beta = create_beta_param(value = "20.0")),
-  rate_at_prior_distr = create_gamma_distr(alpha = create_alpha_param(value =
-  "0.05"), beta = create_beta_param(value = "10.0")),
-  rate_cg_prior_distr = create_gamma_distr(alpha = create_alpha_param(value =
-  "0.05"), beta = create_beta_param(value = "10.0")),
-  rate_gt_prior_distr = create_gamma_distr(alpha = create_alpha_param(value =
-  "0.05"), beta = create_beta_param(value = "10.0")),
+create_gtr_site_model(id = NA,
+  gamma_site_model = create_gamma_site_model(),
+  rate_ac_prior_distr = create_gamma_distr(alpha = 0.05, beta =
+  create_beta_param(value = "10.0")),
+  rate_ag_prior_distr = create_gamma_distr(alpha = 0.05, beta =
+  create_beta_param(value = "20.0")),
+  rate_at_prior_distr = create_gamma_distr(alpha = 0.05, beta =
+  create_beta_param(value = "10.0")),
+  rate_cg_prior_distr = create_gamma_distr(alpha = 0.05, beta =
+  create_beta_param(value = "10.0")),
+  rate_gt_prior_distr = create_gamma_distr(alpha = 0.05, beta =
+  create_beta_param(value = "10.0")),
   rate_ac_param = create_rate_ac_param(),
   rate_ag_param = create_rate_ag_param(),
   rate_at_param = create_rate_at_param(),
   rate_cg_param = create_rate_cg_param(),
-  rate_ct_param = create_rate_ct_param(estimate = FALSE),
-  rate_gt_param = create_rate_gt_param(), freq_equilibrium = "estimated")
+  rate_ct_param = create_rate_ct_param(),
+  rate_gt_param = create_rate_gt_param(),
+  freq_equilibrium = "estimated")
 }
 \arguments{
 \item{id}{the IDs of the alignment (can be extracted from
-the FASTA filesname using \code{\link{get_id}})}
+the FASTA filename using \code{\link{get_alignment_id}})}
 
 \item{gamma_site_model}{a gamma site model, as created
 by \code{\link{create_gamma_site_model}}}
 
 \item{rate_ac_prior_distr}{the AC rate prior distribution,
-as returned by \code{\link{create_distr}})}
+as returned by \code{\link{create_distr}}}
 
 \item{rate_ag_prior_distr}{the AG rate prior distribution,
-as returned by \code{\link{create_distr}})}
+as returned by \code{\link{create_distr}}}
 
 \item{rate_at_prior_distr}{the AT rate prior distribution,
-as returned by \code{\link{create_distr}})}
+as returned by \code{\link{create_distr}}}
 
 \item{rate_cg_prior_distr}{the CG rate prior distribution,
-as returned by \code{\link{create_distr}})}
+as returned by \code{\link{create_distr}}}
 
 \item{rate_gt_prior_distr}{the GT rate prior distribution,
-as returned by \code{\link{create_distr}})}
+as returned by \code{\link{create_distr}}}
 
 \item{rate_ac_param}{the 'rate AC' parameter,
-as returned by \code{\link{create_rate_ac_param}})}
+a numeric value.
+For advanced usage, use the structure
+as returned by \code{\link{create_rate_ac_param}}}
 
 \item{rate_ag_param}{the 'rate AG' parameter,
-as returned by \code{\link{create_rate_ag_param}})}
+a numeric value.
+For advanced usage, use the structure
+as returned by \code{\link{create_rate_ag_param}}}
 
 \item{rate_at_param}{the 'rate AT' parameter,
-as returned by \code{\link{create_rate_at_param}})}
+a numeric value.
+For advanced usage, use the structure
+as returned by \code{\link{create_rate_at_param}}}
 
 \item{rate_cg_param}{the 'rate CG' parameter,
-as returned by \code{\link{create_rate_cg_param}})}
+a numeric value.
+For advanced usage, use the structure
+as returned by \code{\link{create_rate_cg_param}}}
 
 \item{rate_ct_param}{the 'rate CT' parameter,
-as returned by \code{\link{create_rate_ct_param}})}
+a numeric value.
+For advanced usage, use the structure
+as returned by \code{\link{create_rate_ct_param}}}
 
 \item{rate_gt_param}{the 'rate GT' parameter,
-as returned by \code{\link{create_rate_gt_param}})}
+a numeric value.
+For advanced usage, use the structure
+as returned by \code{\link{create_rate_gt_param}}}
 
 \item{freq_equilibrium}{the frequency in which the rates are at equilibrium
 are either \code{estimated}, \code{empirical} or \code{all_equal}.
-\code{\link{get_freq_equilibrium_names}} returns the possible values
+\code{get_freq_equilibrium_names} returns the possible values
 for \code{freq_equilibrium}}
 }
 \value{
@@ -75,15 +89,23 @@ a GTR site_model
 Create a GTR site model
 }
 \examples{
-  gtr_site_model <- create_gtr_site_model()
+  gtr_site_model <- create_gtr_site_model(
+    rate_ac_param = 1.2,
+    rate_ag_param = 2.3,
+    rate_at_param = 3.4,
+    rate_cg_param = 4.5,
+    rate_ct_param = 5.6,
+    rate_gt_param = 6.7
+ )
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "create_gtr_site_model.xml",
-    site_models = gtr_site_model
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    site_model = gtr_site_model
   )
-  testit::assert(file.exists("create_gtr_site_model.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

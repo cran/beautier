@@ -8,7 +8,7 @@ create_clock_model(name, id, ...)
 }
 \arguments{
 \item{name}{the clock model name. Valid
-names can be found in \code{\link{get_clock_model_names}}}
+names can be found in \code{get_clock_model_names}}
 
 \item{id}{a clock model's ID}
 
@@ -28,30 +28,32 @@ Prefer using the named function
 \examples{
   rln_clock_model <- create_rln_clock_model()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
     get_fasta_filename(),
-    "create_clock_model_rln.xml",
-    clock_models = rln_clock_model
+    beast2_input_file,
+    clock_model = rln_clock_model
   )
-  testit::assert(file.exists("create_clock_model_rln.xml"))
+  testit::assert(file.exists(beast2_input_file))
 
   strict_clock_model <- create_strict_clock_model()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
     get_fasta_filename(),
-    "create_clock_model_strict.xml",
-    clock_models = strict_clock_model
+    beast2_input_file,
+    clock_model = strict_clock_model
   )
-  testit::assert(file.exists("create_clock_model_strict.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 An alignment ID can be extracted from
-  its FASTA filesname using \code{\link{get_id}}.
+  its FASTA filename using \code{\link{get_alignment_id}}.
   For more examples about creating a relaxed log-normal clock
   model, see \code{\link{create_rln_clock_model}}.
   For more examples about creating a strict clock
   model, see \code{\link{create_strict_clock_model}}.
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

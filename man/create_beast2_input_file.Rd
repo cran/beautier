@@ -4,18 +4,48 @@
 \alias{create_beast2_input_file}
 \title{Create a BEAST2 input file}
 \usage{
-create_beast2_input_file(input_filenames, output_filename,
-  site_models = create_jc69_site_models(ids = get_ids(input_filenames)),
-  clock_models = create_strict_clock_models(ids = get_ids(input_filenames)),
-  tree_priors = create_yule_tree_priors(ids = get_ids(input_filenames)),
-  mrca_priors = NA, mcmc = create_mcmc(), posterior_crown_age = NA)
+create_beast2_input_file(input_filename, output_filename,
+  site_model = create_jc69_site_model(),
+  clock_model = create_strict_clock_model(),
+  tree_prior = create_yule_tree_prior(), mrca_prior = NA,
+  mcmc = create_mcmc(), beauti_options = create_beauti_options(),
+  tipdates_filename = NA, input_filenames = "deprecated",
+  site_models = "deprecated", clock_models = "deprecated",
+  tree_priors = "deprecated", mrca_priors = "deprecated",
+  posterior_crown_age = "deprecated")
 }
 \arguments{
-\item{input_filenames}{One or more FASTA filenames.
+\item{input_filename}{A FASTA filename.
 Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.}
 
 \item{output_filename}{Name of the XML parameter file created by this
 function. BEAST2 uses this file as input.}
+
+\item{site_model}{a site model,
+as returned by \code{\link{create_site_model}}}
+
+\item{clock_model}{a clock model,
+as returned by \code{\link{create_clock_model}}}
+
+\item{tree_prior}{a tree priors,
+as returned by \code{\link{create_tree_prior}}}
+
+\item{mrca_prior}{a Most Recent Common Ancestor prior,
+as returned by \code{\link{create_mrca_prior}}}
+
+\item{mcmc}{one MCMC
+as returned by \code{\link{create_mcmc}}}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
+
+\item{tipdates_filename}{name of the file containing the tip dates.
+This file is assumed to have two columns, separated by a tab.
+The first column contains the taxa names, the second column contains
+the date.}
+
+\item{input_filenames}{One or more FASTA filenames.
+Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.}
 
 \item{site_models}{one or more site models,
 as returned by \code{\link{create_site_model}}}
@@ -29,44 +59,36 @@ as returned by \code{\link{create_tree_prior}}}
 \item{mrca_priors}{a list of one or more Most Recent Common Ancestor priors,
 as returned by \code{\link{create_mrca_prior}}}
 
-\item{mcmc}{one mcmc object,
-as returned by \code{\link{create_mcmc}}}
-
-\item{posterior_crown_age}{the crown age the posteriors'
-phylogenies will be fixed at. If NA, crown age is estimated by BEAST2.}
+\item{posterior_crown_age}{deprecated}
+}
+\value{
+nothing
 }
 \description{
 Create a BEAST2 input file
 }
 \examples{
+  # Get an example FASTA file
+  input_filename <- get_fasta_filename()
+
   # The file created by beautier, a BEAST2 input file
   output_filename <- "create_beast2_input_file.xml"
 
-  # Birth-Death tree prior, crown age is estimated
   create_beast2_input_file(
-    get_fasta_filename(),
+    input_filename,
     output_filename
   )
   testthat::expect_true(file.exists(output_filename))
-
-  # The file created by beautier, a BEAST2 input file
-  output_filename_fixed <- "create_beast2_input_file_fixed.xml"
-
-  # Birth-Death tree prior, crown age is fixed at 15 time units
-  create_beast2_input_file(
-    get_fasta_filename(),
-    output_filename_fixed,
-    posterior_crown_age = 15
-  )
-  testthat::expect_true(file.exists(output_filename_fixed))
 }
 \seealso{
-See \code{\link{create_site_model}} for examples with
+Use \link{create_beast2_input_file_from_model} to do the same with an
+  inference model.
+  See \code{\link{create_site_model}} for examples with
   different site models. See \code{\link{create_clock_model}} for examples
   with clock models. See \code{\link{create_tree_prior}} for examples with
   different tree priors. See \code{\link{create_mcmc}} for examples with
   a different MCMC setup.
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

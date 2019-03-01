@@ -7,14 +7,21 @@
 #'   the) created lines are stored
 #' @param expected_lines_filename name of the file where the (section of
 #'   the) expected lines are stored
+#' @return nothing. Instead, two files are created, with the
+#'   names \code{created_lines_filename}
+#'   and \code{expected_lines_filename} that contain the
+#'   section under investigation, so that a diff tool
+#'   can compare these
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 compare_lines <- function(
   lines,
   expected,
   section = NA,
-  created_lines_filename = "~/created.xml",
-  expected_lines_filename = "~/expected.xml"
+  created_lines_filename = "created.xml",
+  expected_lines_filename = "expected.xml"
 ) {
-  if (!is.na(section)) {
+  if (!is_one_na(section)) { # nolint beautier function
     lines <- extract_xml_section_from_lines(
       lines = lines, section = section)
     expected <- extract_xml_section_from_lines(

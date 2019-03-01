@@ -231,15 +231,13 @@ a testing FASTA file used by <code>beautier</code>:</p>
 <p>Now we can create our XML file:</p>
 
 <pre><code class="r"># The name of the file you intend to let BEAST2 run
-output_filename &lt;- &quot;beast2.xml&quot;
+output_filename &lt;- tempfile(pattern = &quot;beeast2&quot;, fileext = &quot;.xml&quot;)
 
 create_beast2_input_file(
   fasta_filename,
   output_filename
 )
 </code></pre>
-
-<p>(note: the line <code>tree_priors = create_yule_tree_prior(birth_rate_distribution = create_uniform_distr(id = 1))</code> will be removed somewhere close in the future)</p>
 
 <p>The file indeed is a BEAST2 input file:</p>
 

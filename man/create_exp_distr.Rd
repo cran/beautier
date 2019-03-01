@@ -5,12 +5,14 @@
 \alias{create_distr_exp}
 \title{Create an exponential distribution}
 \usage{
-create_exp_distr(id = NA, mean = create_mean_param(value = 1))
+create_exp_distr(id = NA, mean = 1)
 }
 \arguments{
 \item{id}{the distribution's ID}
 
 \item{mean}{the mean parameter,
+a numeric value.
+For advanced usage, use the structure
 as returned by \code{\link{create_mean_param}}}
 }
 \value{
@@ -22,19 +24,20 @@ Create an exponential distribution
 \examples{
   exp_distr <- create_exp_distr()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "my_beast.xml",
-    tree_priors = create_yule_tree_prior(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    tree_prior = create_yule_tree_prior(
       birth_rate_distr = exp_distr
     )
   )
-  testit::assert(file.exists("my_beast.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_distr}} shows an overview
   of all supported distributions
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

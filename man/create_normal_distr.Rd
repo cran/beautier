@@ -5,16 +5,19 @@
 \alias{create_distr_normal}
 \title{Create an normal distribution}
 \usage{
-create_normal_distr(id = NA, mean = create_mean_param(),
-  sigma = create_sigma_param())
+create_normal_distr(id = NA, mean = 0, sigma = 1)
 }
 \arguments{
 \item{id}{the distribution's ID}
 
-\item{mean}{the mean parameter
+\item{mean}{the mean parameter,
+a numeric value.
+For advanced usage, use the structure
 as returned by \code{\link{create_mean_param}}}
 
-\item{sigma}{the sigma parameter
+\item{sigma}{the sigma parameter,
+a numeric value.
+For advanced usage, use the structure
 as returned by \code{\link{create_sigma_param}}}
 }
 \value{
@@ -26,19 +29,20 @@ Create an normal distribution
 \examples{
   normal_distr <- create_normal_distr()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "my_beast.xml",
-    tree_priors = create_yule_tree_prior(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    tree_prior = create_yule_tree_prior(
       birth_rate_distr = normal_distr
     )
   )
-  testit::assert(file.exists("my_beast.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_distr}} shows an overview
   of all supported distributions
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

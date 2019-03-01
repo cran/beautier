@@ -223,39 +223,12 @@ and create a BEAST2 input file called <code>my_beast.xml</code>.</p>
 
 <p>All other parameters are set to their defaults, as in BEAUti.</p>
 
-<h2>Example #2: fixed crown age</h2>
-
-<p>Using all default settings, only specify a DNA alignment.</p>
-
-<pre><code>[No screenshot, as this cannot be done in BEAUti yet]
-</code></pre>
-
-<pre><code class="r">create_beast2_input_file_1_12(
-  &quot;my_fasta.fas&quot;,
-  &quot;my_beast.xml&quot;,
-  fixed_crown_age = TRUE,
-  initial_phylogenies = fasta_to_phylo(
-    fasta_filename = &quot;my_fasta.fas&quot;,
-    crown_age = 15)
-)
-</code></pre>
-
-<pre><code class="r">create_beast2_input_file(
-  &quot;my_fasta.fas&quot;,
-  &quot;my_beast.xml&quot;,
-  posterior_crown_age = 15
-)
-</code></pre>
-
-<p><code>fasta_to_phylo</code> creates a random phylogeny from
-a FASTA file of a certain crown age. </p>
-
 <h2>Example #3: JC69 site model</h2>
 
 <pre><code class="r">create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  site_models = create_jc69_site_model()
+  site_model = create_jc69_site_model()
 )
 </code></pre>
 
@@ -264,7 +237,7 @@ a FASTA file of a certain crown age. </p>
 <pre><code class="r">create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  clock_models = create_rln_clock_model()
+  clock_model = create_rln_clock_model()
 )
 </code></pre>
 
@@ -273,7 +246,7 @@ a FASTA file of a certain crown age. </p>
 <pre><code class="r">create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  tree_priors = create_bd_tree_prior() 
+  tree_prior = create_bd_tree_prior() 
 )
 </code></pre>
 
@@ -282,7 +255,7 @@ a FASTA file of a certain crown age. </p>
 <pre><code class="r">create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  tree_priors = create_yule_tree_prior(
+  tree_prior = create_yule_tree_prior(
     birth_rate_distr = create_normal_distr()
   ) 
 )
@@ -295,7 +268,7 @@ a FASTA file of a certain crown age. </p>
 <pre><code class="r">create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  site_models = create_hky_site_model(
+  site_model = create_hky_site_model(
     gamma_site_model = create_gamma_site_model(prop_invariant = 0.5)
   )
 )
@@ -308,8 +281,9 @@ a FASTA file of a certain crown age. </p>
 <pre><code class="r">create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  clock_models = create_strict_clock_model(
-    clock_rate_param = create_clock_rate_param(value = 0.5)) 
+  clock_model = create_strict_clock_model(
+    clock_rate_param = 0.5
+  ) 
 )
 </code></pre>
 
@@ -323,22 +297,17 @@ an MRCA (&#39;Most Recent Common Ancestor&#39;) prior.</p>
 <pre><code class="r">create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  mrca_priors = create_mrca_prior(
-    alignment_id = get_alignment_id(&quot;my_alignment.fas&quot;),
-    taxa_names = get_taxa_names(&quot;my_alignment.fas&quot;)
-  )
+  mrca_prior = create_mrca_prior()
 )
 </code></pre>
 
 <pre><code class="r">create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  mrca_priors = create_mrca_prior(
-    alignment_id = get_alignment_id(&quot;my_alignment.fas&quot;),
-    taxa_names = get_taxa_names(&quot;my_alignment.fas&quot;),
+  mrca_prior = create_mrca_prior(
     mrca_distr = create_normal_distr(
-      mean = create_mean_param(value = 10.0),
-      sigma = create_sigma_param(value = 0.01)
+      mean = 10.0,
+      sigma = 0.01
     )
   )
 )
@@ -356,13 +325,11 @@ to specify a close-to-fixed crown age:</p>
 create_beast2_input_file(
   &quot;my_alignment.fas&quot;,
   &quot;my_beast.xml&quot;,
-  mrca_priors = create_mrca_prior(
-    alignment_id = get_alignment_id(&quot;my_alignment.fas&quot;),
-    taxa_names = get_taxa_names(&quot;my_alignment.fas&quot;),
+  mrca_prior = create_mrca_prior(
     is_monophyletic = TRUE,
     mrca_distr = create_normal_distr(
-      mean = create_mean_param(value = crown_age),
-      sigma = create_sigma_param(value = 0.001)
+      mean = crown_age,
+      sigma = 0.001
     )
   )
 )
@@ -370,17 +337,21 @@ create_beast2_input_file(
 
 <h2>Example #11: Two alignments</h2>
 
-<pre><code class="r">create_beast2_input_file(
-  c(&quot;anthus_aco.fas&quot;, &quot;anthus_nd2.fas&quot;),
-  &quot;my_beast.xml&quot;
-)
+<pre><code class="r"># Deprecated support for now
+if (1 == 2) {
+  create_beast2_input_file(
+    c(&quot;anthus_aco.fas&quot;, &quot;anthus_nd2.fas&quot;),
+    &quot;my_beast.xml&quot;
+  )
+}
 </code></pre>
 
 <p>Thanks to Paul van Els for this use case and supplying these FASTA files.</p>
 
 <h2>Example #12: Two alignments, different site models</h2>
 
-<pre><code class="r">beautier::create_beast2_input_file(
+<pre><code># Deprecated support for now
+beautier::create_beast2_input_file(
   c(&quot;anthus_aco.fas&quot;, &quot;anthus_nd2.fas&quot;),
   &quot;my_beast.xml&quot;,
   site_models = list(
@@ -396,17 +367,20 @@ create_beast2_input_file(
 
 <h2>Example #13: Two alignments, shared clock model</h2>
 
-<pre><code class="r">beautier::create_beast2_input_file(
-  c(&quot;anthus_aco.fas&quot;, &quot;anthus_nd2.fas&quot;),
-  &quot;my_beast.xml&quot;,
-  clock_models = list(
-    create_strict_clock_model(id = &quot;anthus_aco&quot;), 
-    create_strict_clock_model(id = &quot;anthus_aco&quot;)
+<pre><code class="r"># Deprecated support for now
+if (1 == 2) {
+  beautier::create_beast2_input_file(
+    c(&quot;anthus_aco.fas&quot;, &quot;anthus_nd2.fas&quot;),
+    &quot;my_beast.xml&quot;,
+    clock_models = list(
+      create_strict_clock_model(id = &quot;anthus_aco&quot;), 
+      create_strict_clock_model(id = &quot;anthus_aco&quot;)
+    )
   )
-)
+}
 </code></pre>
 
-<p>From <code>v1.14</code>, it will be supported to have two alignments with shared site models, clock models and tree priors.</p>
+<p>In a future version, it will be supported to have two alignments with shared site models, clock models and tree priors.</p>
 
 <p>Thanks to Yacine Ben Chehida for this use case.</p>
 

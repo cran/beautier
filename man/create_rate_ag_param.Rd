@@ -11,12 +11,13 @@ create_rate_ag_param(id = NA, estimate = TRUE, value = "1.0",
 \arguments{
 \item{id}{the parameter's ID}
 
-\item{estimate}{TRUE if this parameter mu be estimated by BEAST2,
+\item{estimate}{TRUE if this parameter is to be estimated by BEAST2,
 FALSE otherwise}
 
 \item{value}{value of the parameter}
 
-\item{lower}{lowest possible value of the parameter}
+\item{lower}{lowest possible value of the parameter. If the parameter
+is estimated, \code{lower} must be less than \code{value}}
 }
 \value{
 a parameter called 'rate AG'
@@ -29,19 +30,20 @@ Create a parameter called 'rate AG'
   rate_ag_param <- create_rate_ag_param(value = 1, estimate = FALSE)
 
   # Use the parameter to create a BEAST2 input file
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "create_rate_ag_param.xml",
-    site_models = create_gtr_site_model(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    site_model = create_gtr_site_model(
       rate_ag_param = rate_ag_param
     )
   )
-  testit::assert(file.exists("create_rate_ag_param.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \seealso{
 the function \code{\link{create_param}} contains a list
   of all parameters that can be created
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

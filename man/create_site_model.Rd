@@ -4,14 +4,15 @@
 \alias{create_site_model}
 \title{General function to create a site model.}
 \usage{
-create_site_model(name, id, gamma_site_model = create_gamma_site_model(), ...)
+create_site_model(name, id, gamma_site_model = create_gamma_site_model(),
+  ...)
 }
 \arguments{
 \item{name}{the site model name. Valid
-names can be found in \code{\link{get_site_model_names}}}
+names can be found in \code{get_site_model_names}}
 
 \item{id}{the IDs of the alignment (can be extracted from
-the FASTA filesname using \code{\link{get_id}})}
+the FASTA filename using \code{\link{get_alignment_id}})}
 
 \item{gamma_site_model}{a gamma site model, as created
 by \code{\link{create_gamma_site_model}}}
@@ -35,33 +36,33 @@ Prefer using the
 \examples{
   # GTR
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
+    input_filename = get_fasta_filename(),
     output_filename = "example_gtr.xml",
-    site_models = create_gtr_site_model()
+    site_model = create_gtr_site_model()
   )
   testthat::expect_true(file.exists("example_gtr.xml"))
 
   # HKY
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
+    input_filename = get_fasta_filename(),
     output_filename = "example_hky.xml",
-    site_models = create_hky_site_model()
+    site_model = create_hky_site_model()
   )
   testthat::expect_true(file.exists("example_hky.xml"))
 
   # JC69
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
+    input_filename = get_fasta_filename(),
     output_filename = "example_jc69.xml",
-    site_models = create_jc69_site_model()
+    site_model = create_jc69_site_model()
   )
   testthat::expect_true(file.exists("example_jc69.xml"))
 
   # TN93
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
+    input_filename = get_fasta_filename(),
     output_filename = "example_tn93.xml",
-    site_models = create_tn93_site_model()
+    site_model = create_tn93_site_model()
   )
   testthat::expect_true(file.exists("example_tn93.xml"))
 }
@@ -74,5 +75,5 @@ See \code{\link{create_gtr_site_model}} for more examples
   examples with a TN93 site model
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

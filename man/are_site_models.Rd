@@ -15,6 +15,17 @@ TRUE if x, or all elements of x, are site_model objects
 \description{
 Determine if x consists out of site_models objects
 }
+\examples{
+  jc69_site_model <- create_jc69_site_model()
+  gtr_site_model <- create_gtr_site_model()
+  both_site_models <- list(jc69_site_model, gtr_site_model)
+  testit::assert(are_site_models(jc69_site_model))
+  testit::assert(are_site_models(gtr_site_model))
+  testit::assert(are_site_models(both_site_models))
+}
+\seealso{
+Use \link{create_site_model} to create a site model
+}
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

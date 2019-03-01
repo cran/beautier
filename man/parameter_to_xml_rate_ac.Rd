@@ -8,6 +8,8 @@ parameter_to_xml_rate_ac(parameter, which_name = "state_node")
 }
 \arguments{
 \item{parameter}{a 'rate AC' parameter,
+a numeric value.
+For advanced usage, use the structure
 as created by \code{\link{create_rate_ac_param}})}
 
 \item{which_name}{the name, can be \code{state_node} or \code{rate_name}}
@@ -19,5 +21,5 @@ the parameter as XML text
 Converts a 'rate AC' parameter to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

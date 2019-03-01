@@ -9,7 +9,7 @@ image(ape::read.FASTA(fasta_filename))
 
 ## ------------------------------------------------------------------------
 # The name of the file you intend to let BEAST2 run
-output_filename <- "beast2.xml"
+output_filename <- tempfile(pattern = "beeast2", fileext = ".xml")
 
 create_beast2_input_file(
   fasta_filename,
@@ -18,13 +18,4 @@ create_beast2_input_file(
 
 ## ------------------------------------------------------------------------
 cat(readLines(output_filename), quote = FALSE, sep = '\n')
-
-## ----cleanup, include = FALSE--------------------------------------------
-# Cleaning up
-filenames <- c(
-  "beast2.xml"
-)
-for (filename in filenames) {
-  if (file.exists(filename)) file.remove(filename)
-}
 

@@ -15,6 +15,14 @@ TRUE if x, or all elements of x, are clock_model objects
 \description{
 Determine if x consists out of clock_models objects
 }
+\examples{
+  rln_clock_model <- create_rln_clock_model()
+  strict_clock_model <- create_strict_clock_model()
+  both_clock_models <- list(rln_clock_model, strict_clock_model)
+  testit::assert(are_clock_models(rln_clock_model))
+  testit::assert(are_clock_models(strict_clock_model))
+  testit::assert(are_clock_models(both_clock_models))
+}
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

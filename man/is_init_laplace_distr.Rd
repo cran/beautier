@@ -2,22 +2,22 @@
 % Please edit documentation in R/is_init_distr.R
 \name{is_init_laplace_distr}
 \alias{is_init_laplace_distr}
-\title{Determine if x is an initialized laplace distribution object
+\title{Determine if x is an initialized Laplace distribution
   as created by \code{\link{create_laplace_distr}}}
 \usage{
 is_init_laplace_distr(x)
 }
 \arguments{
 \item{x}{the object to check if it is an
-initialized laplace distribution object}
+initialized Laplace distribution}
 }
 \value{
-TRUE if x is an initialized laplace distribution object
+TRUE if x is an initialized Laplace distribution
 }
 \description{
-Determine if x is an initialized laplace distribution object
+Determine if x is an initialized Laplace distribution
   as created by \code{\link{create_laplace_distr}}
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

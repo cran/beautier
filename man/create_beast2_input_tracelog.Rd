@@ -2,17 +2,19 @@
 % Please edit documentation in R/create_beast2_input_loggers.R
 \name{create_beast2_input_tracelog}
 \alias{create_beast2_input_tracelog}
-\title{Creates the tracelog section of the logger section
+\title{Creates the \code{tracelog} section of the \code{logger} section
 of a BEAST2 XML parameter file}
 \usage{
-create_beast2_input_tracelog(ids, site_models = create_jc69_site_models(ids =
-  ids), clock_models = create_strict_clock_models(ids = ids),
-  tree_priors = create_yule_tree_priors(ids = ids), mrca_priors = NA)
+create_beast2_input_tracelog(ids,
+  site_models = list(create_jc69_site_model(id = ids)),
+  clock_models = list(create_strict_clock_model(id = ids)),
+  tree_priors = list(create_yule_tree_prior(id = ids)),
+  mcmc = create_mcmc(), mrca_priors = NA, tipdates_filename = NA)
 }
 \arguments{
 \item{ids}{one or more alignments' IDs.
-IDs can be extracted from their FASTA filesnames
-with \code{\link{get_ids}})}
+IDs can be extracted from their FASTA filenames
+with \code{\link{get_alignment_ids}})}
 
 \item{site_models}{one or more site models,
 as returned by \code{\link{create_site_model}}}
@@ -23,13 +25,44 @@ as returned by \code{\link{create_clock_model}}}
 \item{tree_priors}{one or more tree priors,
 as returned by \code{\link{create_tree_prior}}}
 
+\item{mcmc}{one MCMC
+as returned by \code{\link{create_mcmc}}}
+
 \item{mrca_priors}{a list of one or more Most Recent Common Ancestor priors,
 as returned by \code{\link{create_mrca_prior}}}
+
+\item{tipdates_filename}{name of the file containing the tip dates.
+This file is assumed to have two columns, separated by a tab.
+The first column contains the taxa names, the second column contains
+the date.}
 }
 \description{
-Creates the tracelog section of the logger section
+Creates the \code{tracelog} section of the \code{logger} section
 of a BEAST2 XML parameter file
 }
+\examples{
+  created <- beautier:::create_beast2_input_tracelog(ids = 1)
+  expected <- c(
+    paste0(
+      "<logger id=\\"tracelog\\" fileName=\\"1.log\\" ",
+      "logEvery=\\"1000\\" model=\\"@posterior\\" sanitiseHeaders=\\"true\\" ",
+      "sort=\\"smart\\">"
+    ),
+    "    <log idref=\\"posterior\\"/>",
+    "    <log idref=\\"likelihood\\"/>",
+    "    <log idref=\\"prior\\"/>",
+    "    <log idref=\\"treeLikelihood.1\\"/>",
+    paste0(
+      "    <log id=\\"TreeHeight.t:1\\" ",
+      "spec=\\"beast.evolution.tree.TreeHeightLogger\\" ",
+      "tree=\\"@Tree.t:1\\"/>"
+    ),
+    "    <log idref=\\"YuleModel.t:1\\"/>",
+    "    <log idref=\\"birthRate.t:1\\"/>",
+    "</logger>"
+   )
+   testthat::expect_equal(created, expected)
+}
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

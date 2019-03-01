@@ -8,6 +8,8 @@ parameter_to_xml_alpha(parameter)
 }
 \arguments{
 \item{parameter}{an alpha parameter,
+a numeric value.
+For advanced usage, use the structure
 as created by \code{\link{create_alpha_param}})}
 }
 \value{
@@ -17,5 +19,5 @@ the parameter as XML text
 Converts an alpha parameter to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

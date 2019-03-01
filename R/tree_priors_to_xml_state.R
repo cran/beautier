@@ -3,15 +3,12 @@
 #' @inheritParams default_params_doc
 #' @return lines of XML text, without indentation nor \code{state}
 #'   tags
-#' @author Richel J.C. Bilderbeek
+#' @author Richèl J.C. Bilderbeek
+#' @noRd
 tree_priors_to_xml_state <- function(
   tree_priors
 ) {
-  testit::assert(are_tree_priors(tree_priors))
-
-  # Remove the tree priors that share a same alignment
-  tree_priors <- get_unlinked_tree_priors(tree_priors) # nolint internal function
-  testit::assert(are_tree_priors(tree_priors))
+  testit::assert(are_tree_priors(tree_priors)) # nolint beautier function
 
   text <- NULL
   for (tree_prior in tree_priors) {

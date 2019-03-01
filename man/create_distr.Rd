@@ -8,7 +8,7 @@ create_distr(name, id, ...)
 }
 \arguments{
 \item{name}{the distribution name. Valid
-names can be found in \code{\link{get_distr_names}}}
+names can be found in \code{get_distr_names}}
 
 \item{id}{the distribution's ID}
 
@@ -51,15 +51,16 @@ See
   # Use any distribution
   distr <- create_beta_distr()
 
+  beast2_input_file <- tempfile(fileext = ".xml")
   create_beast2_input_file(
-    input_filenames = get_fasta_filename(),
-    "create_distr.xml",
-    tree_priors = create_yule_tree_prior(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    tree_prior = create_yule_tree_prior(
       birth_rate_distr = distr
     )
   )
-  testit::assert(file.exists("create_distr.xml"))
+  testit::assert(file.exists(beast2_input_file))
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }

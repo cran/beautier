@@ -8,6 +8,8 @@ parameter_to_xml_kappa_1(parameter)
 }
 \arguments{
 \item{parameter}{a kappa 1 parameter,
+a numeric value.
+For advanced usage, use the structure
 as created by \code{\link{create_kappa_1_param}})}
 }
 \value{
@@ -17,5 +19,5 @@ the parameter as XML text
 Converts a kappa 1 parameter to XML
 }
 \author{
-Richel J.C. Bilderbeek
+Richèl J.C. Bilderbeek
 }
