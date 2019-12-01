@@ -1,56 +1,75 @@
 #' Creates the '\code{run}' section of a BEAST2 XML parameter file
-#' @param ids the IDs of the alignments (can be extracted from
-#'   their FASTA filenames using \code{\link{get_alignment_ids}})
-#' @param initial_phylogenies initial phylogenies, can be NAs if random
-#'   phylogenies are desired
+#'
+#' The \code{run} tag has these elements:
+#' \preformatted{
+#'    <run[...]>
+#'        <state[...]>
+#'        [...]
+#'        </state>
+#'        <init[...]>
+#'        [...]
+#'        </init>
+#'        <distribution[...]>
+#'        [...]
+#'        </distribution>
+#'        [operator ids]
+#'        [loggers]
+#'     </run>
+#' }
+#' @inheritParams default_params_doc
 #' @return lines of XML text
 #' @inheritParams default_params_doc
+#' @seealso
+#' Use \link{create_beast2_input_state}
+#' to create the XML text of the \code{state} tag.
+#' Use \link{create_beast2_input_init}
+#' to create the XML text of the \code{init} tag.
+#' Use \link{create_beast2_input_distr}
+#' to create the XML text of the \code{distribution} tag.
+#' Use \link{create_beast2_input_operators}
+#' to create the XML text of the \code{[operator ids]} section.
+#' Use \link{create_loggers_xml}
+#' to create the XML text of the \code{[loggers]} part.
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @export
 create_beast2_input_run <- function(
-  ids,
-  site_models = list(create_jc69_site_model(id = ids)),
-  clock_models = list(create_strict_clock_model(id = ids)),
-  tree_priors = list(create_yule_tree_prior(id = ids)),
-  mrca_priors = NA,
-  mcmc = create_mcmc(),
-  fixed_crown_ages = rep(FALSE, times = length(ids)),
-  initial_phylogenies = rep(NA, length(ids)),
-  tipdates_filename = NA
+  input_filename,
+  inference_model = create_inference_model()
 ) {
-  testit::assert(length(ids) == length(initial_phylogenies))
-  testit::assert(length(ids) == length(site_models))
-  testit::assert(length(ids) == length(clock_models))
-  testit::assert(length(ids) == length(tree_priors))
-  testit::assert(length(ids) == length(fixed_crown_ages))
-  testit::assert(are_ids(ids))  # nolint beautier function
-  testit::assert(are_site_models(site_models)) # nolint beautier function
-  testit::assert(are_clock_models(clock_models)) # nolint beautier function
-  testit::assert(are_tree_priors(tree_priors)) # nolint beautier function
-  testit::assert(are_mrca_priors(mrca_priors)) # nolint beautier function
+  testit::assert(length(input_filename) == 1)
 
-  text <- NULL
+  # Alignment IDs
+  ids <- beautier::get_alignment_id(
+    input_filename,
+    capitalize_first_char_id =
+      inference_model$beauti_options$capitalize_first_char_id
+  )
 
-  text <- c(text, mcmc_to_xml_run(mcmc)) # nolint beautier function
+  # Do not be smart yet
+  site_models <- list(inference_model$site_model)
+  clock_models <- list(inference_model$clock_model)
+  tree_priors <- list(inference_model$tree_prior)
+  mrca_priors <- list(inference_model$mrca_prior)
+  mcmc <- inference_model$mcmc
+  fixed_crown_ages <- FALSE
+  tipdates_filename <- inference_model$tipdates_filename
 
+  text <- mcmc_to_xml_run(mcmc) # nolint beautier function
   text <- c(text,
-    indent( # nolint beautier function
+    beautier::indent(
       create_beast2_input_state( # nolint beautier function
         site_models = site_models,
         clock_models = clock_models,
         tree_priors = tree_priors,
-        initial_phylogenies = initial_phylogenies,
         mrca_priors = mrca_priors,
         tipdates_filename = tipdates_filename
-      ),
-      n_spaces = 4
+      )
     )
   )
 
   text <- c(text,
     create_beast2_input_init(
-      ids = ids,
-      initial_phylogenies = initial_phylogenies
+      ids = ids
     )
   )
 
@@ -84,14 +103,9 @@ create_beast2_input_run <- function(
 
   text <- c(
     text,
-    create_beast2_input_loggers(
-      ids = ids,
-      site_models = site_models,
-      clock_models = clock_models,
-      tree_priors = tree_priors,
-      mcmc = mcmc,
-      mrca_priors = mrca_priors,
-      tipdates_filename = tipdates_filename
+    create_loggers_xml(
+      input_filename = input_filename,
+      inference_model = inference_model
     )
   )
 

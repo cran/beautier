@@ -1,7 +1,7 @@
 #' Determine if an object is a valid tree prior
 #' @param x an object
 #' @return TRUE if x is a valid tree_prior, FALSE otherwise
-#' @seealso tree priors can be created by \code{\link{create_tree_prior}})
+#' @seealso tree priors can be created by \code{\link{create_tree_prior}}
 #' @author Richèl J.C. Bilderbeek
 #' @examples
 #'   testit::assert(is_tree_prior(create_bd_tree_prior()))
@@ -131,7 +131,7 @@ is_cep_tree_prior <- function(
 is_yule_tree_prior <- function(
   x
 ) {
-  if (is.list(x) && length(x) == 1) return(is_yule_tree_prior(x[[1]])) # nolint beautier function
+  if (is.list(x) && length(x) == 1) return(beautier::is_yule_tree_prior(x[[1]]))
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "yule") return(FALSE)
   if (!"birth_rate_distr" %in% names(x)) return(FALSE)

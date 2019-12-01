@@ -12,18 +12,8 @@ are_equivalent_xml_files <- function(
   filename_2,
   section = NA
 ) {
-  if (!file.exists(filename_1)) {
-    stop(
-      "'filename_1' must be the name of a present file. ",
-      "File name '", filename_1, "' not found"
-    )
-  }
-  if (!file.exists(filename_2)) {
-    stop(
-      "'filename_2' must be the name of a present file. ",
-      "File name '", filename_2, "' not found"
-    )
-  }
+  beautier::check_file_exists(filename_1, "filename_1")
+  beautier::check_file_exists(filename_2, "filename_2")
   are_equivalent_xml_lines(
     readLines(filename_1),
     readLines(filename_2),
@@ -45,7 +35,7 @@ are_equivalent_xml_lines <- function(
   section = NA,
   verbose = FALSE
 ) {
-  if (is_one_na(section)) { # nolint beautier function
+  if (beautier::is_one_na(section)) {
     return(
       are_equivalent_xml_lines_all(
         lines_1 = lines_1,
@@ -54,7 +44,7 @@ are_equivalent_xml_lines <- function(
       )
     )
   } else {
-    testit::assert(!is_one_na(section)) # nolint beautier function
+    testit::assert(!beautier::is_one_na(section))
     return(
       are_equivalent_xml_lines_section(
         lines_1 = lines_1,
@@ -73,6 +63,7 @@ are_equivalent_xml_lines <- function(
 #' @return TRUE if the two XML lines result in equivalent trees,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
+#' @export
 are_equivalent_xml_lines_all <- function(
   lines_1,
   lines_2,
@@ -110,9 +101,7 @@ are_equivalent_xml_lines_section <- function( # nolint don't care about internal
   section,
   verbose = FALSE
 ) {
-  if (!is.character(section)) {
-    stop("'section' must be a word")
-  }
+  assertive::assert_is_a_string(section)
   if (section == "operators") {
     return(are_equivalent_xml_lines_operators(lines_1, lines_2, verbose)) # nolint beautier function
   }
@@ -162,9 +151,11 @@ are_equivalent_xml_lines_operators <- function( # nolint don't care about intern
   lines_2,
   verbose = FALSE
 ) {
-  section_1 <- extract_xml_operators_from_lines(lines_1) # nolint beautier function
-  section_2 <- extract_xml_operators_from_lines(lines_2) # nolint beautier function
-  are_equivalent_xml_lines_all(section_1, section_2, verbose = verbose) # nolint beautier function
+  section_1 <- beautier::extract_xml_operators_from_lines(lines_1)
+  section_2 <- beautier::extract_xml_operators_from_lines(lines_2)
+  beautier::are_equivalent_xml_lines_all(
+    section_1, section_2, verbose = verbose
+  )
 }
 
 #' Determine if XML operator lines result in equivalent trees
@@ -174,12 +165,16 @@ are_equivalent_xml_lines_operators <- function( # nolint don't care about intern
 #' @return TRUE if the two XML lines result in equivalent trees,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-are_equivalent_xml_lines_loggers <- function( # nolint don't care about internal function length
+are_equivalent_xml_lines_loggers <- function(# nolint don't care about internal function length
   lines_1,
   lines_2,
   verbose = FALSE
 ) {
-  section_1 <- extract_xml_loggers_from_lines(lines_1) # nolint beautier function
-  section_2 <- extract_xml_loggers_from_lines(lines_2) # nolint beautier function
-  are_equivalent_xml_lines_all(section_1, section_2, verbose = verbose) # nolint beautier function
+  section_1 <- beautier::extract_xml_loggers_from_lines(lines_1)
+  section_2 <- beautier::extract_xml_loggers_from_lines(lines_2)
+  beautier::are_equivalent_xml_lines_all(
+    section_1,
+    section_2,
+    verbose = verbose
+  )
 }

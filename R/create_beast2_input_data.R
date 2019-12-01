@@ -2,12 +2,12 @@
 #' @inheritParams default_params_doc
 #' @return lines of XML text
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @export
 create_beast2_input_data <- function(
   input_filenames,
   beauti_options = create_beauti_options()
 ) {
-  testit::assert(files_exist(input_filenames)) # nolint beautier function
+  testit::assert(all(file.exists(input_filenames)))
 
   text <- NULL
   n <- length(input_filenames)
@@ -29,7 +29,10 @@ create_beast2_input_data <- function(
       )
     )
     testit::assert(beauti_options$sequence_indent >= 20)
-    text <- c(text, indent("</data>", n_spaces = beauti_options$sequence_indent - 4)) # nolint beautier function
+    text <- c(
+      text,
+      beautier::indent("</data>", n_spaces = beauti_options$sequence_indent - 4)
+    )
   }
   text
 }

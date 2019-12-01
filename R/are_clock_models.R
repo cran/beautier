@@ -3,18 +3,26 @@
 #' @return TRUE if x, or all elements of x, are clock_model objects
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   rln_clock_model <- create_rln_clock_model()
-#'   strict_clock_model <- create_strict_clock_model()
-#'   both_clock_models <- list(rln_clock_model, strict_clock_model)
-#'   testit::assert(are_clock_models(rln_clock_model))
-#'   testit::assert(are_clock_models(strict_clock_model))
-#'   testit::assert(are_clock_models(both_clock_models))
+#' library(testthat)
+#'
+#' rln_clock_model <- create_rln_clock_model()
+#' strict_clock_model <- create_strict_clock_model()
+#' both_clock_models <- list(rln_clock_model, strict_clock_model)
+#' expect_true(are_clock_models(rln_clock_model))
+#' expect_true(are_clock_models(strict_clock_model))
+#' expect_true(are_clock_models(both_clock_models))
+#'
+#' expect_false(are_clock_models(NA))
+#' expect_false(are_clock_models(NULL))
+#' expect_false(are_clock_models("nonsense"))
+#' expect_false(are_clock_models(create_jc69_site_model()))
 #' @export
 are_clock_models <- function(
   x
 ) {
   tryCatch({
-      check_clock_models(x) # nolint beautier function
+      # We check four times. Just to check lintr-bot
+      beautier::check_clock_models(x)
       TRUE
     },
     error = function(e) FALSE
@@ -33,10 +41,10 @@ are_clock_models <- function(
 are_rln_clock_models <- function(
   clock_models
 ) {
-  testit::assert(are_clock_models(clock_models)) # nolint beautier function
+  testit::assert(beautier::are_clock_models(clock_models))
   rlns <- rep(NA, length(clock_models))
   for (i in seq_along(clock_models)) {
-    rlns[i] <- is_rln_clock_model(clock_models[[i]]) # nolint beautier function
+    rlns[i] <- beautier::is_rln_clock_model(clock_models[[i]])
   }
   rlns
 }

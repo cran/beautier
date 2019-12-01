@@ -2,19 +2,22 @@
 #' @inheritParams default_params_doc
 #' @return the XML as text
 #' @examples
-#'   xml <- beautier:::mcmc_to_xml_run(create_mcmc())
-#'   testit::assert(xml ==
-#'     "<run id=\"mcmc\" spec=\"MCMC\" chainLength=\"10000000\">"
-#'   )
+#' library(testthat)
+#'
+#' xml <- mcmc_to_xml_run(create_mcmc())
+#' expect_equal(
+#'   xml,
+#'   "<run id=\"mcmc\" spec=\"MCMC\" chainLength=\"1e+07\">"
+#' )
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @export
 mcmc_to_xml_run <- function(mcmc) {
-  testit::assert(is_mcmc(mcmc)) # nolint beautier function
-  if (is_default_mcmc(mcmc)) { # nolint beautier function
-    mcmc_to_xml_run_default(mcmc) # nolint beautier function
+  testit::assert(beautier::is_mcmc(mcmc))
+  if (beautier::is_default_mcmc(mcmc)) {
+    beautier::mcmc_to_xml_run_default(mcmc)
   } else {
-    testit::assert(is_mcmc_nested_sampling(mcmc)) # nolint beautier function
-    mcmc_to_xml_run_nested_sampling(mcmc) # nolint beautier function
+    testit::assert(beautier::is_mcmc_nested_sampling(mcmc))
+    beautier::mcmc_to_xml_run_nested_sampling(mcmc)
   }
 }
 
@@ -22,20 +25,42 @@ mcmc_to_xml_run <- function(mcmc) {
 #' @inheritParams default_params_doc
 #' @return the XML as text
 #' @examples
-#'   xml <- beautier:::mcmc_to_xml_run_default(create_mcmc())
-#'   testit::assert(xml ==
-#'     "<run id=\"mcmc\" spec=\"MCMC\" chainLength=\"1e+07\">"
-#'   )
+#' library(testthat)
+#'
+#' xml <- mcmc_to_xml_run_default(create_mcmc())
+#'
+#' expect_equal(
+#'   xml,
+#'   "<run id=\"mcmc\" spec=\"MCMC\" chainLength=\"1e+07\">"
+#' )
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @export
 mcmc_to_xml_run_default <- function(mcmc) {
-  testit::assert(is_mcmc(mcmc)) # nolint beautier function
-  testit::assert(is_default_mcmc(mcmc)) # nolint beautier function
+  testit::assert(beautier::is_mcmc(mcmc))
+  testit::assert(beautier::is_default_mcmc(mcmc))
   xml <- paste0(
     "<run id=\"mcmc\" spec=\"MCMC\" ",
     "chainLength=\"", mcmc$chain_length, "\""
   )
-  if (!is_one_na(mcmc$store_every) && mcmc$store_every > 0) { # nolint beautier function
+
+  if (mcmc$n_init_attempts != 10) {
+    xml <- paste0(
+      xml,
+      " numInitializationAttempts=\"", mcmc$n_init_attempts, "\""
+    )
+  }
+
+  if (mcmc$pre_burnin > 0) {
+    xml <- paste0(xml, " preBurnin=\"", mcmc$pre_burnin, "\"")
+  }
+
+  if (mcmc$sample_from_prior == TRUE) {
+    xml <- paste0(xml, " sampleFromPrior=\"",
+      tolower(as.character(mcmc$sample_from_prior)), "\"")
+  }
+
+
+  if (!beautier::is_one_na(mcmc$store_every) && mcmc$store_every > 0) {
     xml <- paste0(xml, " storeEvery=\"", mcmc$store_every, "\"")
   }
   xml <- paste0(xml, ">")
@@ -46,25 +71,29 @@ mcmc_to_xml_run_default <- function(mcmc) {
 #' @inheritParams default_params_doc
 #' @return the XML as text
 #' @examples
-#'   xml <- beautier:::mcmc_to_xml_run_nested_sampling(
-#'     create_mcmc_nested_sampling()
+#' library(testthat)
+#'
+#' xml <- mcmc_to_xml_run_nested_sampling(
+#'   create_ns_mcmc()
+#' )
+#'
+#' expect_equal(
+#'   xml,
+#'   paste0(
+#'     "<run id=\"mcmc\" spec=\"beast.gss.NS\" chainLength=\"1e+07\" ",
+#'     "particleCount=\"1\" subChainLength=\"5000\" epsilon=\"1e-12\">"
 #'   )
-#'   testit::assert(xml ==
-#'     paste0(
-#'       "<run id=\"mcmc\" spec=\"beast.gss.NS\" chainLength=\"1e+07\" ",
-#'       "particleCount=\"1\" subChainLength=\"5000\" epsilon=\"1e-12\">"
-#'     )
-#'   )
+#' )
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @export
 mcmc_to_xml_run_nested_sampling <- function(mcmc) { # nolint beautier function can be long
-  testit::assert(is_mcmc(mcmc)) # nolint beautier function
-  testit::assert(is_mcmc_nested_sampling(mcmc)) # nolint beautier function
+  testit::assert(beautier::is_mcmc(mcmc))
+  testit::assert(beautier::is_mcmc_nested_sampling(mcmc))
   xml <- paste0(
     "<run id=\"mcmc\" spec=\"beast.gss.NS\" ",
     "chainLength=\"", mcmc$chain_length, "\""
   )
-  if (!is_one_na(mcmc$store_every) && mcmc$store_every > 0) { # nolint beautier function
+  if (!beautier::is_one_na(mcmc$store_every) && mcmc$store_every > 0) {
     xml <- paste0(xml, " storeEvery=\"", mcmc$store_every, "\"")
   }
   xml <- paste0(xml,

@@ -9,8 +9,10 @@ mrca_priors_to_xml_state <- function(
   mrca_priors,
   has_non_strict_clock_model = FALSE
 ) {
-  testit::assert(are_mrca_priors(mrca_priors)) # nolint beautier function
-  if (length(mrca_priors) == 1 && is_one_na(mrca_priors)) return(NULL) # nolint beautier function
+  testit::assert(beautier::are_mrca_priors(mrca_priors))
+  if (length(mrca_priors) == 1 && beautier::is_one_na(mrca_priors)) {
+    return(NULL)
+  }
 
   text <- NULL
   for (mrca_prior in mrca_priors) {

@@ -18,13 +18,13 @@ mrca_prior_to_xml_taxonset <- function(
   mrca_prior,
   taxa_names_with_ids = NULL
 ) {
-  testit::assert(is_mrca_prior(mrca_prior)) # nolint beautier function
+  testit::assert(beautier::is_mrca_prior(mrca_prior))
   text <- NULL
-  testit::assert(!is_one_na(mrca_prior$taxa_names)) # nolint beautier function
+  testit::assert(!beautier::is_one_na(mrca_prior$taxa_names))
   for (taxon_name in mrca_prior$taxa_names) {
     text <- c(text, paste0("<taxon id=\"", taxon_name, "\" spec=\"Taxon\"/>")) # nolint this is no absolute path
   }
-  text <- indent(text, n_spaces = 4) # nolint beautier function
+  text <- beautier::indent(text)
   text <- c(
     paste0("<taxonset id=\"", mrca_prior$name, "\" spec=\"TaxonSet\">"),
     text

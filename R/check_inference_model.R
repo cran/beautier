@@ -31,9 +31,9 @@ check_inference_model <- function(
       )
     }
   }
-  check_site_model(inference_model$site_model) # nolint beautier function
+  beautier::check_site_model(inference_model$site_model)
   tryCatch(
-    check_clock_model(inference_model$clock_model), # nolint beautier function
+    beautier::check_clock_model(inference_model$clock_model),
     error = function(e) {
       stop(
         "'clock_model' must be a valid clock model. \n",
@@ -42,10 +42,10 @@ check_inference_model <- function(
       )
     }
   )
-  check_tree_prior(inference_model$tree_prior) # nolint beautier function
-  check_mcmc(inference_model$mcmc) # nolint beautier function
+  beautier::check_tree_prior(inference_model$tree_prior)
+  beautier::check_mcmc(inference_model$mcmc)
   tryCatch(
-    check_mrca_prior(inference_model$mrca_prior), # nolint beautier function
+    beautier::check_mrca_prior(inference_model$mrca_prior),
     error = function(e) {
       stop(
         "'mrca_prior' must be a valid MRCA prior. \n",
@@ -55,10 +55,10 @@ check_inference_model <- function(
     }
   )
   tryCatch(
-    check_beauti_options(inference_model$beauti_options), # nolint beautier function
+    beautier::check_beauti_options(inference_model$beauti_options),
     error = function(e) {
       stop(
-        "'beauti_options' must be a valid misc option. \n",
+        "'beauti_options' must be a valid BEAUti options. \n",
         "Error: ", e$message, "\n",
         "Value: ", inference_model$beauti_options
       )
@@ -67,10 +67,9 @@ check_inference_model <- function(
   if (length(inference_model$tipdates_filename) != 1) {
     stop("'tipdates_filename' must have one element")
   }
-  if (!is_one_na(inference_model$tipdates_filename) && # nolint beautier function
-    !is.character(inference_model$tipdates_filename)
+  if (!beautier::is_one_na(inference_model$tipdates_filename) &&
+    !assertive::is_a_string(inference_model$tipdates_filename)
   ) {
-    stop("'tipdates_filename' must be one NA or one character string")
+    stop("'tipdates_filename' must be one NA or one string")
   }
-
 }

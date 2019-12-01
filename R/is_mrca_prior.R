@@ -3,14 +3,24 @@
 #' @inheritParams default_params_doc
 #' @return TRUE if \code{x} is an MRCA prior, FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_mrca_prior(create_mrca_prior()))
+#' # Also 'NA' is a valid MRCA prior,
+#' # denoting that there no MRCA priors
+#' expect_true(is_mrca_prior(NA))
+#'
+#' expect_false(is_mrca_prior(NULL))
+#' expect_false(is_mrca_prior("nonsense"))
+#' @export
 is_mrca_prior <- function(
   mrca_prior
 ) {
-  if (is_one_na(mrca_prior)) return(TRUE) # nolint beautier function
+  if (beautier::is_one_na(mrca_prior)) return(TRUE)
   if (!is.list(mrca_prior)) return(FALSE)
   tryCatch({
-      check_mrca_prior(mrca_prior) # nolint beautier function
+      beautier::check_mrca_prior(mrca_prior)
       TRUE
     },
     error = function(e) return(FALSE) # nolint indeed ignores e

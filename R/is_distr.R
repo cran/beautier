@@ -16,20 +16,37 @@
 #'  or \code{\link{is_uniform_distr}},
 #'  to check for more specific distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_distr(create_beta_distr()))
+#' expect_true(is_distr(create_exp_distr()))
+#' expect_true(is_distr(create_gamma_distr()))
+#' expect_true(is_distr(create_inv_gamma_distr()))
+#' expect_true(is_distr(create_laplace_distr()))
+#' expect_true(is_distr(create_log_normal_distr()))
+#' expect_true(is_distr(create_normal_distr()))
+#' expect_true(is_distr(create_one_div_x_distr()))
+#' expect_true(is_distr(create_poisson_distr()))
+#' expect_true(is_distr(create_uniform_distr()))
+#'
+#' expect_false(is_distr(NA))
+#' expect_false(is_distr(NULL))
+#' expect_false(is_distr("nonsense"))
+#' @export
 is_distr <- function(
   x
 ) {
-  if (is_beta_distr(x)) return(TRUE) # nolint beautier function
-  if (is_exp_distr(x)) return(TRUE) # nolint beautier function
-  if (is_gamma_distr(x)) return(TRUE) # nolint beautier function
-  if (is_inv_gamma_distr(x)) return(TRUE) # nolint beautier function
-  if (is_laplace_distr(x)) return(TRUE) # nolint beautier function
-  if (is_log_normal_distr(x)) return(TRUE) # nolint beautier function
-  if (is_normal_distr(x)) return(TRUE) # nolint beautier function
-  if (is_one_div_x_distr(x)) return(TRUE) # nolint beautier function
-  if (is_poisson_distr(x)) return(TRUE) # nolint beautier function
-  if (is_uniform_distr(x)) return(TRUE) # nolint beautier function
+  if (beautier::is_beta_distr(x)) return(TRUE)
+  if (beautier::is_exp_distr(x)) return(TRUE)
+  if (beautier::is_gamma_distr(x)) return(TRUE)
+  if (beautier::is_inv_gamma_distr(x)) return(TRUE)
+  if (beautier::is_laplace_distr(x)) return(TRUE)
+  if (beautier::is_log_normal_distr(x)) return(TRUE)
+  if (beautier::is_normal_distr(x)) return(TRUE)
+  if (beautier::is_one_div_x_distr(x)) return(TRUE)
+  if (beautier::is_poisson_distr(x)) return(TRUE)
+  if (beautier::is_uniform_distr(x)) return(TRUE)
   FALSE
 }
 
@@ -43,16 +60,25 @@ is_distr <- function(
 #' @seealso use \code{\link{is_distr}} to see if x is any
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_beta_distr(create_beta_distr()))
+#' expect_false(is_beta_distr(create_exp_distr()))
+#'
+#' expect_false(is_beta_distr(NA))
+#' expect_false(is_beta_distr(NULL))
+#' expect_false(is_beta_distr("nonsense"))
+#' @export
 is_beta_distr <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "beta") return(FALSE)
   if (!"alpha" %in% names(x)) return(FALSE)
-  if (!is_alpha_param(x$alpha)) return(FALSE) # nolint beautier function
+  if (!beautier::is_alpha_param(x$alpha)) return(FALSE)
   if (!"beta" %in% names(x)) return(FALSE)
-  if (!is_beta_param(x$beta)) return(FALSE) # nolint beautier function
+  if (!beautier::is_beta_param(x$beta)) return(FALSE)
   TRUE
 }
 
@@ -66,14 +92,22 @@ is_beta_distr <- function(
 #' @seealso use \code{\link{is_distr}} to see if x is any
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_exp_distr(create_exp_distr()))
+#' expect_false(is_exp_distr(create_gamma_distr()))
+#' expect_false(is_exp_distr(NA))
+#' expect_false(is_exp_distr(NULL))
+#' expect_false(is_exp_distr("nonsense"))
+#' @export
 is_exp_distr <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "exponential") return(FALSE)
   if (!"mean" %in% names(x)) return(FALSE)
-  if (!is_mean_param(x$mean)) return(FALSE) # nolint beautier function
+  if (!beautier::is_mean_param(x$mean)) return(FALSE)
   TRUE
 }
 
@@ -87,16 +121,25 @@ is_exp_distr <- function(
 #' @seealso use \code{\link{is_distr}} to see if x is any
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_gamma_distr(create_gamma_distr()))
+#'
+#' expect_false(is_gamma_distr(create_inv_gamma_distr()))
+#' expect_false(is_gamma_distr(NA))
+#' expect_false(is_gamma_distr(NULL))
+#' expect_false(is_gamma_distr("nonsense"))
+#' @export
 is_gamma_distr <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "gamma") return(FALSE)
   if (!"alpha" %in% names(x)) return(FALSE)
-  if (!is_alpha_param(x$alpha)) return(FALSE) # nolint beautier function
+  if (!beautier::is_alpha_param(x$alpha)) return(FALSE)
   if (!"beta" %in% names(x)) return(FALSE)
-  if (!is_beta_param(x$beta)) return(FALSE) # nolint beautier function
+  if (!beautier::is_beta_param(x$beta)) return(FALSE)
   TRUE
 }
 
@@ -110,16 +153,25 @@ is_gamma_distr <- function(
 #' @seealso use \code{\link{is_distr}} to see if x is any
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_inv_gamma_distr(create_inv_gamma_distr()))
+#'
+#' expect_false(is_inv_gamma_distr(create_laplace_distr()))
+#' expect_false(is_inv_gamma_distr(NA))
+#' expect_false(is_inv_gamma_distr(NULL))
+#' expect_false(is_inv_gamma_distr("nonsense"))
+#' @export
 is_inv_gamma_distr <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "inv_gamma") return(FALSE)
   if (!"alpha" %in% names(x)) return(FALSE)
-  if (!is_alpha_param(x$alpha)) return(FALSE) # nolint beautier function
+  if (!beautier::is_alpha_param(x$alpha)) return(FALSE)
   if (!"beta" %in% names(x)) return(FALSE)
-  if (!is_beta_param(x$beta)) return(FALSE) # nolint beautier function
+  if (!beautier::is_beta_param(x$beta)) return(FALSE)
   TRUE
 }
 
@@ -134,18 +186,24 @@ is_inv_gamma_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   laplace_distr <- create_laplace_distr()
-#'   testit::assert(beautier:::is_laplace_distr(laplace_distr))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_true(is_laplace_distr(create_laplace_distr()))
+#'
+#' expect_false(is_laplace_distr(create_log_normal_distr()))
+#' expect_false(is_laplace_distr(NA))
+#' expect_false(is_laplace_distr(NULL))
+#' expect_false(is_laplace_distr("nonsense"))
+#' @export
 is_laplace_distr <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "laplace") return(FALSE)
   if (!"mu" %in% names(x)) return(FALSE)
-  if (!is_mu_param(x$mu)) return(FALSE) # nolint beautier function
+  if (!beautier::is_mu_param(x$mu)) return(FALSE)
   if (!"scale" %in% names(x)) return(FALSE)
-  if (!is_scale_param(x$scale)) return(FALSE) # nolint beautier function
+  if (!beautier::is_scale_param(x$scale)) return(FALSE)
   TRUE
 }
 
@@ -160,28 +218,24 @@ is_laplace_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   log_normal_distr <- create_log_normal_distr()
+#' library(testthat)
 #'
-#'   input_fasta_filename <- beautier::get_beautier_path("anthus_aco.fas")
-#'   beast2_input_file <- tempfile(fileext = ".xml")
-#'   create_beast2_input_file(
-#'     input_filename = input_fasta_filename,
-#'     "my_beast.xml",
-#'     tree_prior = create_yule_tree_prior(
-#'       birth_rate_distr = log_normal_distr
-#'     )
-#'   )
-#'   testit::assert(file.exists(beast2_input_file))
-#' @noRd
+#' expect_true(is_log_normal_distr(create_log_normal_distr()))
+#'
+#' expect_false(is_log_normal_distr(create_normal_distr()))
+#' expect_false(is_distr(NA))
+#' expect_false(is_distr(NULL))
+#' expect_false(is_distr("nonsense"))
+#' @export
 is_log_normal_distr <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "log_normal") return(FALSE)
   if (!"m" %in% names(x)) return(FALSE)
-  if (!is_m_param(x$m)) return(FALSE) # nolint beautier function
+  if (!beautier::is_m_param(x$m)) return(FALSE)
   if (!"s" %in% names(x)) return(FALSE)
-  if (!is_s_param(x$s)) return(FALSE) # nolint beautier function
+  if (!beautier::is_s_param(x$s)) return(FALSE)
   TRUE
 }
 
@@ -195,16 +249,25 @@ is_log_normal_distr <- function(
 #' @seealso use \code{\link{is_distr}} to see if x is any
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_normal_distr(create_normal_distr()))
+#'
+#' expect_false(is_normal_distr(create_one_div_x_distr()))
+#' expect_false(is_normal_distr(NA))
+#' expect_false(is_normal_distr(NULL))
+#' expect_false(is_normal_distr("nonsense"))
+#' @export
 is_normal_distr <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "normal") return(FALSE)
   if (!"mean" %in% names(x)) return(FALSE)
-  if (!is_mean_param(x$mean)) return(FALSE) # nolint beautier function
+  if (!beautier::is_mean_param(x$mean)) return(FALSE)
   if (!"sigma" %in% names(x)) return(FALSE)
-  if (!is_sigma_param(x$sigma)) return(FALSE) # nolint beautier function
+  if (!beautier::is_sigma_param(x$sigma)) return(FALSE)
   TRUE
 }
 
@@ -218,7 +281,16 @@ is_normal_distr <- function(
 #' @seealso use \code{\link{is_distr}} to see if x is any
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_one_div_x_distr(create_one_div_x_distr()))
+#'
+#' expect_false(is_one_div_x_distr(create_poisson_distr()))
+#' expect_false(is_one_div_x_distr(NA))
+#' expect_false(is_one_div_x_distr(NULL))
+#' expect_false(is_one_div_x_distr("nonsense"))
+#' @export
 is_one_div_x_distr <- function(
   x
 ) {
@@ -235,14 +307,23 @@ is_one_div_x_distr <- function(
 #' @seealso use \code{\link{is_distr}} to see if x is any
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_poisson_distr(create_poisson_distr()))
+#'
+#' expect_false(is_poisson_distr(create_uniform_distr()))
+#' expect_false(is_distr(NA))
+#' expect_false(is_distr(NULL))
+#' expect_false(is_distr("nonsense"))
+#' @export
 is_poisson_distr <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
   if (x$name != "poisson") return(FALSE)
   if (!"lambda" %in% names(x)) return(FALSE)
-  if (!is_lambda_param(x$lambda)) return(FALSE) # nolint beautier function
+  if (!beautier::is_lambda_param(x$lambda)) return(FALSE)
   TRUE
 }
 
@@ -256,7 +337,16 @@ is_poisson_distr <- function(
 #' @seealso use \code{\link{is_distr}} to see if x is any
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_uniform_distr(create_uniform_distr()))
+#' expect_false(is_uniform_distr(create_beta_distr()))
+#'
+#' expect_false(is_uniform_distr(NA))
+#' expect_false(is_uniform_distr(NULL))
+#' expect_false(is_uniform_distr("nonsense"))
+#' @export
 is_uniform_distr <- function(
   x
 ) {

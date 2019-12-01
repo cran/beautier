@@ -8,14 +8,12 @@ extract_xml_section_from_lines <- function(
   lines,
   section
 ) {
-  if (!is.character(section)) {
-    stop("'section' must be a word")
-  }
+  assertive::assert_is_a_string(section)
   if (section == "operators") {
     return(extract_xml_operators_from_lines(lines)) # nolint beautier function
   }
   if (section == "loggers") {
-    return(extract_xml_loggers_from_lines(lines)) # nolint beautier function
+    return(beautier::extract_xml_loggers_from_lines(lines))
   }
   if (!has_xml_opening_tag(lines = lines, section = section)) { # nolint beautier function
     stop(
@@ -37,7 +35,7 @@ extract_xml_section_from_lines <- function(
     lines = lines,
     section = section
   )
-  testit::assert(!is_one_na(from_index)) # nolint beautier function
-  testit::assert(!is_one_na(to_index)) # nolint beautier function
+  testit::assert(!beautier::is_one_na(from_index))
+  testit::assert(!beautier::is_one_na(to_index))
   lines[from_index:to_index]
 }

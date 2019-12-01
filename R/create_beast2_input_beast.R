@@ -1,63 +1,48 @@
-#' Creates the beast section of a BEAST2 XML parameter file
+#' Creates the XML text for the \code{beast} tag of a BEAST2 parameter file.
+#'
+#' The \code{beast} tag has these elements:
+#' \preformatted{
+#'   <beast[...]>
+#'       <data
+#'       [...]
+#'       </data>
+#'       [map names]
+#'       <run[...]>
+#'       [...]
+#'       </run>
+#'   </beast>
+#' }
 #' @inheritParams default_params_doc
 #' @return lines of XML text
+#' @seealso
+#' Use \link{create_beast2_input_from_model} to create the complete XML text.
+#' Use \link{create_beast2_input_data} to create the XML text for
+#'   the \code{data} tag only.
+#' Use \link{create_beast2_input_map} to create the XML text for
+#'   the \code{[map names]} part.
+#' Use \link{create_beast2_input_run} to create the XML text for
+#'   the \code{run} tag only.
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @export
 create_beast2_input_beast <- function(
-  input_filenames,
-  site_models = list(
-    create_jc69_site_model(
-      id = get_alignment_id(input_filenames)
-    )
-  ),
-  clock_models = list(
-    create_strict_clock_model(
-      id = get_alignment_id(input_filenames)
-    )
-  ),
-  tree_priors = list(
-    create_yule_tree_prior(
-      id = get_alignment_id(input_filenames)
-    )
-  ),
-  mrca_priors = NA,
-  mcmc = create_mcmc(),
-  beauti_options = create_beauti_options(),
-  fixed_crown_ages = rep(FALSE, times = length(input_filenames)),
-  initial_phylogenies = rep(NA, length(input_filenames)),
-  tipdates_filename = NA
+  input_filename,
+  inference_model = create_inference_model()
 ) {
-  testit::assert(files_exist(input_filenames)) # nolint beautier function
-  testit::assert(length(input_filenames) == length(site_models))
-  testit::assert(length(input_filenames) == length(clock_models))
-  testit::assert(length(input_filenames) == length(tree_priors))
-  testit::assert(length(input_filenames) == length(initial_phylogenies))
-  testit::assert(length(input_filenames) == length(fixed_crown_ages))
-  testit::assert(are_site_models(site_models)) # nolint beautier function
-  testit::assert(are_clock_models(clock_models)) # nolint beautier function
-  testit::assert(are_tree_priors(tree_priors)) # nolint beautier function
-  testit::assert(are_mrca_priors(mrca_priors)) # nolint beautier function
-  testit::assert(are_init_clock_models(clock_models)) # nolint beautier function
-  testit::assert(are_initial_phylogenies(initial_phylogenies)) # nolint beautier function
-
-  # Alignment IDs
-  ids <- beautier::get_alignment_id(
-    input_filenames,
-    capitalize_first_char_id = beauti_options$capitalize_first_char_id
-  )
+  testit::assert(length(input_filename) == 1)
+  testit::assert(file.exists(input_filename))
 
   text <- create_beast2_beast_xml( # nolint beautier function
-    beast2_version = beauti_options$beast2_version,
-    required = beauti_options$required
+    beast2_version = inference_model$beauti_options$beast2_version,
+    required = inference_model$beauti_options$required
   )
 
   text <- c(text, "")
   text <- c(text, "")
 
   text <- c(text,
-    create_beast2_input_data(
-      input_filenames = input_filenames,
-      beauti_options = beauti_options
+    beautier::create_beast2_input_data(
+      input_filenames = input_filename,
+      beauti_options = inference_model$beauti_options
     )
   )
 
@@ -71,22 +56,15 @@ create_beast2_input_beast <- function(
   text <- c(text, "")
   text <- c(text, "    ")
 
-  text <- c(text, create_beast2_input_map()) # nolint beautier function call
+  text <- c(text, beautier::create_beast2_input_map())
 
   text <- c(text, "")
   text <- c(text, "")
 
   text <- c(text,
-    create_beast2_input_run(
-      ids = ids,
-      site_models = site_models,
-      clock_models = clock_models,
-      mrca_priors = mrca_priors,
-      mcmc = mcmc,
-      tree_priors = tree_priors,
-      fixed_crown_ages = fixed_crown_ages,
-      initial_phylogenies = initial_phylogenies,
-      tipdates_filename = tipdates_filename
+    beautier::create_beast2_input_run(
+      input_filename = input_filename,
+      inference_model = inference_model
     )
   )
 

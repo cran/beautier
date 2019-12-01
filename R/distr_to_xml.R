@@ -8,38 +8,38 @@
 #'   testit::assert(is.character(xml))
 #'   testit::assert(length(xml) == 1)
 #'   testit::assert(nchar(xml) > 1)
-#' @noRd
+#' @export
 distr_to_xml <- function(
   distr
 ) {
   text <- NULL
   id <- distr$id
-  if (!is_id(id)) { # nolint beautier function
+  if (!beautier::is_id(id)) {
     stop("distribution must have an ID")
   }
-  if (is_beta_distr(distr)) { # nolint beautier function
+  if (beautier::is_beta_distr(distr)) {
     text <- c(text, distr_to_xml_beta(distr)) # nolint beautier function
-  } else if (is_exp_distr(distr)) { # nolint beautier function
+  } else if (beautier::is_exp_distr(distr)) {
     text <- c(text, distr_to_xml_exp(distr)) # nolint beautier function
-  } else if (is_gamma_distr(distr)) { # nolint beautier function
+  } else if (beautier::is_gamma_distr(distr)) {
     text <- c(text, distr_to_xml_gamma(distr)) # nolint beautier function
-  } else if (is_inv_gamma_distr(distr)) { # nolint beautier function
+  } else if (beautier::is_inv_gamma_distr(distr)) {
     text <- c(text, distr_to_xml_inv_gamma(distr)) # nolint beautier function
-  } else if (is_laplace_distr(distr)) { # nolint beautier function
+  } else if (beautier::is_laplace_distr(distr)) {
     text <- c(text, distr_to_xml_laplace(distr)) # nolint beautier function
-  } else if (is_log_normal_distr(distr)) { # nolint beautier function
+  } else if (beautier::is_log_normal_distr(distr)) {
     text <- c(text, distr_to_xml_log_normal(distr)) # nolint beautier function
-  } else if (is_normal_distr(distr)) { # nolint beautier function
+  } else if (beautier::is_normal_distr(distr)) {
     text <- c(text, distr_to_xml_normal(distr)) # nolint beautier function
-  } else if (is_one_div_x_distr(distr)) { # nolint beautier function
+  } else if (beautier::is_one_div_x_distr(distr)) {
     text <- c(text, distr_to_xml_one_div_x(distr)) # nolint beautier function
-  } else if (is_poisson_distr(distr)) { # nolint beautier function
+  } else if (beautier::is_poisson_distr(distr)) {
     text <- c(text, distr_to_xml_poisson(distr)) # nolint beautier function
   } else {
-    testit::assert(is_uniform_distr(distr)) # nolint beautier function
+    testit::assert(beautier::is_uniform_distr(distr))
     text <- c(text, distr_to_xml_uniform(distr)) # nolint beautier function
   }
-  testit::assert(is_xml(text)) # nolint
+  testit::assert(beautier::is_xml(text))
   text
 }
 
@@ -51,22 +51,20 @@ distr_to_xml <- function(
 distr_to_xml_beta <- function(
   distr
 ) {
-  testit::assert(is_beta_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_beta_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<Beta id=\"Beta.", id, "\" name=\"distr\">"))
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$alpha), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$alpha)
     )
   )
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$beta), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$beta)
     )
   )
   text <- c(text, paste0("</Beta>"))
@@ -81,17 +79,16 @@ distr_to_xml_beta <- function(
 distr_to_xml_exp <- function(
   distr
 ) {
-  testit::assert(is_exp_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_exp_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<Exponential ",
     "id=\"Exponential.", id, "\" name=\"distr\">"))
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$mean), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$mean)
     )
   )
   text <- c(text, paste0("</Exponential>"))
@@ -106,23 +103,21 @@ distr_to_xml_exp <- function(
 distr_to_xml_gamma <- function(
   distr
 ) {
-  testit::assert(is_gamma_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_gamma_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<Gamma ",
     "id=\"Gamma.", id, "\" name=\"distr\">"))
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$alpha), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$alpha)
     )
   )
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$beta), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$beta)
     )
   )
   text <- c(text, paste0("</Gamma>"))
@@ -137,23 +132,21 @@ distr_to_xml_gamma <- function(
 distr_to_xml_inv_gamma <- function(
   distr
 ) {
-  testit::assert(is_inv_gamma_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_inv_gamma_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<InverseGamma ",
     "id=\"InverseGamma.", id, "\" name=\"distr\">"))
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$alpha), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$alpha)
     )
   )
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$beta), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$beta)
     )
   )
   text <- c(text, paste0("</InverseGamma>"))
@@ -168,23 +161,21 @@ distr_to_xml_inv_gamma <- function(
 distr_to_xml_laplace <- function(
   distr
 ) {
-  testit::assert(is_laplace_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_laplace_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<LaplaceDistribution ",
     "id=\"LaplaceDistribution.", id, "\" name=\"distr\">"))
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$mu), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$mu)
     )
   )
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$scale), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$scale)
     )
   )
   text <- c(text, paste0("</LaplaceDistribution>"))
@@ -198,23 +189,21 @@ distr_to_xml_laplace <- function(
 distr_to_xml_log_normal <- function(
   distr
 ) {
-  testit::assert(is_log_normal_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_log_normal_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<LogNormal ",
     "id=\"LogNormalDistributionModel.", id, "\" name=\"distr\">"))
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$m), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$m)
     )
   )
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$s), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$s)
     )
   )
   text <- c(text, paste0("</LogNormal>"))
@@ -230,23 +219,21 @@ distr_to_xml_log_normal <- function(
 distr_to_xml_normal <- function(
   distr
 ) {
-  testit::assert(is_normal_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_normal_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<Normal ",
     "id=\"Normal.", id, "\" name=\"distr\">"))
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$mean), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$mean)
     )
   )
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$sigma), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$sigma)
     )
   )
   text <- c(text, paste0("</Normal>"))
@@ -261,9 +248,9 @@ distr_to_xml_normal <- function(
 distr_to_xml_one_div_x <- function(
   distr
 ) {
-  testit::assert(is_one_div_x_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_one_div_x_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<OneOnX ",
@@ -279,18 +266,17 @@ distr_to_xml_one_div_x <- function(
 distr_to_xml_poisson <- function(
   distr
 ) {
-  testit::assert(is_poisson_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_poisson_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   text <- c(text, paste0("<distr ",
     "id=\"Poisson.", id, "\" ",
     "spec=\"beast.math.distributions.Poisson\">"))
   text <- c(text,
-    indent( # nolint beautier function
-      parameter_to_xml(distr$lambda), # nolint beautier function
-      n_spaces = 4
+    beautier::indent(
+      beautier::parameter_to_xml(distr$lambda),
     )
   )
   text <- c(text, paste0("</distr>"))
@@ -305,15 +291,15 @@ distr_to_xml_poisson <- function(
 distr_to_xml_uniform <- function(
   distr
 ) {
-  testit::assert(is_uniform_distr(distr)) # nolint beautier function
+  testit::assert(beautier::is_uniform_distr(distr))
   id <- distr$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   line_begin <- paste0("<Uniform id=\"Uniform.", id, "\" name=\"distr\"")
   line_end <- "/>" # nolint this is no absolute path
   upper <- distr$upper
-  if (is_one_na(upper)) { # nolint beautier function
+  if (beautier::is_one_na(upper)) {
     text <- c(text, paste0(line_begin, line_end))
   } else if (is.infinite(upper)) {
     text <- c(text, paste0(line_begin, " upper=\"Infinity\"", line_end))

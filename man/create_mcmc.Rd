@@ -4,7 +4,10 @@
 \alias{create_mcmc}
 \title{Create an MCMC configuration.}
 \usage{
-create_mcmc(chain_length = 1e+07, store_every = -1)
+create_mcmc(chain_length = 1e+07, store_every = -1, pre_burnin = 0,
+  n_init_attempts = 10, sample_from_prior = FALSE,
+  tracelog = create_tracelog(), screenlog = create_screenlog(),
+  treelog = create_treelog())
 }
 \arguments{
 \item{chain_length}{length of the MCMC chain}
@@ -12,6 +15,22 @@ create_mcmc(chain_length = 1e+07, store_every = -1)
 \item{store_every}{number of states the MCMC will process
 before the posterior's state will be saved to file.
 Use -1 or \code{NA} to use the default frequency.}
+
+\item{pre_burnin}{number of burn in samples taken before entering
+the main loop}
+
+\item{n_init_attempts}{number of initialization attempts before failing}
+
+\item{sample_from_prior}{set to \link{TRUE} to sample from the prior}
+
+\item{tracelog}{a \code{tracelog},
+as created by \link{create_tracelog}}
+
+\item{screenlog}{a \code{screenlog},
+as created by \link{create_screenlog}}
+
+\item{treelog}{a \code{treelog},
+as created by \link{create_treelog}}
 }
 \value{
 an MCMC configuration
@@ -23,21 +42,22 @@ length (\code{chain_length}) divided by the number of
 states between each sampling event (\code{store_every})
 }
 \examples{
-  # Create an MCMC chain with 50 states
-  mcmc <- create_mcmc(chain_length = 50000, store_every = 1000)
+library(testthat)
 
-  beast2_input_file <- tempfile(fileext = ".xml")
-  create_beast2_input_file(
-    get_fasta_filename(),
-    beast2_input_file,
-    mcmc = mcmc
-  )
-  testit::assert(file.exists(beast2_input_file))
+# Create an MCMC chain with 50 states
+mcmc <- create_mcmc(chain_length = 50000, store_every = 1000)
+
+ beast2_input_file <- tempfile(fileext = ".xml")
+ create_beast2_input_file(
+   get_fasta_filename(),
+   beast2_input_file,
+   mcmc = mcmc
+)
+expect_true(file.exists(beast2_input_file))
 }
 \seealso{
-\itemize{
-    \item \link{are_equal_mcmcs} to check if two MCMCs are equal
-  }
+Use \link{create_ns_mcmc} to create an MCMC for a Nested Sampling run.
+Use \link{check_mcmc} to check that an MCMC object is valid.
 }
 \author{
 Richèl J.C. Bilderbeek

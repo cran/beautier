@@ -21,7 +21,7 @@ Determine if the object is a valid Nested-Sampling MCMC,
 \examples{
   testthat::expect_false(is_nested_sampling_mcmc(create_mcmc()))
   testthat::expect_true(
-    is_nested_sampling_mcmc(create_nested_sampling_mcmc())
+    is_nested_sampling_mcmc(create_ns_mcmc())
   )
   testthat::expect_false(is_nested_sampling_mcmc("nonsense"))
 }
@@ -32,7 +32,7 @@ Determine if the object is a valid Nested-Sampling MCMC,
     syy050, https://doi.org/10.1093/sysbio/syy050
 }
 \seealso{
-Use \code{\link{create_mcmc_nested_sampling}}
+Use \link{create_ns_mcmc} to create an NS MCMC
 }
 \author{
 Richèl J.C. Bilderbeek

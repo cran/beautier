@@ -68,7 +68,7 @@ create_tree_prior <- function(
   if (!is_tree_prior_name(name)) { # nolint beautier function
     tree_priors_as_string <- function() {
       s <- NULL
-      for (p in get_tree_prior_names()) {
+      for (p in beautier::get_tree_prior_names()) {
         s <- paste0(s, ", ", p)
       }
       s <- substr(s, start = 3, stop = nchar(s))
@@ -163,7 +163,7 @@ create_cbs_tree_prior <- create_tree_prior_cbs <- function(
     id = id,
     group_sizes_dimension = group_sizes_dimension
   )
-  testit::assert(is_cbs_tree_prior(cbs_tree_prior)) # nolint beautier function
+  testit::assert(beautier::is_cbs_tree_prior(cbs_tree_prior))
   cbs_tree_prior
 }
 

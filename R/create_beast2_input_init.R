@@ -2,14 +2,12 @@
 #' @inheritParams default_params_doc
 #' @return lines of XML text
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @export
 create_beast2_input_init <- function(
-  ids,
-  initial_phylogenies
+  ids
 ) {
-  testit::assert(are_initial_phylogenies(initial_phylogenies)) # nolint beautier function
-  testit::assert(are_ids(ids)) # nolint beautier function
-  testit::assert(length(ids) == length(initial_phylogenies))
+  testit::assert(length(ids) == 1)
+  testit::assert(beautier::are_ids(ids))
 
   text <- NULL
 
@@ -27,15 +25,12 @@ create_beast2_input_init <- function(
   # In other words: bluntly remove it
   n <- length(ids)
   for (i in seq(1, n)) {
-    phylogeny <- initial_phylogenies[[i]]
     id <- ids[i]
-    if (!is_phylo(phylogeny)) { # nolint beautier function
-      text <- c(text, "")
-      text <- c(
-        text,
-        indent(rnd_phylo_to_xml_init(id), n_spaces = 4) # nolint beautier function
-      )
-    }
+    text <- c(text, "")
+    text <- c(
+      text,
+      beautier::indent(rnd_phylo_to_xml_init(id))
+    )
   }
   text
 }

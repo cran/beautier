@@ -6,10 +6,10 @@
 #'
 #'   create_beast2_input_file(
 #'     input_filename = filename,
-#'     "my_beast.xml"
+#'     output_filename = tempfile(pattern = "beast", fileext = ".xml")
 #'   )
 #' @author Richèl J.C. Bilderbeek
 #' @export
 get_fasta_filename <- function() {
-  get_beautier_path("test_output_0.fas") # nolint beautier function
+  beautier::get_beautier_path("test_output_0.fas") # nolint beautier function
 }

@@ -3,12 +3,12 @@
 #' @param id a site model's name
 #' @return the \code{freq_equilibrium} as XML
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @export
 freq_equilibrium_to_xml <- function(
   freq_equilibrium,
   id
 ) {
-  testit::assert(is_freq_equilibrium_name(freq_equilibrium)) # nolint beautier function
+  testit::assert(beautier::is_freq_equilibrium_name(freq_equilibrium))
   if (freq_equilibrium == "estimated") {
     paste0("<frequencies ", "id=\"estimatedFreqs.s:", id, "\" ",
       "spec=\"Frequencies\" ",

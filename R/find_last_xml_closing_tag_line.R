@@ -9,8 +9,6 @@ find_last_xml_closing_tag_line <- function(
   lines,
   section
 ) {
-  if (!is.character(section)) {
-    stop("'section' must be a word")
-  }
+  assertive::assert_is_a_string(section)
   find_last_regex_line(lines, paste0("</", section, ">")) # nolint beautier function
 }

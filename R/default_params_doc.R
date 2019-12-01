@@ -2,7 +2,7 @@
 #' This function does nothing.
 #' It is intended to inherit function argument documentation.
 #' @param alignment_id ID of the alignment,
-#'   as returned by \code{\link{get_alignment_id}}.
+#'   as returned by \link{get_alignment_id}.
 #'   Keep at \code{NA} to have it initialized automatically
 #' @param bd_tree_prior a Birth-Death tree prior, as created
 #'   by \code{\link{create_bd_tree_prior}}
@@ -61,10 +61,10 @@
 #'   as returned by \code{\link{create_gtr_site_model}}
 #' @param id an alignment's IDs.
 #'   An ID can be extracted from its FASTA filename
-#'   with \code{\link{get_alignment_ids}})
+#'   with \code{\link{get_alignment_ids_from_fasta_filenames}})
 #' @param ids one or more alignments' IDs.
 #'   IDs can be extracted from their FASTA filenames
-#'   with \code{\link{get_alignment_ids}})
+#'   with \code{\link{get_alignment_ids_from_fasta_filenames}})
 #' @param inference_model an Bayesian phylogenetic inference model,
 #'   as can be created by \code{\link{create_inference_model}}.
 #'   An inference model is the complete model setup in which a site model,
@@ -78,19 +78,34 @@
 #'   Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.
 #' @param input_filenames One or more FASTA filenames.
 #'   Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.
+#' @param log_every number of MCMC states between writing to file
 #' @param mcmc one MCMC
 #'   as returned by \code{\link{create_mcmc}}
+#' @param mode mode how to log.
+#' Valid values are the ones returned by \link{get_log_modes}
 #' @param mrca_prior a Most Recent Common Ancestor prior,
 #'   as returned by \code{\link{create_mrca_prior}}
 #' @param mrca_priors a list of one or more Most Recent Common Ancestor priors,
 #'   as returned by \code{\link{create_mrca_prior}}
+#' @param mrca_prior_name the unique name of the MRCA prior,
+#' for example a genus, family,
+#' order or even class name.
+#' Leave at \link{NA} to have it named automatically.
+#' @param n_init_attempts number of initialization attempts before failing
 #' @param output_filename Name of the XML parameter file created by this
 #'   function. BEAST2 uses this file as input.
 #' @param param_id a parameter's ID
-#' @param phylogeny a phylogeny of type \code{\link[ape]{phylo}}
+#' @param phylogeny a phylogeny of type \link[ape]{phylo}
 #' @param posterior_crown_age deprecated
+#' @param pre_burnin number of burn in samples taken before entering
+#'   the main loop
 #' @param rln_clock_model a Relaxed Log-Normal clock model,
 #'   as returned by \code{\link{create_rln_clock_model}}
+#' @param sample_from_prior set to \link{TRUE} to sample from the prior
+#' @param sanitise_headers set to \link{TRUE} to sanitise the headers of the
+#' log file
+#' @param screenlog a \code{screenlog},
+#'   as created by \link{create_screenlog}
 #' @param sequence_length a DNA sequence length, in base pairs
 #' @param site_model a site model,
 #'   as returned by \code{\link{create_site_model}}
@@ -100,13 +115,23 @@
 #'   must be name among those returned by \code{\link{get_site_model_names}}
 #' @param site_models one or more site models,
 #'   as returned by \code{\link{create_site_model}}
+#' @param sort how to sort the log.
+#' Valid values are the ones returned by \link{get_log_sorts}
 #' @param store_every number of states the MCMC will process
 #'   before the posterior's state will be saved to file.
 #'   Use -1 or \code{NA} to use the default frequency.
 #' @param strict_clock_model a strict clock model,
 #'   as returned by \code{\link{create_strict_clock_model}}
+#' @param taxa_names names of the taxa,
+#'   as returned by \code{\link{get_taxa_names}}.
+#'   Keep at \code{NA} to have it initialized automatically,
+#'   using all taxa in the alignment
 #' @param tn93_site_model a TN93 site model,
 #'   as returned by \code{\link{create_tn93_site_model}}
+#' @param tracelog a \code{tracelog},
+#'   as created by \link{create_tracelog}
+#' @param treelog a \code{treelog},
+#'   as created by \link{create_treelog}
 #' @param tree_prior a tree priors,
 #'   as returned by \code{\link{create_tree_prior}}
 #' @param tree_prior_name name of a tree prior,
@@ -158,22 +183,34 @@ default_params_doc <- function(
   input_filename, input_filenames,
   is_monophyletic,
   jc69_site_model,
+  log_every,
   mcmc,
+  mode,
   mrca_prior, mrca_priors,
+  mrca_prior_name,
+  n_init_attempts,
   output_filename,
   param_id,
   phylogeny,
   posterior_crown_age,
+  pre_burnin,
   rln_clock_model,
+  sample_from_prior,
+  sanitise_headers,
+  screenlog,
   sequence_length,
   site_model,
   site_model_name,
   site_model_names,
   site_models,
+  sort,
   store_every,
   strict_clock_model,
+  taxa_names,
   tipdates_filename,
   tn93_site_model,
+  tracelog,
+  treelog,
   tree_prior,
   tree_prior_name,
   tree_prior_names,

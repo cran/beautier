@@ -4,15 +4,44 @@
 #' @return TRUE if x is a valid parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_param(create_alpha_param()))
+#' expect_true(is_param(create_beta_param()))
+#' expect_true(is_param(create_clock_rate_param()))
+#' expect_true(is_param(create_kappa_1_param()))
+#' expect_true(is_param(create_kappa_2_param()))
+#' expect_true(is_param(create_lambda_param()))
+#' expect_true(is_param(create_m_param()))
+#' expect_true(is_param(create_mean_param()))
+#' expect_true(is_param(create_mu_param()))
+#' expect_true(is_param(create_rate_ac_param()))
+#' expect_true(is_param(create_rate_ag_param()))
+#' expect_true(is_param(create_rate_at_param()))
+#' expect_true(is_param(create_rate_cg_param()))
+#' expect_true(is_param(create_rate_ct_param()))
+#' expect_true(is_param(create_rate_gt_param()))
+#' expect_true(is_param(create_s_param()))
+#' expect_true(is_param(create_scale_param()))
+#' expect_true(is_param(create_sigma_param()))
+#'
+#' expect_false(is_param(NA))
+#' expect_false(is_param(NULL))
+#' expect_false(is_param("nonsense"))
+#' expect_false(is_param(create_jc69_site_model()))
+#' expect_false(is_param(create_strict_clock_model()))
+#' expect_false(is_param(create_yule_tree_prior()))
+#' expect_false(is_param(create_mcmc()))
+#' @export
 is_param <- function(
   x
 ) {
   if (!"name" %in% names(x)) return(FALSE)
-  if (!x$name %in% get_param_names()) return(FALSE) # nolint beautier function
+  if (!x$name %in% beautier::get_param_names()) return(FALSE)
   if (!"id" %in% names(x)) return(FALSE)
   if (!"value" %in% names(x)) return(FALSE)
-  if (is_one_na(x$value)) return(FALSE) # nolint beautier function
+  if (beautier::is_one_na(x$value)) return(FALSE)
   TRUE
 }
 
@@ -23,11 +52,40 @@ is_param <- function(
 #' @return TRUE if x is a valid alpha parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_alpha_param(create_alpha_param()))
+#' expect_false(is_alpha_param(create_beta_param()))
+#' expect_false(is_alpha_param(create_clock_rate_param()))
+#' expect_false(is_alpha_param(create_kappa_1_param()))
+#' expect_false(is_alpha_param(create_kappa_2_param()))
+#' expect_false(is_alpha_param(create_lambda_param()))
+#' expect_false(is_alpha_param(create_m_param()))
+#' expect_false(is_alpha_param(create_mean_param()))
+#' expect_false(is_alpha_param(create_mu_param()))
+#' expect_false(is_alpha_param(create_rate_ac_param()))
+#' expect_false(is_alpha_param(create_rate_ag_param()))
+#' expect_false(is_alpha_param(create_rate_at_param()))
+#' expect_false(is_alpha_param(create_rate_cg_param()))
+#' expect_false(is_alpha_param(create_rate_ct_param()))
+#' expect_false(is_alpha_param(create_rate_gt_param()))
+#' expect_false(is_alpha_param(create_s_param()))
+#' expect_false(is_alpha_param(create_scale_param()))
+#' expect_false(is_alpha_param(create_sigma_param()))
+#'
+#' expect_false(is_alpha_param(NA))
+#' expect_false(is_alpha_param(NULL))
+#' expect_false(is_alpha_param("nonsense"))
+#' expect_false(is_alpha_param(create_jc69_site_model()))
+#' expect_false(is_alpha_param(create_strict_clock_model()))
+#' expect_false(is_alpha_param(create_yule_tree_prior()))
+#' expect_false(is_alpha_param(create_mcmc()))
+#' @export
 is_alpha_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "alpha"
 }
 
@@ -38,11 +96,40 @@ is_alpha_param <- function(
 #' @return TRUE if x is a valid beta parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_false(is_beta_param(create_alpha_param()))
+#' expect_true(is_beta_param(create_beta_param()))
+#' expect_false(is_beta_param(create_clock_rate_param()))
+#' expect_false(is_beta_param(create_kappa_1_param()))
+#' expect_false(is_beta_param(create_kappa_2_param()))
+#' expect_false(is_beta_param(create_lambda_param()))
+#' expect_false(is_beta_param(create_m_param()))
+#' expect_false(is_beta_param(create_mean_param()))
+#' expect_false(is_beta_param(create_mu_param()))
+#' expect_false(is_beta_param(create_rate_ac_param()))
+#' expect_false(is_beta_param(create_rate_ag_param()))
+#' expect_false(is_beta_param(create_rate_at_param()))
+#' expect_false(is_beta_param(create_rate_cg_param()))
+#' expect_false(is_beta_param(create_rate_ct_param()))
+#' expect_false(is_beta_param(create_rate_gt_param()))
+#' expect_false(is_beta_param(create_s_param()))
+#' expect_false(is_beta_param(create_scale_param()))
+#' expect_false(is_beta_param(create_sigma_param()))
+#'
+#' expect_false(is_beta_param(NA))
+#' expect_false(is_beta_param(NULL))
+#' expect_false(is_beta_param("nonsense"))
+#' expect_false(is_beta_param(create_jc69_site_model()))
+#' expect_false(is_beta_param(create_strict_clock_model()))
+#' expect_false(is_beta_param(create_yule_tree_prior()))
+#' expect_false(is_beta_param(create_mcmc()))
+#' @export
 is_beta_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "beta"
 }
 
@@ -53,11 +140,40 @@ is_beta_param <- function(
 #' @return TRUE if x is a valid clock_rate parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_false(is_clock_rate_param(create_alpha_param()))
+#' expect_false(is_clock_rate_param(create_beta_param()))
+#' expect_true(is_clock_rate_param(create_clock_rate_param()))
+#' expect_false(is_clock_rate_param(create_kappa_1_param()))
+#' expect_false(is_clock_rate_param(create_kappa_2_param()))
+#' expect_false(is_clock_rate_param(create_lambda_param()))
+#' expect_false(is_clock_rate_param(create_m_param()))
+#' expect_false(is_clock_rate_param(create_mean_param()))
+#' expect_false(is_clock_rate_param(create_mu_param()))
+#' expect_false(is_clock_rate_param(create_rate_ac_param()))
+#' expect_false(is_clock_rate_param(create_rate_ag_param()))
+#' expect_false(is_clock_rate_param(create_rate_at_param()))
+#' expect_false(is_clock_rate_param(create_rate_cg_param()))
+#' expect_false(is_clock_rate_param(create_rate_ct_param()))
+#' expect_false(is_clock_rate_param(create_rate_gt_param()))
+#' expect_false(is_clock_rate_param(create_s_param()))
+#' expect_false(is_clock_rate_param(create_scale_param()))
+#' expect_false(is_clock_rate_param(create_sigma_param()))
+#'
+#' expect_false(is_clock_rate_param(NA))
+#' expect_false(is_clock_rate_param(NULL))
+#' expect_false(is_clock_rate_param("nonsense"))
+#' expect_false(is_clock_rate_param(create_jc69_site_model()))
+#' expect_false(is_clock_rate_param(create_strict_clock_model()))
+#' expect_false(is_clock_rate_param(create_yule_tree_prior()))
+#' expect_false(is_clock_rate_param(create_mcmc()))
+#' @export
 is_clock_rate_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "clock_rate"
 }
 
@@ -72,11 +188,40 @@ is_clock_rate_param <- function(
 #' @examples
 #'   kappa_1_param <- create_kappa_1_param()
 #'   testit::assert(beautier:::is_kappa_1_param(kappa_1_param))
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_false(is_kappa_1_param(create_alpha_param()))
+#' expect_false(is_kappa_1_param(create_beta_param()))
+#' expect_false(is_kappa_1_param(create_clock_rate_param()))
+#' expect_true(is_kappa_1_param(create_kappa_1_param()))
+#' expect_false(is_kappa_1_param(create_kappa_2_param()))
+#' expect_false(is_kappa_1_param(create_lambda_param()))
+#' expect_false(is_kappa_1_param(create_m_param()))
+#' expect_false(is_kappa_1_param(create_mean_param()))
+#' expect_false(is_kappa_1_param(create_mu_param()))
+#' expect_false(is_kappa_1_param(create_rate_ac_param()))
+#' expect_false(is_kappa_1_param(create_rate_ag_param()))
+#' expect_false(is_kappa_1_param(create_rate_at_param()))
+#' expect_false(is_kappa_1_param(create_rate_cg_param()))
+#' expect_false(is_kappa_1_param(create_rate_ct_param()))
+#' expect_false(is_kappa_1_param(create_rate_gt_param()))
+#' expect_false(is_kappa_1_param(create_s_param()))
+#' expect_false(is_kappa_1_param(create_scale_param()))
+#' expect_false(is_kappa_1_param(create_sigma_param()))
+#'
+#' expect_false(is_kappa_1_param(NA))
+#' expect_false(is_kappa_1_param(NULL))
+#' expect_false(is_kappa_1_param("nonsense"))
+#' expect_false(is_kappa_1_param(create_jc69_site_model()))
+#' expect_false(is_kappa_1_param(create_strict_clock_model()))
+#' expect_false(is_kappa_1_param(create_yule_tree_prior()))
+#' expect_false(is_kappa_1_param(create_mcmc()))
+#' @export
 is_kappa_1_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   if (x$name != "kappa_1") return(FALSE)
 
   if (!"lower" %in% names(x)) return(FALSE)
@@ -93,13 +238,39 @@ is_kappa_1_param <- function(
 #'   \code{\link{create_kappa_2_param}}
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   kappa_2_param <- create_kappa_2_param()
-#'   testit::assert(beautier:::is_kappa_2_param(kappa_2_param))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_kappa_2_param(create_alpha_param()))
+#' expect_false(is_kappa_2_param(create_beta_param()))
+#' expect_false(is_kappa_2_param(create_clock_rate_param()))
+#' expect_false(is_kappa_2_param(create_kappa_1_param()))
+#' expect_true(is_kappa_2_param(create_kappa_2_param()))
+#' expect_false(is_kappa_2_param(create_lambda_param()))
+#' expect_false(is_kappa_2_param(create_m_param()))
+#' expect_false(is_kappa_2_param(create_mean_param()))
+#' expect_false(is_kappa_2_param(create_mu_param()))
+#' expect_false(is_kappa_2_param(create_rate_ac_param()))
+#' expect_false(is_kappa_2_param(create_rate_ag_param()))
+#' expect_false(is_kappa_2_param(create_rate_at_param()))
+#' expect_false(is_kappa_2_param(create_rate_cg_param()))
+#' expect_false(is_kappa_2_param(create_rate_ct_param()))
+#' expect_false(is_kappa_2_param(create_rate_gt_param()))
+#' expect_false(is_kappa_2_param(create_s_param()))
+#' expect_false(is_kappa_2_param(create_scale_param()))
+#' expect_false(is_kappa_2_param(create_sigma_param()))
+#'
+#' expect_false(is_kappa_2_param(NA))
+#' expect_false(is_kappa_2_param(NULL))
+#' expect_false(is_kappa_2_param("nonsense"))
+#' expect_false(is_kappa_2_param(create_jc69_site_model()))
+#' expect_false(is_kappa_2_param(create_strict_clock_model()))
+#' expect_false(is_kappa_2_param(create_yule_tree_prior()))
+#' expect_false(is_kappa_2_param(create_mcmc()))
+#' @export
 is_kappa_2_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   if (x$name != "kappa_2") return(FALSE)
 
   if (!"lower" %in% names(x)) return(FALSE)
@@ -115,13 +286,39 @@ is_kappa_2_param <- function(
 #' @seealso lambda parameters are returned by \code{\link{create_lambda_param}}
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   lambda_param <- create_lambda_param()
-#'   testit::assert(beautier:::is_lambda_param(lambda_param))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_lambda_param(create_alpha_param()))
+#' expect_false(is_lambda_param(create_beta_param()))
+#' expect_false(is_lambda_param(create_clock_rate_param()))
+#' expect_false(is_lambda_param(create_kappa_1_param()))
+#' expect_false(is_lambda_param(create_kappa_2_param()))
+#' expect_true(is_lambda_param(create_lambda_param()))
+#' expect_false(is_lambda_param(create_m_param()))
+#' expect_false(is_lambda_param(create_mean_param()))
+#' expect_false(is_lambda_param(create_mu_param()))
+#' expect_false(is_lambda_param(create_rate_ac_param()))
+#' expect_false(is_lambda_param(create_rate_ag_param()))
+#' expect_false(is_lambda_param(create_rate_at_param()))
+#' expect_false(is_lambda_param(create_rate_cg_param()))
+#' expect_false(is_lambda_param(create_rate_ct_param()))
+#' expect_false(is_lambda_param(create_rate_gt_param()))
+#' expect_false(is_lambda_param(create_s_param()))
+#' expect_false(is_lambda_param(create_scale_param()))
+#' expect_false(is_lambda_param(create_sigma_param()))
+#'
+#' expect_false(is_lambda_param(NA))
+#' expect_false(is_lambda_param(NULL))
+#' expect_false(is_lambda_param("nonsense"))
+#' expect_false(is_lambda_param(create_jc69_site_model()))
+#' expect_false(is_lambda_param(create_strict_clock_model()))
+#' expect_false(is_lambda_param(create_yule_tree_prior()))
+#' expect_false(is_lambda_param(create_mcmc()))
+#' @export
 is_lambda_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "lambda"
 }
 
@@ -132,11 +329,40 @@ is_lambda_param <- function(
 #' @return TRUE if x is a valid m parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_false(is_m_param(create_alpha_param()))
+#' expect_false(is_m_param(create_beta_param()))
+#' expect_false(is_m_param(create_clock_rate_param()))
+#' expect_false(is_m_param(create_kappa_1_param()))
+#' expect_false(is_m_param(create_kappa_2_param()))
+#' expect_false(is_m_param(create_lambda_param()))
+#' expect_true(is_m_param(create_m_param()))
+#' expect_false(is_m_param(create_mean_param()))
+#' expect_false(is_m_param(create_mu_param()))
+#' expect_false(is_m_param(create_rate_ac_param()))
+#' expect_false(is_m_param(create_rate_ag_param()))
+#' expect_false(is_m_param(create_rate_at_param()))
+#' expect_false(is_m_param(create_rate_cg_param()))
+#' expect_false(is_m_param(create_rate_ct_param()))
+#' expect_false(is_m_param(create_rate_gt_param()))
+#' expect_false(is_m_param(create_s_param()))
+#' expect_false(is_m_param(create_scale_param()))
+#' expect_false(is_m_param(create_sigma_param()))
+#'
+#' expect_false(is_m_param(NA))
+#' expect_false(is_m_param(NULL))
+#' expect_false(is_m_param("nonsense"))
+#' expect_false(is_m_param(create_jc69_site_model()))
+#' expect_false(is_m_param(create_strict_clock_model()))
+#' expect_false(is_m_param(create_yule_tree_prior()))
+#' expect_false(is_m_param(create_mcmc()))
+#' @export
 is_m_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "m"
 }
 
@@ -146,11 +372,40 @@ is_m_param <- function(
 #' @return TRUE if x is a valid mean parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_false(is_mean_param(create_alpha_param()))
+#' expect_false(is_mean_param(create_beta_param()))
+#' expect_false(is_mean_param(create_clock_rate_param()))
+#' expect_false(is_mean_param(create_kappa_1_param()))
+#' expect_false(is_mean_param(create_kappa_2_param()))
+#' expect_false(is_mean_param(create_lambda_param()))
+#' expect_false(is_mean_param(create_m_param()))
+#' expect_true(is_mean_param(create_mean_param()))
+#' expect_false(is_mean_param(create_mu_param()))
+#' expect_false(is_mean_param(create_rate_ac_param()))
+#' expect_false(is_mean_param(create_rate_ag_param()))
+#' expect_false(is_mean_param(create_rate_at_param()))
+#' expect_false(is_mean_param(create_rate_cg_param()))
+#' expect_false(is_mean_param(create_rate_ct_param()))
+#' expect_false(is_mean_param(create_rate_gt_param()))
+#' expect_false(is_mean_param(create_s_param()))
+#' expect_false(is_mean_param(create_scale_param()))
+#' expect_false(is_mean_param(create_sigma_param()))
+#'
+#' expect_false(is_mean_param(NA))
+#' expect_false(is_mean_param(NULL))
+#' expect_false(is_mean_param("nonsense"))
+#' expect_false(is_mean_param(create_jc69_site_model()))
+#' expect_false(is_mean_param(create_strict_clock_model()))
+#' expect_false(is_mean_param(create_yule_tree_prior()))
+#' expect_false(is_mean_param(create_mcmc()))
+#' @export
 is_mean_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "mean"
 }
 
@@ -163,13 +418,39 @@ is_mean_param <- function(
 #' @seealso \code{\link{create_mu_param}} creates a mu parameter
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   mu_param <- create_mu_param()
-#'   testit::assert(beautier:::is_mu_param(mu_param))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_mu_param(create_alpha_param()))
+#' expect_false(is_mu_param(create_beta_param()))
+#' expect_false(is_mu_param(create_clock_rate_param()))
+#' expect_false(is_mu_param(create_kappa_1_param()))
+#' expect_false(is_mu_param(create_kappa_2_param()))
+#' expect_false(is_mu_param(create_lambda_param()))
+#' expect_false(is_mu_param(create_m_param()))
+#' expect_false(is_mu_param(create_mean_param()))
+#' expect_true(is_mu_param(create_mu_param()))
+#' expect_false(is_mu_param(create_rate_ac_param()))
+#' expect_false(is_mu_param(create_rate_ag_param()))
+#' expect_false(is_mu_param(create_rate_at_param()))
+#' expect_false(is_mu_param(create_rate_cg_param()))
+#' expect_false(is_mu_param(create_rate_ct_param()))
+#' expect_false(is_mu_param(create_rate_gt_param()))
+#' expect_false(is_mu_param(create_s_param()))
+#' expect_false(is_mu_param(create_scale_param()))
+#' expect_false(is_mu_param(create_sigma_param()))
+#'
+#' expect_false(is_mu_param(NA))
+#' expect_false(is_mu_param(NULL))
+#' expect_false(is_mu_param("nonsense"))
+#' expect_false(is_mu_param(create_jc69_site_model()))
+#' expect_false(is_mu_param(create_strict_clock_model()))
+#' expect_false(is_mu_param(create_yule_tree_prior()))
+#' expect_false(is_mu_param(create_mcmc()))
+#' @export
 is_mu_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "mu"
 }
 
@@ -182,13 +463,39 @@ is_mu_param <- function(
 #' @seealso \code{\link{create_rate_ac_param}} creates a 'rate AC' parameter
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   rate_ac_param <- create_rate_ac_param()
-#'   testit::assert(beautier:::is_rate_ac_param(rate_ac_param))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_rate_ac_param(create_alpha_param()))
+#' expect_false(is_rate_ac_param(create_beta_param()))
+#' expect_false(is_rate_ac_param(create_clock_rate_param()))
+#' expect_false(is_rate_ac_param(create_kappa_1_param()))
+#' expect_false(is_rate_ac_param(create_kappa_2_param()))
+#' expect_false(is_rate_ac_param(create_lambda_param()))
+#' expect_false(is_rate_ac_param(create_m_param()))
+#' expect_false(is_rate_ac_param(create_mean_param()))
+#' expect_false(is_rate_ac_param(create_mu_param()))
+#' expect_true(is_rate_ac_param(create_rate_ac_param()))
+#' expect_false(is_rate_ac_param(create_rate_ag_param()))
+#' expect_false(is_rate_ac_param(create_rate_at_param()))
+#' expect_false(is_rate_ac_param(create_rate_cg_param()))
+#' expect_false(is_rate_ac_param(create_rate_ct_param()))
+#' expect_false(is_rate_ac_param(create_rate_gt_param()))
+#' expect_false(is_rate_ac_param(create_s_param()))
+#' expect_false(is_rate_ac_param(create_scale_param()))
+#' expect_false(is_rate_ac_param(create_sigma_param()))
+#'
+#' expect_false(is_rate_ac_param(NA))
+#' expect_false(is_rate_ac_param(NULL))
+#' expect_false(is_rate_ac_param("nonsense"))
+#' expect_false(is_rate_ac_param(create_jc69_site_model()))
+#' expect_false(is_rate_ac_param(create_strict_clock_model()))
+#' expect_false(is_rate_ac_param(create_yule_tree_prior()))
+#' expect_false(is_rate_ac_param(create_mcmc()))
+#' @export
 is_rate_ac_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "rate_ac"
 }
 
@@ -201,12 +508,39 @@ is_rate_ac_param <- function(
 #' @seealso \code{\link{create_rate_ag_param}} creates a 'rate AG' parameter
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   rate_ag_param <- create_rate_ag_param()
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_rate_ag_param(create_alpha_param()))
+#' expect_false(is_rate_ag_param(create_beta_param()))
+#' expect_false(is_rate_ag_param(create_clock_rate_param()))
+#' expect_false(is_rate_ag_param(create_kappa_1_param()))
+#' expect_false(is_rate_ag_param(create_kappa_2_param()))
+#' expect_false(is_rate_ag_param(create_lambda_param()))
+#' expect_false(is_rate_ag_param(create_m_param()))
+#' expect_false(is_rate_ag_param(create_mean_param()))
+#' expect_false(is_rate_ag_param(create_mu_param()))
+#' expect_false(is_rate_ag_param(create_rate_ac_param()))
+#' expect_true(is_rate_ag_param(create_rate_ag_param()))
+#' expect_false(is_rate_ag_param(create_rate_at_param()))
+#' expect_false(is_rate_ag_param(create_rate_cg_param()))
+#' expect_false(is_rate_ag_param(create_rate_ct_param()))
+#' expect_false(is_rate_ag_param(create_rate_gt_param()))
+#' expect_false(is_rate_ag_param(create_s_param()))
+#' expect_false(is_rate_ag_param(create_scale_param()))
+#' expect_false(is_rate_ag_param(create_sigma_param()))
+#'
+#' expect_false(is_rate_ag_param(NA))
+#' expect_false(is_rate_ag_param(NULL))
+#' expect_false(is_rate_ag_param("nonsense"))
+#' expect_false(is_rate_ag_param(create_jc69_site_model()))
+#' expect_false(is_rate_ag_param(create_strict_clock_model()))
+#' expect_false(is_rate_ag_param(create_yule_tree_prior()))
+#' expect_false(is_rate_ag_param(create_mcmc()))
+#' @export
 is_rate_ag_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "rate_ag"
 }
 
@@ -219,13 +553,39 @@ is_rate_ag_param <- function(
 #' @seealso \code{\link{create_rate_at_param}} creates a 'rate AT' parameter
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   rate_at_param <- create_rate_at_param()
-#'   testit::assert(beautier:::is_rate_at_param(rate_at_param))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_rate_at_param(create_alpha_param()))
+#' expect_false(is_rate_at_param(create_beta_param()))
+#' expect_false(is_rate_at_param(create_clock_rate_param()))
+#' expect_false(is_rate_at_param(create_kappa_1_param()))
+#' expect_false(is_rate_at_param(create_kappa_2_param()))
+#' expect_false(is_rate_at_param(create_lambda_param()))
+#' expect_false(is_rate_at_param(create_m_param()))
+#' expect_false(is_rate_at_param(create_mean_param()))
+#' expect_false(is_rate_at_param(create_mu_param()))
+#' expect_false(is_rate_at_param(create_rate_ac_param()))
+#' expect_false(is_rate_at_param(create_rate_ag_param()))
+#' expect_true(is_rate_at_param(create_rate_at_param()))
+#' expect_false(is_rate_at_param(create_rate_cg_param()))
+#' expect_false(is_rate_at_param(create_rate_ct_param()))
+#' expect_false(is_rate_at_param(create_rate_gt_param()))
+#' expect_false(is_rate_at_param(create_s_param()))
+#' expect_false(is_rate_at_param(create_scale_param()))
+#' expect_false(is_rate_at_param(create_sigma_param()))
+#'
+#' expect_false(is_rate_at_param(NA))
+#' expect_false(is_rate_at_param(NULL))
+#' expect_false(is_rate_at_param("nonsense"))
+#' expect_false(is_rate_at_param(create_jc69_site_model()))
+#' expect_false(is_rate_at_param(create_strict_clock_model()))
+#' expect_false(is_rate_at_param(create_yule_tree_prior()))
+#' expect_false(is_rate_at_param(create_mcmc()))
+#' @export
 is_rate_at_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "rate_at"
 }
 
@@ -238,13 +598,39 @@ is_rate_at_param <- function(
 #' @seealso \code{\link{create_rate_cg_param}} creates a 'rate CG' parameter
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   rate_cg_param <- create_rate_cg_param()
-#'   testit::assert(beautier:::is_rate_cg_param(rate_cg_param))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_rate_cg_param(create_alpha_param()))
+#' expect_false(is_rate_cg_param(create_beta_param()))
+#' expect_false(is_rate_cg_param(create_clock_rate_param()))
+#' expect_false(is_rate_cg_param(create_kappa_1_param()))
+#' expect_false(is_rate_cg_param(create_kappa_2_param()))
+#' expect_false(is_rate_cg_param(create_lambda_param()))
+#' expect_false(is_rate_cg_param(create_m_param()))
+#' expect_false(is_rate_cg_param(create_mean_param()))
+#' expect_false(is_rate_cg_param(create_mu_param()))
+#' expect_false(is_rate_cg_param(create_rate_ac_param()))
+#' expect_false(is_rate_cg_param(create_rate_ag_param()))
+#' expect_false(is_rate_cg_param(create_rate_at_param()))
+#' expect_true(is_rate_cg_param(create_rate_cg_param()))
+#' expect_false(is_rate_cg_param(create_rate_ct_param()))
+#' expect_false(is_rate_cg_param(create_rate_gt_param()))
+#' expect_false(is_rate_cg_param(create_s_param()))
+#' expect_false(is_rate_cg_param(create_scale_param()))
+#' expect_false(is_rate_cg_param(create_sigma_param()))
+#'
+#' expect_false(is_rate_cg_param(NA))
+#' expect_false(is_rate_cg_param(NULL))
+#' expect_false(is_rate_cg_param("nonsense"))
+#' expect_false(is_rate_cg_param(create_jc69_site_model()))
+#' expect_false(is_rate_cg_param(create_strict_clock_model()))
+#' expect_false(is_rate_cg_param(create_yule_tree_prior()))
+#' expect_false(is_rate_cg_param(create_mcmc()))
+#' @export
 is_rate_cg_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "rate_cg"
 }
 
@@ -257,13 +643,39 @@ is_rate_cg_param <- function(
 #' @seealso \code{\link{create_rate_ct_param}} creates a 'rate CT' parameter
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   rate_ct_param <- create_rate_ct_param()
-#'   testit::assert(beautier:::is_rate_ct_param(rate_ct_param))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_rate_ct_param(create_alpha_param()))
+#' expect_false(is_rate_ct_param(create_beta_param()))
+#' expect_false(is_rate_ct_param(create_clock_rate_param()))
+#' expect_false(is_rate_ct_param(create_kappa_1_param()))
+#' expect_false(is_rate_ct_param(create_kappa_2_param()))
+#' expect_false(is_rate_ct_param(create_lambda_param()))
+#' expect_false(is_rate_ct_param(create_m_param()))
+#' expect_false(is_rate_ct_param(create_mean_param()))
+#' expect_false(is_rate_ct_param(create_mu_param()))
+#' expect_false(is_rate_ct_param(create_rate_ac_param()))
+#' expect_false(is_rate_ct_param(create_rate_ag_param()))
+#' expect_false(is_rate_ct_param(create_rate_at_param()))
+#' expect_false(is_rate_ct_param(create_rate_cg_param()))
+#' expect_true(is_rate_ct_param(create_rate_ct_param()))
+#' expect_false(is_rate_ct_param(create_rate_gt_param()))
+#' expect_false(is_rate_ct_param(create_s_param()))
+#' expect_false(is_rate_ct_param(create_scale_param()))
+#' expect_false(is_rate_ct_param(create_sigma_param()))
+#'
+#' expect_false(is_rate_ct_param(NA))
+#' expect_false(is_rate_ct_param(NULL))
+#' expect_false(is_rate_ct_param("nonsense"))
+#' expect_false(is_rate_ct_param(create_jc69_site_model()))
+#' expect_false(is_rate_ct_param(create_strict_clock_model()))
+#' expect_false(is_rate_ct_param(create_yule_tree_prior()))
+#' expect_false(is_rate_ct_param(create_mcmc()))
+#' @export
 is_rate_ct_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "rate_ct"
 }
 
@@ -276,13 +688,39 @@ is_rate_ct_param <- function(
 #' @seealso \code{\link{create_rate_gt_param}} creates a 'rate GT' parameter
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   rate_gt_param <- create_rate_gt_param()
-#'   testit::assert(beautier:::is_rate_gt_param(rate_gt_param))
-#' @noRd
+#' library(testthat)
+#'
+#' expect_false(is_rate_gt_param(create_alpha_param()))
+#' expect_false(is_rate_gt_param(create_beta_param()))
+#' expect_false(is_rate_gt_param(create_clock_rate_param()))
+#' expect_false(is_rate_gt_param(create_kappa_1_param()))
+#' expect_false(is_rate_gt_param(create_kappa_2_param()))
+#' expect_false(is_rate_gt_param(create_lambda_param()))
+#' expect_false(is_rate_gt_param(create_m_param()))
+#' expect_false(is_rate_gt_param(create_mean_param()))
+#' expect_false(is_rate_gt_param(create_mu_param()))
+#' expect_false(is_rate_gt_param(create_rate_ac_param()))
+#' expect_false(is_rate_gt_param(create_rate_ag_param()))
+#' expect_false(is_rate_gt_param(create_rate_at_param()))
+#' expect_false(is_rate_gt_param(create_rate_cg_param()))
+#' expect_false(is_rate_gt_param(create_rate_ct_param()))
+#' expect_true(is_rate_gt_param(create_rate_gt_param()))
+#' expect_false(is_rate_gt_param(create_s_param()))
+#' expect_false(is_rate_gt_param(create_scale_param()))
+#' expect_false(is_rate_gt_param(create_sigma_param()))
+#'
+#' expect_false(is_rate_gt_param(NA))
+#' expect_false(is_rate_gt_param(NULL))
+#' expect_false(is_rate_gt_param("nonsense"))
+#' expect_false(is_rate_gt_param(create_jc69_site_model()))
+#' expect_false(is_rate_gt_param(create_strict_clock_model()))
+#' expect_false(is_rate_gt_param(create_yule_tree_prior()))
+#' expect_false(is_rate_gt_param(create_mcmc()))
+#' @export
 is_rate_gt_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "rate_gt"
 }
 
@@ -293,11 +731,40 @@ is_rate_gt_param <- function(
 #' @return TRUE if x is a valid s parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_false(is_s_param(create_alpha_param()))
+#' expect_false(is_s_param(create_beta_param()))
+#' expect_false(is_s_param(create_clock_rate_param()))
+#' expect_false(is_s_param(create_kappa_1_param()))
+#' expect_false(is_s_param(create_kappa_2_param()))
+#' expect_false(is_s_param(create_lambda_param()))
+#' expect_false(is_s_param(create_m_param()))
+#' expect_false(is_s_param(create_mean_param()))
+#' expect_false(is_s_param(create_mu_param()))
+#' expect_false(is_s_param(create_rate_ac_param()))
+#' expect_false(is_s_param(create_rate_ag_param()))
+#' expect_false(is_s_param(create_rate_at_param()))
+#' expect_false(is_s_param(create_rate_cg_param()))
+#' expect_false(is_s_param(create_rate_ct_param()))
+#' expect_false(is_s_param(create_rate_gt_param()))
+#' expect_true(is_s_param(create_s_param()))
+#' expect_false(is_s_param(create_scale_param()))
+#' expect_false(is_s_param(create_sigma_param()))
+#'
+#' expect_false(is_s_param(NA))
+#' expect_false(is_s_param(NULL))
+#' expect_false(is_s_param("nonsense"))
+#' expect_false(is_s_param(create_jc69_site_model()))
+#' expect_false(is_s_param(create_strict_clock_model()))
+#' expect_false(is_s_param(create_yule_tree_prior()))
+#' expect_false(is_s_param(create_mcmc()))
+#' @export
 is_s_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "s"
 }
 
@@ -308,11 +775,40 @@ is_s_param <- function(
 #' @return TRUE if x is a valid scale parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_false(is_scale_param(create_alpha_param()))
+#' expect_false(is_scale_param(create_beta_param()))
+#' expect_false(is_scale_param(create_clock_rate_param()))
+#' expect_false(is_scale_param(create_kappa_1_param()))
+#' expect_false(is_scale_param(create_kappa_2_param()))
+#' expect_false(is_scale_param(create_lambda_param()))
+#' expect_false(is_scale_param(create_m_param()))
+#' expect_false(is_scale_param(create_mean_param()))
+#' expect_false(is_scale_param(create_mu_param()))
+#' expect_false(is_scale_param(create_rate_ac_param()))
+#' expect_false(is_scale_param(create_rate_ag_param()))
+#' expect_false(is_scale_param(create_rate_at_param()))
+#' expect_false(is_scale_param(create_rate_cg_param()))
+#' expect_false(is_scale_param(create_rate_ct_param()))
+#' expect_false(is_scale_param(create_rate_gt_param()))
+#' expect_false(is_scale_param(create_s_param()))
+#' expect_true(is_scale_param(create_scale_param()))
+#' expect_false(is_scale_param(create_sigma_param()))
+#'
+#' expect_false(is_scale_param(NA))
+#' expect_false(is_scale_param(NULL))
+#' expect_false(is_scale_param("nonsense"))
+#' expect_false(is_scale_param(create_jc69_site_model()))
+#' expect_false(is_scale_param(create_strict_clock_model()))
+#' expect_false(is_scale_param(create_yule_tree_prior()))
+#' expect_false(is_scale_param(create_mcmc()))
+#' @export
 is_scale_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "scale"
 }
 
@@ -323,10 +819,39 @@ is_scale_param <- function(
 #' @return TRUE if x is a valid sigma parameter,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_false(is_sigma_param(create_alpha_param()))
+#' expect_false(is_sigma_param(create_beta_param()))
+#' expect_false(is_sigma_param(create_clock_rate_param()))
+#' expect_false(is_sigma_param(create_kappa_1_param()))
+#' expect_false(is_sigma_param(create_kappa_2_param()))
+#' expect_false(is_sigma_param(create_lambda_param()))
+#' expect_false(is_sigma_param(create_m_param()))
+#' expect_false(is_sigma_param(create_mean_param()))
+#' expect_false(is_sigma_param(create_mu_param()))
+#' expect_false(is_sigma_param(create_rate_ac_param()))
+#' expect_false(is_sigma_param(create_rate_ag_param()))
+#' expect_false(is_sigma_param(create_rate_at_param()))
+#' expect_false(is_sigma_param(create_rate_cg_param()))
+#' expect_false(is_sigma_param(create_rate_ct_param()))
+#' expect_false(is_sigma_param(create_rate_gt_param()))
+#' expect_false(is_sigma_param(create_s_param()))
+#' expect_false(is_sigma_param(create_scale_param()))
+#' expect_true(is_sigma_param(create_sigma_param()))
+#'
+#' expect_false(is_sigma_param(NA))
+#' expect_false(is_sigma_param(NULL))
+#' expect_false(is_sigma_param("nonsense"))
+#' expect_false(is_sigma_param(create_jc69_site_model()))
+#' expect_false(is_sigma_param(create_strict_clock_model()))
+#' expect_false(is_sigma_param(create_yule_tree_prior()))
+#' expect_false(is_sigma_param(create_mcmc()))
+#' @export
 is_sigma_param <- function(
   x
 ) {
-  if (!is_param(x)) return(FALSE) # nolint beautier function
+  if (!beautier::is_param(x)) return(FALSE)
   x$name == "sigma"
 }

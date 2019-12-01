@@ -2,17 +2,19 @@
 #' @inheritParams default_params_doc
 #' @return nothing
 #' @examples
-#'   # Get an example FASTA file
-#'   input_filename <- get_fasta_filename()
+#' library(testthat)
 #'
-#'   # The file created by beautier, a BEAST2 input file
-#'   output_filename <- "create_beast2_input_file.xml"
+#' # Get an example FASTA file
+#' input_filename <- get_fasta_filename()
 #'
-#'   create_beast2_input_file(
-#'     input_filename,
-#'     output_filename
-#'   )
-#'   testthat::expect_true(file.exists(output_filename))
+#' # The file created by beautier, a BEAST2 input file
+#' output_filename <- tempfile(pattern = "beast2", fileext = ".xml")
+#'
+#' create_beast2_input_file(
+#'   input_filename,
+#'   output_filename
+#' )
+#' expect_true(file.exists(output_filename))
 #' @author Richèl J.C. Bilderbeek
 #' @seealso
 #'   Use \link{create_beast2_input_file_from_model} to do the same with an
@@ -83,21 +85,19 @@ create_beast2_input_file <- function(
   if (any("mrca_priors" %in% calls)) {
     stop("'mrca_priors' is deprecated, use 'mrca_prior' instead.")
   }
-
-  # Error handling done by create_beast2_input
-  text <- create_beast2_input(
-    input_filename = input_filename,
-    tipdates_filename = tipdates_filename,
+  inference_model <- create_inference_model(
     site_model = site_model,
     clock_model = clock_model,
     tree_prior = tree_prior,
     mrca_prior = mrca_prior,
     mcmc = mcmc,
-    beauti_options = beauti_options
+    beauti_options = beauti_options,
+    tipdates_filename = tipdates_filename
   )
-
-  # Write to file
-  my_file <- file(output_filename)
-  writeLines(text, my_file)
-  close(my_file)
+  create_beast2_input_file_from_model(
+    input_filename = input_filename,
+    output_filename = output_filename,
+    inference_model = inference_model
+  )
+  invisible()
 }

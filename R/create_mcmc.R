@@ -7,42 +7,45 @@
 #' @inheritParams default_params_doc
 #' @return an MCMC configuration
 #' @seealso
-#'   \itemize{
-#'     \item \link{are_equal_mcmcs} to check if two MCMCs are equal
-#'   }
+#' Use \link{create_ns_mcmc} to create an MCMC for a Nested Sampling run.
+#' Use \link{check_mcmc} to check that an MCMC object is valid.
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   # Create an MCMC chain with 50 states
-#'   mcmc <- create_mcmc(chain_length = 50000, store_every = 1000)
+#' library(testthat)
 #'
-#'   beast2_input_file <- tempfile(fileext = ".xml")
-#'   create_beast2_input_file(
-#'     get_fasta_filename(),
-#'     beast2_input_file,
-#'     mcmc = mcmc
-#'   )
-#'   testit::assert(file.exists(beast2_input_file))
+#' # Create an MCMC chain with 50 states
+#' mcmc <- create_mcmc(chain_length = 50000, store_every = 1000)
+#'
+#'  beast2_input_file <- tempfile(fileext = ".xml")
+#'  create_beast2_input_file(
+#'    get_fasta_filename(),
+#'    beast2_input_file,
+#'    mcmc = mcmc
+#' )
+#' expect_true(file.exists(beast2_input_file))
 #' @export
 create_mcmc <- function(
   chain_length = 10000000,
-  store_every = -1
+  store_every = -1,
+  pre_burnin = 0,
+  n_init_attempts = 10,
+  sample_from_prior = FALSE,
+  tracelog = create_tracelog(),
+  screenlog = create_screenlog(),
+  treelog = create_treelog()
 ) {
-  if (chain_length <= 0) {
-    stop("'chain_length' must be positive and non-zero")
-  }
-  if (!is_one_na(store_every) && store_every != -1 && store_every < 1000) { # nolint beautier function
-    stop("'store_every' must be at least 1000, NA or -1")
-  }
-  if (!is_one_na(store_every) && store_every > chain_length) { # nolint beautier function
-    stop("'store_every' must be equal or lower to 'chain_length'")
-  }
-
   mcmc <- list(
     chain_length = chain_length,
-    store_every = store_every
+    store_every = store_every,
+    pre_burnin = pre_burnin,
+    n_init_attempts = n_init_attempts,
+    sample_from_prior = sample_from_prior,
+    tracelog = tracelog,
+    screenlog = screenlog,
+    treelog = treelog
   )
 
   # Postcondition
-  testit::assert(is_mcmc(mcmc)) # nolint beautier function
+  beautier::check_mcmc(mcmc)
   mcmc
 }

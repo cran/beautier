@@ -1,0 +1,22 @@
+#' Create a \code{screenlog} object
+#' @inheritParams default_params_doc
+#' @param filename name of the file to store the posterior screens
+#' phylogenies to. By default, this is \code{$(screen).screens}
+#' @export
+create_screenlog <- function(
+  filename = "",
+  log_every = 1000,
+  mode = "autodetect",
+  sanitise_headers = FALSE,
+  sort = "none"
+) {
+  screenlog <- list(
+    filename = filename,
+    log_every = log_every,
+    mode = mode,
+    sanitise_headers = sanitise_headers,
+    sort = sort
+  )
+  beautier::check_screenlog(screenlog)
+  screenlog
+}

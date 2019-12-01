@@ -17,10 +17,10 @@ clock_model_to_xml_prior_distr <- function(
   mrca_priors = NA,
   tipdates_filename = NA
 ) {
-  testit::assert(is_clock_model(clock_model)) # nolint beautier function
+  testit::assert(beautier::is_clock_model(clock_model))
 
   text <- NULL
-  if (is_rln_clock_model(clock_model)) { # nolint beautier function
+  if (beautier::is_rln_clock_model(clock_model)) {
 
     if (
       is_mrca_prior_with_distr(mrca_priors[[1]]) # nolint beautier function
@@ -29,34 +29,32 @@ clock_model_to_xml_prior_distr <- function(
     }
 
     id <- clock_model$id
-    testit::assert(is_id(id)) # nolint beautier function
+    testit::assert(beautier::is_id(id))
     text <- c(text, paste0("<prior ",
       "id=\"ucldStdevPrior.c:", id, "\" name=\"distribution\" ",
       "x=\"@ucldStdev.c:", id, "\">"))
     text <- c(text,
-      indent( # nolint beautier function
+      beautier::indent(
         distr_to_xml( # nolint beautier function
           distr = clock_model$ucldstdev_distr
-        ),
-        n_spaces = 4
+        )
       )
     )
     text <- c(text, paste0("</prior>"))
   } else {
     # Fails for unimplemented clock models
-    testit::assert(is_strict_clock_model(clock_model)) # nolint beautier function
+    testit::assert(beautier::is_strict_clock_model(clock_model))
 
-    if (!is_one_na(tipdates_filename)) { # nolint beautier function
+    if (!beautier::is_one_na(tipdates_filename)) {
       id <- clock_model$id
-      testit::assert(is_id(id)) # nolint beautier function
+      testit::assert(beautier::is_id(id))
       text <- c(text, paste0("<prior id=\"ClockPrior.c:", id, "\" ",
         "name=\"distribution\" x=\"@clockRate.c:", id, "\">"))
       text <- c(text,
-        indent( # nolint beautier function
+        beautier::indent(
           distr_to_xml( # nolint beautier function
             clock_model$clock_rate_distr
-          ),
-          n_spaces = 4
+          )
         )
       )
       text <- c(text, paste0("</prior>"))

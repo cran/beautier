@@ -21,37 +21,45 @@
 #' @return a site_model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   # GTR
-#'   create_beast2_input_file(
-#'     input_filename = get_fasta_filename(),
-#'     output_filename = "example_gtr.xml",
-#'     site_model = create_gtr_site_model()
-#'   )
-#'   testthat::expect_true(file.exists("example_gtr.xml"))
+#' library(testthat)
 #'
-#'   # HKY
-#'   create_beast2_input_file(
-#'     input_filename = get_fasta_filename(),
-#'     output_filename = "example_hky.xml",
-#'     site_model = create_hky_site_model()
-#'   )
-#'   testthat::expect_true(file.exists("example_hky.xml"))
+#' input_filename <- get_fasta_filename()
 #'
-#'   # JC69
-#'   create_beast2_input_file(
-#'     input_filename = get_fasta_filename(),
-#'     output_filename = "example_jc69.xml",
-#'     site_model = create_jc69_site_model()
-#'   )
-#'   testthat::expect_true(file.exists("example_jc69.xml"))
+#' # GTR
+#' output_filename <- tempfile(pattern = "example_gtr", fileext = ".xml")
+#' create_beast2_input_file(
+#'   input_filename = input_filename,
+#'   output_filename = output_filename,
+#'   site_model = create_gtr_site_model()
+#' )
+#' expect_true(file.exists(output_filename))
 #'
-#'   # TN93
-#'   create_beast2_input_file(
-#'     input_filename = get_fasta_filename(),
-#'     output_filename = "example_tn93.xml",
-#'     site_model = create_tn93_site_model()
-#'   )
-#'   testthat::expect_true(file.exists("example_tn93.xml"))
+#' # HKY
+#' output_filename <- tempfile(pattern = "example_hky", fileext = ".xml")
+#' create_beast2_input_file(
+#'   input_filename = input_filename,
+#'   output_filename = output_filename,
+#'   site_model = create_hky_site_model()
+#' )
+#' expect_true(file.exists(output_filename))
+#'
+#' # JC69
+#' output_filename <- tempfile(pattern = "example_jc69", fileext = ".xml")
+#' create_beast2_input_file(
+#'   input_filename = input_filename,
+#'   output_filename = output_filename,
+#'   site_model = create_jc69_site_model()
+#' )
+#' expect_true(file.exists(output_filename))
+#'
+#' # TN93
+#' output_filename <- tempfile(pattern = "example_tn93", fileext = ".xml")
+#' create_beast2_input_file(
+#'   input_filename = input_filename,
+#'   output_filename = output_filename,
+#'   site_model = create_tn93_site_model()
+#' )
+#' expect_true(file.exists(output_filename))
 #' @export
 create_site_model <- function(
   name,
@@ -59,7 +67,7 @@ create_site_model <- function(
   gamma_site_model = create_gamma_site_model(),
   ...
 ) {
-  if (!is_site_model_name(name)) { # nolint beautier function
+  if (!beautier::is_site_model_name(name)) {
     site_models_as_string <- function() {
       s <- NULL
       for (p in get_site_model_names()) {
@@ -73,7 +81,7 @@ create_site_model <- function(
       site_models_as_string()
     )
   }
-  check_gamma_site_model(gamma_site_model) # nolint beautier function
+  beautier::check_gamma_site_model(gamma_site_model)
   site_model <- list(
     name = name,
     id = id,
@@ -175,22 +183,22 @@ create_gtr_site_model <- create_site_model_gtr <- function(
   rate_gt_param = create_rate_gt_param(),
   freq_equilibrium = "estimated"
 ) {
-  if (length(rate_ac_param) == 1 && is.numeric(rate_ac_param)) {
+  if (beautier::is_one_double(rate_ac_param)) {
     rate_ac_param <- create_rate_ac_param(value = rate_ac_param)
   }
-  if (length(rate_ag_param) == 1 && is.numeric(rate_ag_param)) {
+  if (beautier::is_one_double(rate_ag_param)) {
     rate_ag_param <- create_rate_ag_param(value = rate_ag_param)
   }
-  if (length(rate_at_param) == 1 && is.numeric(rate_at_param)) {
+  if (beautier::is_one_double(rate_at_param)) {
     rate_at_param <- create_rate_at_param(value = rate_at_param)
   }
-  if (length(rate_cg_param) == 1 && is.numeric(rate_cg_param)) {
+  if (beautier::is_one_double(rate_cg_param)) {
     rate_cg_param <- create_rate_cg_param(value = rate_cg_param)
   }
-  if (length(rate_ct_param) == 1 && is.numeric(rate_ct_param)) {
+  if (beautier::is_one_double(rate_ct_param)) {
     rate_ct_param <- create_rate_ct_param(value = rate_ct_param)
   }
-  if (length(rate_gt_param) == 1 && is.numeric(rate_gt_param)) {
+  if (beautier::is_one_double(rate_gt_param)) {
     rate_gt_param <- create_rate_gt_param(value = rate_gt_param)
   }
 
@@ -231,7 +239,7 @@ create_gtr_site_model <- create_site_model_gtr <- function(
 #'
 #'  create_beast2_input_file(
 #'    input_filename = get_fasta_filename(),
-#'    "beast.xml",
+#'    output_filename = tempfile(pattern = "beast", fileext = ".xml"),
 #'    site_model = hky_site_model
 #'  )
 #' @aliases create_hky_site_model create_site_model_hky
@@ -265,7 +273,7 @@ create_hky_site_model <- create_site_model_hky <- function(
 #'
 #'  create_beast2_input_file(
 #'    input_filename = get_fasta_filename(),
-#'    "beast.xml",
+#'    output_filename = tempfile(pattern = "beast", fileext = ".xml"),
 #'    site_model = jc69_site_model
 #'  )
 #' @aliases create_jc69_site_model create_site_model_jc69
@@ -313,7 +321,7 @@ create_jc69_site_model <- create_site_model_jc69 <- function(
 #'
 #'  create_beast2_input_file(
 #'    input_filename = get_fasta_filename(),
-#'    "beast.xml",
+#'    output_filename = tempfile(pattern = "beast", fileext = ".xml"),
 #'    site_model = tn93_site_model
 #'  )
 #' @aliases create_tn93_site_model create_site_model_tn93
@@ -333,10 +341,10 @@ create_tn93_site_model <- create_site_model_tn93 <- function(
   ),
   freq_equilibrium = "estimated"
 ) {
-  if (length(kappa_1_param) == 1 && is.numeric(kappa_1_param)) {
+  if (beautier::is_one_double(kappa_1_param)) {
     kappa_1_param <- create_kappa_1_param(value = kappa_1_param)
   }
-  if (length(kappa_2_param) == 1 && is.numeric(kappa_2_param)) {
+  if (beautier::is_one_double(kappa_2_param)) {
     kappa_2_param <- create_kappa_2_param(value = kappa_2_param)
   }
   beautier::create_site_model(

@@ -3,23 +3,25 @@
 #' @return TRUE if x, or all elements of x, are tree_prior objects
 #' @seealso Use \link{create_yule_tree_prior} to create a Yule tree prior
 #' @examples
-#'   yule_tree_prior <- create_yule_tree_prior()
-#'   bd_tree_prior <- create_bd_tree_prior()
-#'   both_tree_priors <- list(yule_tree_prior, bd_tree_prior)
-#'   testit::assert(are_tree_priors(yule_tree_prior))
-#'   testit::assert(are_tree_priors(bd_tree_prior))
-#'   testit::assert(are_tree_priors(both_tree_priors))
+#' library(testthat)
+#'
+#' yule_tree_prior <- create_yule_tree_prior()
+#' bd_tree_prior <- create_bd_tree_prior()
+#' both_tree_priors <- list(yule_tree_prior, bd_tree_prior)
+#' expect_true(are_tree_priors(yule_tree_prior))
+#' expect_true(are_tree_priors(bd_tree_prior))
+#' expect_true(are_tree_priors(both_tree_priors))
 #' @author Richèl J.C. Bilderbeek
 #' @export
 are_tree_priors <- function(
   x
 ) {
   if (is.null(x)) return(FALSE)
-  if (is_tree_prior(x)) { # nolint beautier function
+  if (beautier::is_tree_prior(x)) {
     return(TRUE)
   }
   for (i in x) {
-    if (!is_tree_prior(i)) return(FALSE) # nolint beautier function
+    if (!beautier::is_tree_prior(i)) return(FALSE)
   }
   return(TRUE)
 }

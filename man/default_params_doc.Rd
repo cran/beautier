@@ -14,16 +14,18 @@ default_params_doc(alignment_id, bd_tree_prior, cbs_tree_prior,
   group_sizes_dimension, gtr_site_model, has_non_strict_clock_model,
   has_tip_dating, hky_site_model, id, ids, inference_model,
   inference_models, initial_phylogenies, input_filename, input_filenames,
-  is_monophyletic, jc69_site_model, mcmc, mrca_prior, mrca_priors,
-  output_filename, param_id, phylogeny, posterior_crown_age,
-  rln_clock_model, sequence_length, site_model, site_model_name,
-  site_model_names, site_models, store_every, strict_clock_model,
-  tipdates_filename, tn93_site_model, tree_prior, tree_prior_name,
+  is_monophyletic, jc69_site_model, log_every, mcmc, mode, mrca_prior,
+  mrca_priors, mrca_prior_name, n_init_attempts, output_filename, param_id,
+  phylogeny, posterior_crown_age, pre_burnin, rln_clock_model,
+  sample_from_prior, sanitise_headers, screenlog, sequence_length,
+  site_model, site_model_name, site_model_names, site_models, sort,
+  store_every, strict_clock_model, taxa_names, tipdates_filename,
+  tn93_site_model, tracelog, treelog, tree_prior, tree_prior_name,
   tree_prior_names, tree_priors, verbose, yule_tree_prior)
 }
 \arguments{
 \item{alignment_id}{ID of the alignment,
-as returned by \code{\link{get_alignment_id}}.
+as returned by \link{get_alignment_id}.
 Keep at \code{NA} to have it initialized automatically}
 
 \item{bd_tree_prior}{a Birth-Death tree prior, as created
@@ -102,11 +104,11 @@ as returned by \code{\link{create_hky_site_model}}}
 
 \item{id}{an alignment's IDs.
 An ID can be extracted from its FASTA filename
-with \code{\link{get_alignment_ids}})}
+with \code{\link{get_alignment_ids_from_fasta_filenames}})}
 
 \item{ids}{one or more alignments' IDs.
 IDs can be extracted from their FASTA filenames
-with \code{\link{get_alignment_ids}})}
+with \code{\link{get_alignment_ids_from_fasta_filenames}})}
 
 \item{inference_model}{an Bayesian phylogenetic inference model,
 as can be created by \code{\link{create_inference_model}}.
@@ -133,8 +135,13 @@ as returned by \code{\link{create_mrca_prior}}}
 \item{jc69_site_model}{a JC69 site model,
 as returned by \code{\link{create_jc69_site_model}}}
 
+\item{log_every}{number of MCMC states between writing to file}
+
 \item{mcmc}{one MCMC
 as returned by \code{\link{create_mcmc}}}
+
+\item{mode}{mode how to log.
+Valid values are the ones returned by \link{get_log_modes}}
 
 \item{mrca_prior}{a Most Recent Common Ancestor prior,
 as returned by \code{\link{create_mrca_prior}}}
@@ -142,17 +149,35 @@ as returned by \code{\link{create_mrca_prior}}}
 \item{mrca_priors}{a list of one or more Most Recent Common Ancestor priors,
 as returned by \code{\link{create_mrca_prior}}}
 
+\item{mrca_prior_name}{the unique name of the MRCA prior,
+for example a genus, family,
+order or even class name.
+Leave at \link{NA} to have it named automatically.}
+
+\item{n_init_attempts}{number of initialization attempts before failing}
+
 \item{output_filename}{Name of the XML parameter file created by this
 function. BEAST2 uses this file as input.}
 
 \item{param_id}{a parameter's ID}
 
-\item{phylogeny}{a phylogeny of type \code{\link[ape]{phylo}}}
+\item{phylogeny}{a phylogeny of type \link[ape]{phylo}}
 
 \item{posterior_crown_age}{deprecated}
 
+\item{pre_burnin}{number of burn in samples taken before entering
+the main loop}
+
 \item{rln_clock_model}{a Relaxed Log-Normal clock model,
 as returned by \code{\link{create_rln_clock_model}}}
+
+\item{sample_from_prior}{set to \link{TRUE} to sample from the prior}
+
+\item{sanitise_headers}{set to \link{TRUE} to sanitise the headers of the
+log file}
+
+\item{screenlog}{a \code{screenlog},
+as created by \link{create_screenlog}}
 
 \item{sequence_length}{a DNA sequence length, in base pairs}
 
@@ -168,12 +193,20 @@ must be name among those returned by \code{\link{get_site_model_names}}}
 \item{site_models}{one or more site models,
 as returned by \code{\link{create_site_model}}}
 
+\item{sort}{how to sort the log.
+Valid values are the ones returned by \link{get_log_sorts}}
+
 \item{store_every}{number of states the MCMC will process
 before the posterior's state will be saved to file.
 Use -1 or \code{NA} to use the default frequency.}
 
 \item{strict_clock_model}{a strict clock model,
 as returned by \code{\link{create_strict_clock_model}}}
+
+\item{taxa_names}{names of the taxa,
+as returned by \code{\link{get_taxa_names}}.
+Keep at \code{NA} to have it initialized automatically,
+using all taxa in the alignment}
 
 \item{tipdates_filename}{name of the file containing the tip dates.
 This file is assumed to have two columns, separated by a tab.
@@ -182,6 +215,12 @@ the date.}
 
 \item{tn93_site_model}{a TN93 site model,
 as returned by \code{\link{create_tn93_site_model}}}
+
+\item{tracelog}{a \code{tracelog},
+as created by \link{create_tracelog}}
+
+\item{treelog}{a \code{treelog},
+as created by \link{create_treelog}}
 
 \item{tree_prior}{a tree priors,
 as returned by \code{\link{create_tree_prior}}}

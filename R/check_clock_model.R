@@ -27,7 +27,7 @@ check_clock_model <- function(clock_model) {
       )
     }
   }
-  if (!clock_model$name %in% get_clock_model_names()) {
+  if (!clock_model$name %in% beautier::get_clock_model_names()) {
     stop(
       "'clock_model$name' must be one of the clock model names (",
       paste0(get_clock_model_names(), collapse = ", "), "). \n",
@@ -35,10 +35,10 @@ check_clock_model <- function(clock_model) {
     )
   }
   if (clock_model$name == "strict") {
-    check_strict_clock_model(clock_model) # nolint beautier function
+    beautier::check_strict_clock_model(clock_model)
   } else {
     testit::assert(clock_model$name == "relaxed_log_normal")
-    check_rln_clock_model(clock_model) # nolint beautier function
+    beautier::check_rln_clock_model(clock_model)
   }
 }
 
@@ -139,7 +139,7 @@ check_strict_clock_model <- function(clock_model) {
       "Actual value: ", clock_model$clock_rate_distr
     )
   }
-  if (!is_param(clock_model$clock_rate_param)) {
+  if (!beautier::is_param(clock_model$clock_rate_param)) {
     stop(
       "'clock_model$clock_rate_param' must be a parameter. \n",
       "Tip: use create_param. \n",

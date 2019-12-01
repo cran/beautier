@@ -5,15 +5,22 @@
 #'   to create valid clock model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   testit::assert(is_clock_model(create_strict_clock_model()))
-#'   testit::assert(is_clock_model(create_rln_clock_model()))
-#'   testit::assert(!is_clock_model("nonsense"))
+#' library(testthat)
+#'
+#' expect_true(is_clock_model(create_strict_clock_model()))
+#' expect_true(is_clock_model(create_rln_clock_model()))
+#'
+#' expect_false(is_clock_model(NA))
+#' expect_false(is_clock_model(NULL))
+#' expect_false(is_clock_model("nonsense"))
+#' expect_false(is_clock_model(create_jc69_site_model()))
+#' expect_false(is_clock_model(create_mcmc()))
 #' @export
 is_clock_model <- function(
   x
 ) {
-  if (is_rln_clock_model(x)) return(TRUE) # nolint beautier function
-  if (is_strict_clock_model(x)) return(TRUE) # nolint beautier function
+  if (beautier::is_rln_clock_model(x)) return(TRUE)
+  if (beautier::is_strict_clock_model(x)) return(TRUE)
   FALSE
 }
 
@@ -26,17 +33,22 @@ is_clock_model <- function(
 #'   functions to create a clock model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#'   rln_clock_model <- create_rln_clock_model()
-#'   testit::assert(beautier:::is_rln_clock_model(rln_clock_model))
+#' library(testthat)
 #'
-#'   strict_clock_model <- create_strict_clock_model()
-#'   testit::assert(beautier:::is_strict_clock_model(strict_clock_model))
-#' @noRd
+#' expect_false(is_rln_clock_model(create_strict_clock_model()))
+#' expect_true(is_rln_clock_model(create_rln_clock_model()))
+#'
+#' expect_false(is_rln_clock_model(NA))
+#' expect_false(is_rln_clock_model(NULL))
+#' expect_false(is_rln_clock_model("nonsense"))
+#' expect_false(is_rln_clock_model(create_jc69_site_model()))
+#' expect_false(is_rln_clock_model(create_mcmc()))
+#' @export
 is_rln_clock_model <- function(
   x
 ) {
   tryCatch({
-      check_rln_clock_model(x) # nolint beautier function
+      beautier::check_rln_clock_model(x)
       TRUE
     },
     error = function(e) FALSE
@@ -49,19 +61,24 @@ is_rln_clock_model <- function(
 #' @return TRUE if x is a valid strict clock model, FALSE otherwise
 #' @seealso \code{\link{create_clock_model}} shows an overview of
 #'   functions to create a clock model
-#' @examples
-#'   strict_clock_model <- create_strict_clock_model()
-#'
-#'   # rln: Relaxed Log-Normal
-#'   rln_clock_model <- create_rln_clock_model()
-#'   testit::assert(!beautier:::is_strict_clock_model(rln_clock_model))
 #' @author Richèl J.C. Bilderbeek
-#' @noRd
+#' @examples
+#' library(testthat)
+#'
+#' expect_true(is_strict_clock_model(create_strict_clock_model()))
+#' expect_false(is_strict_clock_model(create_rln_clock_model()))
+#'
+#' expect_false(is_strict_clock_model(NA))
+#' expect_false(is_strict_clock_model(NULL))
+#' expect_false(is_strict_clock_model("nonsense"))
+#' expect_false(is_strict_clock_model(create_jc69_site_model()))
+#' expect_false(is_strict_clock_model(create_mcmc()))
+#' @export
 is_strict_clock_model <- function(
   x
 ) {
   tryCatch({
-      check_strict_clock_model(x) # nolint beautier function
+      beautier::check_strict_clock_model(x)
       TRUE
     },
     error = function(e) FALSE

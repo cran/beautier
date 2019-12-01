@@ -7,9 +7,9 @@
 gamma_site_model_to_xml_prior_distr <- function( # nolint beautier function
   site_model
 ) {
-  testit::assert(is_site_model(site_model)) # nolint beautier function
+  testit::assert(beautier::is_site_model(site_model))
   id <- site_model$id
-  testit::assert(is_id(id)) # nolint beautier function
+  testit::assert(beautier::is_id(id))
 
   text <- NULL
   gamma_site_model <- site_model$gamma_site_model
@@ -19,11 +19,10 @@ gamma_site_model_to_xml_prior_distr <- function( # nolint beautier function
       "x=\"@gammaShape.s:", id, "\">"))
     text <- c(
       text,
-      indent( # nolint beautier function
-        distr_to_xml( # nolint beautier function
+      beautier::indent(
+        beautier::distr_to_xml(
           gamma_site_model$gamma_shape_prior_distr
-        ),
-        n_spaces = 4
+        )
       )
     )
     text <- c(text, paste0("</prior>"))

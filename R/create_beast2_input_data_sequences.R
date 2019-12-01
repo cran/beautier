@@ -9,8 +9,9 @@ create_beast2_input_data_sequences <- function( # nolint beautier function
   input_fasta_filename,
   beauti_options = create_beauti_options()
 ) {
+  beautier::check_file_exists(input_fasta_filename, "input_fasta_filename")
+
   nucleotides_uppercase <- beauti_options$nucleotides_uppercase
-  testit::assert(file.exists(input_fasta_filename))
 
   sequences_table <- fasta_file_to_sequences(
     input_fasta_filename)
@@ -30,5 +31,5 @@ create_beast2_input_data_sequences <- function( # nolint beautier function
     text <- c(text, nextline)
   }
   text <- sort(text, method = "radix")
-  indent(text = text, n_spaces = beauti_options$sequence_indent) # nolint beautier function
+  beautier::indent(text = text, n_spaces = beauti_options$sequence_indent)
 }

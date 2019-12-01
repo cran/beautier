@@ -27,8 +27,40 @@
 check_mrca_prior <- function(mrca_prior) {
 
   # An MRCA prior can be NA
-  if (is_one_na(mrca_prior)) return() # nolint beautier function
+  if (beautier::is_one_na(mrca_prior)) return()
 
+  # If not, it should have all list elements needed
+  beautier::check_mrca_prior_names(mrca_prior)
+
+  beautier::check_is_monophyletic(mrca_prior$is_monophyletic)
+  beautier::check_mrca_prior_name(mrca_prior$name)
+  beautier::check_alignment_id(mrca_prior$alignment_id)
+  beautier::check_mrca_prior_taxa_names(mrca_prior$taxa_names)
+
+  if (!beautier::is_distr(mrca_prior$mrca_distr) &&
+      !beautier::is_one_na(mrca_prior$mrca_distr)) {
+    stop("'mrca_distr' must a distribution, as created by 'create_distr'")
+  }
+  if (!beautier::is_one_na(mrca_prior$clock_prior_distr_id) &&
+      !beautier::is_one_int(mrca_prior$clock_prior_distr_id)
+  ) {
+    stop("'clock_prior_distr_id' must be one NA or one number")
+  }
+
+}
+
+#' Check if the MRCA prior,
+#' which is a list, has all the named elements.
+#'
+#' Calls \code{stop} if not.
+#' @inheritParams default_params_doc
+#' @return nothing
+#' @seealso Use \link{check_mrca_prior} to check the entire MRCA prior
+#' @author Richèl J.C. Bilderbeek
+#' @export
+check_mrca_prior_names <- function(
+  mrca_prior
+) {
   argument_names <- c(
     "name", "alignment_id", "taxa_names", "is_monophyletic", "mrca_distr",
     "clock_prior_distr_id"
@@ -41,39 +73,4 @@ check_mrca_prior <- function(mrca_prior) {
       )
     }
   }
-  if (length(mrca_prior$name) != 1 ||
-      (!is.character(mrca_prior$name) && !is_one_na(mrca_prior$name))) { # nolint beautier function
-    stop("'name' must be NA or characters")
-  }
-  if (!is_one_na(mrca_prior$alignment_id) && # nolint beautier function
-      !is.character(mrca_prior$alignment_id)) {
-    stop("'alignment_id' must be NA or characters")
-  }
-  if (!is_one_na(mrca_prior$taxa_names) && # nolint beautier function
-      !is.vector(mrca_prior$taxa_names, mode = "character")) {
-    stop("'taxa_names' must a character vector")
-  }
-  if (!is.logical(mrca_prior$is_monophyletic)) {
-    stop("'is_monophyletic' must be either TRUE or FALSE")
-  }
-  if (!is_distr(mrca_prior$mrca_distr) && # nolint beautier function
-      !is_one_na(mrca_prior$mrca_distr)) { # nolint beautier function
-    stop("'mrca_distr' must a distribution, as created by 'create_distr'")
-  }
-  testit::assert(length(mrca_prior$taxa_names) > 0)
-  if (!is_one_na(mrca_prior$taxa_names) && # nolint beautier function
-      sum(mrca_prior$taxa_names == "") > 0) {
-    stop("'taxa_names' must be NA or have at least one taxon name")
-  }
-  if (!is_one_na(mrca_prior$taxa_names) && # nolint beautier function
-      length(unique(mrca_prior$taxa_names)) != length(mrca_prior$taxa_names)
-  ) {
-    stop("'taxa_names' must be NA or all names must be unique")
-  }
-  if (!is_one_na(mrca_prior$clock_prior_distr_id) && # nolint beautier function
-      (length(mrca_prior$clock_prior_distr_id) != 1 ||
-      !is.numeric(mrca_prior$clock_prior_distr_id))) {
-    stop("'clock_prior_distr_id' must be one NA or one number")
-  }
-
 }

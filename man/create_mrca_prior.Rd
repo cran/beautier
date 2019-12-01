@@ -10,7 +10,7 @@ create_mrca_prior(alignment_id = NA, taxa_names = NA,
 }
 \arguments{
 \item{alignment_id}{ID of the alignment,
-as returned by \code{\link{get_alignment_id}}.
+as returned by \link{get_alignment_id}.
 Keep at \code{NA} to have it initialized automatically}
 
 \item{taxa_names}{names of the taxa,
@@ -27,7 +27,8 @@ Can be NA (the default) or any distribution
 returned by \code{\link{create_distr}}}
 
 \item{name}{the unique name of the MRCA prior, for example a genus, family,
-order or even class name. Leave at NA to have it named automatically}
+order or even class name.
+Leave at \link{NA} to have it named automatically.}
 
 \item{clock_prior_distr_id}{ID of an MRCA clock model's distribution.
 Keep at \code{NA} to have it initialized automatically}

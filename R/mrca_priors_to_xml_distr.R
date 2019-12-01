@@ -18,8 +18,8 @@ mrca_priors_to_xml_prior_distr <- function( # nolint beautier function
   mrca_priors,
   has_non_strict_clock_model
 ) {
-  testit::assert(are_mrca_priors(mrca_priors)) # nolint beautier function
-  if (length(mrca_priors) == 1 && is_one_na(mrca_priors)) return(NULL) # nolint beautier function
+  testit::assert(beautier::are_mrca_priors(mrca_priors))
+  if (length(mrca_priors) == 1 && beautier::is_one_na(mrca_priors)) return(NULL)
 
   text <- NULL
   taxa_names_with_ids <- NULL
@@ -32,7 +32,7 @@ mrca_priors_to_xml_prior_distr <- function( # nolint beautier function
         taxa_names_with_ids = taxa_names_with_ids
       )
     )
-    testit::assert(!is_one_na(mrca_prior$taxa_names)) # nolint beautier function
+    testit::assert(!beautier::is_one_na(mrca_prior$taxa_names))
     taxa_names_with_ids <- unique(
       c(taxa_names_with_ids, mrca_prior$taxa_names)
     )

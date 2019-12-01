@@ -11,10 +11,13 @@
 #' @param sub_chain_length sub-chain length
 #' @param epsilon epsilon
 #' @return an MCMC object
-#' @seealso Use \code{\link{create_nested_sampling_mcmc}} to create a
-#'   nested sampling MCMC
+#' @seealso
+#' Use \link{create_mcmc} to create a regular MCMC.
+#' Use \link{create_test_ns_mcmc} to create an NS MCMC for testing,
+#'   with, among others, a short MCMC chain length.
+#' Use \link{check_ns_mcmc} to check that an NS MCMC object is valid.
 #' @examples
-#'   mcmc <- create_mcmc_nested_sampling(
+#'   mcmc <- create_ns_mcmc(
 #'     chain_length = 1e7,
 #'     store_every = 1000,
 #'     particle_count = 1,
@@ -35,30 +38,34 @@
 #'     Phylogenetics Using Nested Sampling, Systematic Biology, 2018,
 #'     syy050, https://doi.org/10.1093/sysbio/syy050
 #' @author Richèl J.C. Bilderbeek
-#' @aliases create_nested_sampling_mcmc create_mcmc_nested_sampling
-#' @export create_nested_sampling_mcmc create_mcmc_nested_sampling
-create_nested_sampling_mcmc <- create_mcmc_nested_sampling <- function(
+#' @aliases create_ns_mcmc create_mcmc_nested_sampling
+#' @export create_ns_mcmc create_mcmc_nested_sampling
+create_ns_mcmc <- create_mcmc_nested_sampling <- function(
   chain_length = 10000000,
   store_every = -1,
+  pre_burnin = 0,
+  n_init_attempts = 3,
   particle_count = 1,
   sub_chain_length = 5000,
-  epsilon = "1e-12"
+  epsilon = "1e-12",
+  tracelog = create_tracelog(),
+  screenlog = create_screenlog(),
+  treelog = create_treelog()
 ) {
+  # Unsure about 'sample_from_prior' in NS MCMC, Issue #108
   mcmc <- create_mcmc(
     chain_length = chain_length,
-    store_every = store_every
+    store_every = store_every,
+    pre_burnin = pre_burnin,
+    n_init_attempts = n_init_attempts,
+    sample_from_prior = FALSE,
+    tracelog = tracelog,
+    screenlog = screenlog,
+    treelog = treelog
   )
-  if (particle_count < 1) {
-    stop("'particle_count' must be a non-zero amount")
-  }
-  if (sub_chain_length < 1) {
-    stop("'sub_chain_length' must be a non-zero amount")
-  }
-  if (epsilon <= 0.0) {
-    stop("'epsilon' must be a non-zero number")
-  }
   mcmc$particle_count <- particle_count
   mcmc$sub_chain_length <- sub_chain_length
   mcmc$epsilon <- epsilon
+  beautier::check_nested_sampling_mcmc(mcmc)
   mcmc
 }

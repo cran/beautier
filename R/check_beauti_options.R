@@ -32,38 +32,21 @@ check_beauti_options <- function(
       )
     }
   }
-  if (length(beauti_options$capitalize_first_char_id) != 1 ||
-    is_one_na(beauti_options$capitalize_first_char_id) || # nolint beautier function
-    !is.logical(beauti_options$capitalize_first_char_id)) {
+  if (!is_one_bool(beauti_options$capitalize_first_char_id)) { # nolint beautier function
     stop(
       "'capitalize_first_char_id' must be one boolean. \n",
       "Actual value: ", beauti_options$capitalize_first_char_id
     )
   }
-  if (length(beauti_options$nucleotides_uppercase) != 1 ||
-    is_one_na(beauti_options$nucleotides_uppercase) || # nolint beautier function
-    !is.logical(beauti_options$nucleotides_uppercase)) {
+  if (!is_one_bool(beauti_options$nucleotides_uppercase)) { # nolint beautier function
     stop(
       "'nucleotides_uppercase' must be one boolean. \n",
       "Actual value: ", beauti_options$nucleotides_uppercase
     )
   }
-  if (length(beauti_options$beast2_version) != 1 ||
-    !is.character(beauti_options$beast2_version)) {
-    stop(
-      "'beast2_version' must be one character string. \n",
-      "Actual value: ", beauti_options$beast2_version
-    )
-  }
-  if (length(beauti_options$required) != 1 ||
-    !is.character(beauti_options$required)) {
-    stop(
-      "'required' must be one character string. \n",
-      "Actual value: ", beauti_options$required
-    )
-  }
-  if (length(beauti_options$sequence_indent) != 1 ||
-    !is.numeric(beauti_options$sequence_indent)) {
+  assertive::assert_is_a_string(beauti_options$beast2_version)
+  assertive::assert_is_a_string(beauti_options$required)
+  if (!is_one_int(beauti_options$sequence_indent)) { #  nolint beautier function
     stop(
       "'sequence_indent' must be one number. \n",
       "Actual value: ", beauti_options$sequence_indent

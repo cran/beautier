@@ -1,21 +1,28 @@
-## ------------------------------------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = ""
+)
+
+## ----load_beautier------------------------------------------------------------
 library(beautier)
 
-## ------------------------------------------------------------------------
+## ----get_fasta_filename-------------------------------------------------------
 fasta_filename <- get_beautier_path("test_output_0.fas")
 
-## ------------------------------------------------------------------------
+## ----show_alignment-----------------------------------------------------------
 image(ape::read.FASTA(fasta_filename))
 
-## ------------------------------------------------------------------------
-# The name of the file you intend to let BEAST2 run
-output_filename <- tempfile(pattern = "beeast2", fileext = ".xml")
+## ----create_output_filename---------------------------------------------------
+output_filename <- tempfile(pattern = "beast2", fileext = ".xml")
+output_filename
 
+## ----create_beast2_input_file-------------------------------------------------
 create_beast2_input_file(
   fasta_filename,
   output_filename
 )
 
-## ------------------------------------------------------------------------
-cat(readLines(output_filename), quote = FALSE, sep = '\n')
+## ----show_beast2_input_file---------------------------------------------------
+readLines(output_filename)
 

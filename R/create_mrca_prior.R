@@ -1,11 +1,8 @@
 #' Create a Most Recent Common Ancestor prior
 #' @inheritParams default_params_doc
 #' @param name the unique name of the MRCA prior, for example a genus, family,
-#'   order or even class name. Leave at NA to have it named automatically
-#' @param taxa_names names of the taxa,
-#'   as returned by \code{\link{get_taxa_names}}.
-#'   Keep at \code{NA} to have it initialized automatically,
-#'   using all taxa in the alignment
+#' order or even class name.
+#' Leave at \link{NA} to have it named automatically.
 #' @param mrca_distr the distribution used by the MRCA prior.
 #'   Can be NA (the default) or any distribution
 #'   returned by \code{\link{create_distr}}
@@ -43,6 +40,6 @@ create_mrca_prior <- function(
     mrca_distr = mrca_distr,
     clock_prior_distr_id = clock_prior_distr_id
   )
-  check_mrca_prior(mrca_prior) # nolint beautier function
+  beautier::check_mrca_prior(mrca_prior)
   mrca_prior
 }

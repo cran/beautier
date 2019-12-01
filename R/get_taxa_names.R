@@ -10,12 +10,6 @@
 #'   testit::assert(created == expected)
 #' @export
 get_taxa_names <- function(filename) {
-
-  if (!file.exists(filename)) {
-    stop(
-      "'filename' must be the name of a file that is present. ",
-      "File '", filename, "' not found"
-    )
-  }
+  beautier::check_file_exists(filename, "filename")
   names(seqinr::read.fasta(filename))
 }

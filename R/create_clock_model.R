@@ -40,10 +40,10 @@ create_clock_model <- function(
   id,
   ...
 ) {
-  if (!is_clock_model_name(name)) { # nolint beautier function
+  if (!beautier::is_clock_model_name(name)) {
     clock_models_as_string <- function() {
       s <- NULL
-      for (p in get_clock_model_names()) { # nolint beautier function
+      for (p in beautier::get_clock_model_names()) {
         s <- paste0(s, ", ", p)
       }
       s <- substr(s, start = 3, stop = nchar(s))
@@ -124,7 +124,7 @@ create_rln_clock_model <- create_clock_model_rln <- function(
     normalize_mean_clock_rate = normalize_mean_clock_rate,
     dimension = dimension
   )
-  testit::assert(is_rln_clock_model(rln_clock_model)) # nolint beautier function
+  testit::assert(beautier::is_rln_clock_model(rln_clock_model))
   rln_clock_model
 }
 
@@ -170,7 +170,7 @@ create_strict_clock_model <- create_clock_model_strict <- function(
   clock_rate_param = create_clock_rate_param(),
   clock_rate_distr = create_uniform_distr()
 ) {
-  if (length(clock_rate_param) == 1 && is.numeric(clock_rate_param)) {
+  if (beautier::is_one_double(clock_rate_param)) {
     clock_rate_param <- create_clock_rate_param(clock_rate_param)
   }
   if (!is_clock_rate_param(clock_rate_param)) { # nolint beautier function
@@ -191,6 +191,6 @@ create_strict_clock_model <- create_clock_model_strict <- function(
     clock_rate_param = clock_rate_param,
     clock_rate_distr = clock_rate_distr
   )
-  testit::assert(is_strict_clock_model(strict_clock_model)) # nolint beautier function
+  testit::assert(beautier::is_strict_clock_model(strict_clock_model))
   strict_clock_model
 }
