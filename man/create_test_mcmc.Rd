@@ -4,10 +4,16 @@
 \alias{create_test_mcmc}
 \title{Create an MCMC configuration for testing.}
 \usage{
-create_test_mcmc(chain_length = 3000, store_every = 1000,
-  pre_burnin = 0, n_init_attempts = 10, sample_from_prior = FALSE,
+create_test_mcmc(
+  chain_length = 3000,
+  store_every = 1000,
+  pre_burnin = 0,
+  n_init_attempts = 10,
+  sample_from_prior = FALSE,
   tracelog = create_test_tracelog(),
-  screenlog = create_test_screenlog(), treelog = create_test_treelog())
+  screenlog = create_test_screenlog(),
+  treelog = create_test_treelog()
+)
 }
 \arguments{
 \item{chain_length}{length of the MCMC chain}
@@ -53,7 +59,7 @@ mcmc <- create_test_mcmc()
 expect_true(file.exists(beast2_input_file))
 }
 \seealso{
-Use \link{create_mcmc} to create a default BEAST2 MCMC
+Use \code{\link{create_mcmc}} to create a default BEAST2 MCMC
 }
 \author{
 Richèl J.C. Bilderbeek

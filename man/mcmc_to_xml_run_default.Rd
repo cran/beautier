@@ -7,8 +7,12 @@
 mcmc_to_xml_run_default(mcmc)
 }
 \arguments{
-\item{mcmc}{one MCMC
-as returned by \code{\link{create_mcmc}}}
+\item{mcmc}{one MCMC.
+Use \code{\link{create_mcmc}} to create an MCMC.
+Use \code{\link{create_ns_mcmc}} to create an MCMC
+  for a Nested Sampling run.
+Use \code{\link{check_mcmc}} to check if an MCMC is valid.
+Use \code{\link{rename_mcmc_filenames}} to rename the filenames in an MCMC.}
 }
 \value{
 the XML as text
@@ -23,7 +27,7 @@ xml <- mcmc_to_xml_run_default(create_mcmc())
 
 expect_equal(
   xml,
-  "<run id=\\"mcmc\\" spec=\\"MCMC\\" chainLength=\\"1e+07\\">"
+  "<run id=\"mcmc\" spec=\"MCMC\" chainLength=\"1e+07\">"
 )
 }
 \author{

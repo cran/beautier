@@ -4,11 +4,12 @@
 \alias{create_test_ns_inference_model}
 \title{Create an inference model to be tested by Nested Sampling}
 \usage{
-
-  create_test_ns_inference_model(site_model = beautier::create_jc69_site_model(),
+create_test_ns_inference_model(
+  site_model = beautier::create_jc69_site_model(),
   clock_model = beautier::create_strict_clock_model(),
   tree_prior = beautier::create_yule_tree_prior(),
-  mcmc = beautier::create_test_ns_mcmc())
+  mcmc = beautier::create_test_ns_mcmc()
+)
 }
 \arguments{
 \item{site_model}{a site model,
@@ -20,8 +21,12 @@ as returned by \code{\link{create_clock_model}}}
 \item{tree_prior}{a tree priors,
 as returned by \code{\link{create_tree_prior}}}
 
-\item{mcmc}{one MCMC
-as returned by \code{\link{create_mcmc}}}
+\item{mcmc}{one MCMC.
+Use \code{\link{create_mcmc}} to create an MCMC.
+Use \code{\link{create_ns_mcmc}} to create an MCMC
+  for a Nested Sampling run.
+Use \code{\link{check_mcmc}} to check if an MCMC is valid.
+Use \code{\link{rename_mcmc_filenames}} to rename the filenames in an MCMC.}
 }
 \description{
 Create an inference model to be tested by Nested Sampling

@@ -7,8 +7,12 @@
 is_default_mcmc(mcmc)
 }
 \arguments{
-\item{mcmc}{one MCMC
-as returned by \code{\link{create_mcmc}}}
+\item{mcmc}{one MCMC.
+Use \code{\link{create_mcmc}} to create an MCMC.
+Use \code{\link{create_ns_mcmc}} to create an MCMC
+  for a Nested Sampling run.
+Use \code{\link{check_mcmc}} to check if an MCMC is valid.
+Use \code{\link{rename_mcmc_filenames}} to rename the filenames in an MCMC.}
 }
 \value{
 TRUE if the MCMC is a default MCMC
@@ -19,7 +23,7 @@ Determine if the MCMC is a default MCMC
 \examples{
 library(testthat)
 
- # An MCMC created by 'create_mcmc' is default
+# An MCMC created by 'create_mcmc' is default
 expect_true(is_default_mcmc(create_mcmc()))
 
 # An MCMC created by 'create_ns_mcmc' is not

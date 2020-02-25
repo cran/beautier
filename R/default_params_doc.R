@@ -6,6 +6,7 @@
 #'   Keep at \code{NA} to have it initialized automatically
 #' @param bd_tree_prior a Birth-Death tree prior, as created
 #'   by \code{\link{create_bd_tree_prior}}
+#' @param beast2_version BEAST2 version, for example, code{"2.5"}
 #' @param beauti_options one BEAUti options object,
 #'   as returned by \code{\link{create_beauti_options}}
 #' @param clock_prior_distr_id ID of an MRCA clock model's distribution.
@@ -44,31 +45,29 @@
 #'   of the initial phylogeny.
 #' @param gamma_site_model a site model's gamma site model,
 #'   as returned by \code{\link{create_gamma_site_model}}
-#' @param group_sizes_dimension the group sizes' dimension, as used
-#'   by the CBS tree prior (see \code{\link{create_cbs_tree_prior}})
+#' @param group_sizes_dimension the group sizes' dimension,
+#'   as used by the CBS tree prior (see \code{\link{create_cbs_tree_prior}})
+#' @param gtr_site_model a GTR site model,
+#'   as returned by \code{\link{create_gtr_site_model}}
 #' @param has_non_strict_clock_model boolean to indicate that the is
 #'   already at least one non-strict (i.e. relaxed log-normal) clock model
 #' @param has_tip_dating TRUE if the user has supplied tip dates,
 #'   FALSE otherwise
 #' @param hky_site_model an HKY site model,
 #'   as returned by \code{\link{create_hky_site_model}}
-#' @param is_monophyletic boolean to indicate monophyly is assumed in
-#'   a Most Recent Common Ancestor prior,
-#'   as returned by \code{\link{create_mrca_prior}}
-#' @param jc69_site_model a JC69 site model,
-#'   as returned by \code{\link{create_jc69_site_model}}
-#' @param gtr_site_model a GTR site model,
-#'   as returned by \code{\link{create_gtr_site_model}}
 #' @param id an alignment's IDs.
 #'   An ID can be extracted from its FASTA filename
 #'   with \code{\link{get_alignment_ids_from_fasta_filenames}})
 #' @param ids one or more alignments' IDs.
 #'   IDs can be extracted from their FASTA filenames
 #'   with \code{\link{get_alignment_ids_from_fasta_filenames}})
-#' @param inference_model an Bayesian phylogenetic inference model,
-#'   as can be created by \code{\link{create_inference_model}}.
+#' @param inference_model a Bayesian phylogenetic inference model.
 #'   An inference model is the complete model setup in which a site model,
 #'   clock model, tree prior and more are specified.
+#'   Use \link{create_inference_model} to create an inference model.
+#'   Use \link{check_inference_model} to check if  an inference model is valid.
+#'   Use \link{rename_inference_model_filenames} to rename the files in an
+#'   inference model.
 #' @param inference_models a list of one or more inference models,
 #'   as can be created by \link{create_inference_model}
 #' @param initial_phylogenies one or more MCMC chain's initial phylogenies.
@@ -78,9 +77,18 @@
 #'   Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.
 #' @param input_filenames One or more FASTA filenames.
 #'   Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.
+#' @param is_monophyletic boolean to indicate monophyly is assumed in
+#'   a Most Recent Common Ancestor prior,
+#'   as returned by \code{\link{create_mrca_prior}}
+#' @param jc69_site_model a JC69 site model,
+#'   as returned by \code{\link{create_jc69_site_model}}
 #' @param log_every number of MCMC states between writing to file
-#' @param mcmc one MCMC
-#'   as returned by \code{\link{create_mcmc}}
+#' @param mcmc one MCMC.
+#'   Use \code{\link{create_mcmc}} to create an MCMC.
+#'   Use \code{\link{create_ns_mcmc}} to create an MCMC
+#'     for a Nested Sampling run.
+#'   Use \code{\link{check_mcmc}} to check if an MCMC is valid.
+#'   Use \code{\link{rename_mcmc_filenames}} to rename the filenames in an MCMC.
 #' @param mode mode how to log.
 #' Valid values are the ones returned by \link{get_log_modes}
 #' @param mrca_prior a Most Recent Common Ancestor prior,
@@ -94,11 +102,27 @@
 #' @param n_init_attempts number of initialization attempts before failing
 #' @param output_filename Name of the XML parameter file created by this
 #'   function. BEAST2 uses this file as input.
+#' @param param a parameter, as can be created by \code{\link{create_param}}.
 #' @param param_id a parameter's ID
 #' @param phylogeny a phylogeny of type \link[ape]{phylo}
 #' @param posterior_crown_age deprecated
 #' @param pre_burnin number of burn in samples taken before entering
 #'   the main loop
+#' @param rename_fun a function to rename a filename,
+#' as can be checked by \link{check_rename_fun}. This function should
+#' have one argument, which will be a filename or \link{NA}. The
+#' function should \link{return} one filename (when passed one filename) or
+#' one \link{NA} (when passed one \link{NA}).
+#' Example rename functions are:
+#' \itemize{
+#'   \item \link{get_remove_dir_fun} get a function that removes the directory
+#'     paths from the filenames, in effect turning these into local files
+#'   \item \link{get_replace_dir_fun} get a function that replaces the directory
+#'     paths from the filenames
+#'   \item \link{get_remove_hex_fun} get a function that removes the
+#'     hex string from filenames.
+#'     For example, \code{tracelog_82c1a522040.log} becomes \code{tracelog.log}
+#' }
 #' @param rln_clock_model a Relaxed Log-Normal clock model,
 #'   as returned by \code{\link{create_rln_clock_model}}
 #' @param sample_from_prior set to \link{TRUE} to sample from the prior
@@ -150,12 +174,13 @@
 #'   as created by \code{\link{create_yule_tree_prior}}
 #' @author Richèl J.C. Bilderbeek
 #' @note This is an internal function, so it should be marked with
-#'   \code{@noRd}. This is not done, as this will disallow all
+#'   \code{@export}. This is not done, as this will disallow all
 #'   functions to find the documentation parameters
 default_params_doc <- function(
   alignment_id,
   bd_tree_prior,
   cbs_tree_prior,
+  beast2_version,
   beauti_options,
   ccp_tree_prior,
   cep_tree_prior,
@@ -190,10 +215,12 @@ default_params_doc <- function(
   mrca_prior_name,
   n_init_attempts,
   output_filename,
+  param,
   param_id,
   phylogeny,
   posterior_crown_age,
   pre_burnin,
+  rename_fun,
   rln_clock_model,
   sample_from_prior,
   sanitise_headers,
@@ -235,7 +262,7 @@ default_params_doc <- function(
 #' @param ... specific parameter parameters
 #' @author Richèl J.C. Bilderbeek
 #' @note This is an internal function, so it should be marked with
-#'   \code{@noRd}. This is not done, as this will disallow all
+#'   \code{@export}. This is not done, as this will disallow all
 #'   functions to find the documentation parameters
 default_parameters_doc <- function(
   estimate,

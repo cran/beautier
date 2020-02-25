@@ -6,11 +6,18 @@
 \title{Create an MCMC object to estimate the marginal likelihood
 using Nested Sampling.}
 \usage{
-create_ns_mcmc(chain_length = 1e+07, store_every = -1,
-  pre_burnin = 0, n_init_attempts = 3, particle_count = 1,
-  sub_chain_length = 5000, epsilon = "1e-12",
-  tracelog = create_tracelog(), screenlog = create_screenlog(),
-  treelog = create_treelog())
+create_ns_mcmc(
+  chain_length = 1e+07,
+  store_every = -1,
+  pre_burnin = 0,
+  n_init_attempts = 3,
+  particle_count = 1,
+  sub_chain_length = 5000,
+  epsilon = "1e-12",
+  tracelog = create_tracelog(),
+  screenlog = create_screenlog(),
+  treelog = create_treelog()
+)
 }
 \arguments{
 \item{chain_length}{upper bound to the length of the MCMC chain}
@@ -72,10 +79,10 @@ to the length of that run.
     syy050, https://doi.org/10.1093/sysbio/syy050
 }
 \seealso{
-Use \link{create_mcmc} to create a regular MCMC.
-Use \link{create_test_ns_mcmc} to create an NS MCMC for testing,
+Use \code{\link{create_mcmc}} to create a regular MCMC.
+Use \code{\link{create_test_ns_mcmc}} to create an NS MCMC for testing,
   with, among others, a short MCMC chain length.
-Use \link{check_ns_mcmc} to check that an NS MCMC object is valid.
+Use \code{\link{check_ns_mcmc}} to check that an NS MCMC object is valid.
 }
 \author{
 Richèl J.C. Bilderbeek

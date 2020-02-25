@@ -4,11 +4,15 @@
 \alias{create_test_inference_model}
 \title{Create a simple inference model with a short MCMC chain}
 \usage{
-create_test_inference_model(site_model = create_jc69_site_model(),
+create_test_inference_model(
+  site_model = create_jc69_site_model(),
   clock_model = create_strict_clock_model(),
-  tree_prior = create_yule_tree_prior(), mrca_prior = NA,
-  mcmc = create_test_mcmc(), beauti_options = create_beauti_options(),
-  tipdates_filename = NA)
+  tree_prior = create_yule_tree_prior(),
+  mrca_prior = NA,
+  mcmc = create_test_mcmc(),
+  beauti_options = create_beauti_options(),
+  tipdates_filename = NA
+)
 }
 \arguments{
 \item{site_model}{a site model,
@@ -23,8 +27,12 @@ as returned by \code{\link{create_tree_prior}}}
 \item{mrca_prior}{a Most Recent Common Ancestor prior,
 as returned by \code{\link{create_mrca_prior}}}
 
-\item{mcmc}{one MCMC
-as returned by \code{\link{create_mcmc}}}
+\item{mcmc}{one MCMC.
+Use \code{\link{create_mcmc}} to create an MCMC.
+Use \code{\link{create_ns_mcmc}} to create an MCMC
+  for a Nested Sampling run.
+Use \code{\link{check_mcmc}} to check if an MCMC is valid.
+Use \code{\link{rename_mcmc_filenames}} to rename the filenames in an MCMC.}
 
 \item{beauti_options}{one BEAUti options object,
 as returned by \code{\link{create_beauti_options}}}

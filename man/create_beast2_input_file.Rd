@@ -4,15 +4,23 @@
 \alias{create_beast2_input_file}
 \title{Create a BEAST2 input file}
 \usage{
-create_beast2_input_file(input_filename, output_filename,
+create_beast2_input_file(
+  input_filename,
+  output_filename,
   site_model = create_jc69_site_model(),
   clock_model = create_strict_clock_model(),
-  tree_prior = create_yule_tree_prior(), mrca_prior = NA,
-  mcmc = create_mcmc(), beauti_options = create_beauti_options(),
-  tipdates_filename = NA, input_filenames = "deprecated",
-  site_models = "deprecated", clock_models = "deprecated",
-  tree_priors = "deprecated", mrca_priors = "deprecated",
-  posterior_crown_age = "deprecated")
+  tree_prior = create_yule_tree_prior(),
+  mrca_prior = NA,
+  mcmc = create_mcmc(),
+  beauti_options = create_beauti_options(),
+  tipdates_filename = NA,
+  input_filenames = "deprecated",
+  site_models = "deprecated",
+  clock_models = "deprecated",
+  tree_priors = "deprecated",
+  mrca_priors = "deprecated",
+  posterior_crown_age = "deprecated"
+)
 }
 \arguments{
 \item{input_filename}{A FASTA filename.
@@ -33,8 +41,12 @@ as returned by \code{\link{create_tree_prior}}}
 \item{mrca_prior}{a Most Recent Common Ancestor prior,
 as returned by \code{\link{create_mrca_prior}}}
 
-\item{mcmc}{one MCMC
-as returned by \code{\link{create_mcmc}}}
+\item{mcmc}{one MCMC.
+Use \code{\link{create_mcmc}} to create an MCMC.
+Use \code{\link{create_ns_mcmc}} to create an MCMC
+  for a Nested Sampling run.
+Use \code{\link{check_mcmc}} to check if an MCMC is valid.
+Use \code{\link{rename_mcmc_filenames}} to rename the filenames in an MCMC.}
 
 \item{beauti_options}{one BEAUti options object,
 as returned by \code{\link{create_beauti_options}}}
