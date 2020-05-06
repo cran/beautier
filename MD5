@@ -1,4 +1,4 @@
-1217c9e8c915c5d7cfa1f3b2d200c053 *DESCRIPTION
+6ee2bcc4b8e70fa0a3e0623ee7054c53 *DESCRIPTION
 d42a8a99d4e1ef96667de47dfe4b1bd6 *NAMESPACE
 4a0e6711ee28207db7ef74b539f10687 *R/are_clock_models.R
 9c050d33db6e368ff8e36e9a1102961c *R/are_equal_mcmcs.R
@@ -245,7 +245,7 @@ c6f9c1275b3610ede8ab2130cebd9742 *R/site_models_to_xml_operators.R
 5f38bce4436f2a1a48c2cbf9606b8fcc *R/site_models_to_xml_prior_distr.R
 b3fd42328b5d4963348effd8c130bd5d *R/site_models_to_xml_state.R
 a838e2c232303a2fc7737669d1919926 *R/site_models_to_xml_tracelog.R
-4a8fc9e99f89437112612dee1617a86d *R/taxa_to_xml_tree.R
+34b55a06701b2333109206bef903beca *R/taxa_to_xml_tree.R
 8a39f454fed133b4d55a2d014bdab690 *R/tree_models_to_xml_tracelog.R
 43343d6d949eb66c107bfb2f2e2cb5d6 *R/tree_prior_to_xml_operators.R
 61fe743fc623132de75ed879daad6c5b *R/tree_prior_to_xml_prior_distr.R
@@ -257,13 +257,13 @@ e257404233e861f21ad2545019d1aa67 *R/tree_prior_to_xml_state.R
 a07316150187fe4fb65237a05c36542d *R/tree_priors_to_xml_tracelog.R
 025cf4a3e6b1e91e812dd63066bcc2ba *build/vignette.rds
 604d69ff7d5954219736e01c41d18e48 *inst/CITATION
-f4aebf64c62a6c3820d4fa22a7db86c5 *inst/WORDLIST
+266f80929162735d11df5a124db0f80b *inst/WORDLIST
 4aac0c8a528b84123dacc71ab51c0627 *inst/doc/demo.R
 bdfb8677fc11aa0ceb4751d598d6f6c3 *inst/doc/demo.Rmd
-d8dc47746299a3d3ae1ba82fc729ccf3 *inst/doc/demo.html
+f7d86b8a9dcd4793a101b9a1e63c541e *inst/doc/demo.html
 7a8dc6248d869479471923e04730ffed *inst/doc/examples.R
 4d6104e026dd33a68d55673b65e23fbb *inst/doc/examples.Rmd
-343a6c055c9b27c0d2de923c5397e03c *inst/doc/examples.html
+61cad75036d21203c0a52b2bc4284481 *inst/doc/examples.html
 ab8a5a5c4df00592d083429ac59b400e *inst/extdata/2_4.xml
 4518fad1510f98fa3c2956a177675e13 *inst/extdata/2_6_0.xml
 e67325fd7bfce7aff6687e6e7d0f1323 *inst/extdata/G_VII_pre2003.xml
