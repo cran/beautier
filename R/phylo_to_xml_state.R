@@ -6,12 +6,9 @@
 #' @author Richèl J.C. Bilderbeek
 #' @export
 phylo_to_xml_state <- function(
-  id,
-  tipdates_filename = NA
+  id = "irrelevant",
+  inference_model = "irrelevant",
+  tipdates_filename = "deprecated"
 ) {
-  testit::assert(beautier::is_id(id))
-  beautier::taxa_to_xml_tree(
-    id = id,
-    tipdates_filename = tipdates_filename
-  )
+  stop("Use 'taxa_to_xml_tree'")
 }

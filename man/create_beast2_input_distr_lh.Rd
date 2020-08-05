@@ -2,17 +2,27 @@
 % Please edit documentation in R/create_beast2_input_distr.R
 \name{create_beast2_input_distr_lh}
 \alias{create_beast2_input_distr_lh}
-\title{Creates the likelihood section in the distribution section
-of a BEAST2 XML parameter file}
+\title{Creates the XML text for the \code{distribution} tag
+with the \code{likelihood} ID,
+of a BEAST2 parameter file.}
 \usage{
 create_beast2_input_distr_lh(
-  site_models,
-  clock_models,
-  mrca_priors = NA,
-  tipdates_filename = NA
+  inference_model,
+  site_models = "deprecated",
+  clock_models = "deprecated",
+  mrca_priors = "deprecated",
+  tipdates_filename = "deprecated"
 )
 }
 \arguments{
+\item{inference_model}{a Bayesian phylogenetic inference model.
+An inference model is the complete model setup in which a site model,
+clock model, tree prior and more are specified.
+Use \link{create_inference_model} to create an inference model.
+Use \link{check_inference_model} to check if  an inference model is valid.
+Use \link{rename_inference_model_filenames} to rename the files in an
+inference model.}
+
 \item{site_models}{one or more site models,
 as returned by \code{\link{create_site_model}}}
 
@@ -28,21 +38,43 @@ The first column contains the taxa names, the second column contains
 the date.}
 }
 \description{
-Creates the likelihood section in the distribution section
-of a BEAST2 XML parameter file
+Creates the XML text for the \code{distribution} tag
+with the \code{likelihood} ID,
+of a BEAST2 parameter file,
+in an unindented form
+}
+\details{
+The \code{distribution} tag (with ID equals \code{likelihood})
+has these elements:
+
+\preformatted{
+  <distribution id="likelihood"[...]>
+     <distribution id="treeLikelihood"[...]>
+       [...]
+     </distribution>
+  </distribution>
+}
+
+The \code{distribution} section with ID \code{treeLikelihood}
+is created by \link{create_tree_likelihood_distr_xml}.
+
+Zooming out:
+
+\preformatted{
+  <beast[...]>
+    <run[...]>
+      <distribution id="posterior"[...]>
+        <distribution id="likelihood"[...]>
+          [this section]
+        </distribution>
+      </distribution>
+    </run>
+  </beast>
+}
 }
 \note{
 this function is not intended for regular use, thus its
   long name length is accepted
-}
-\examples{
- # <distribution id="posterior" spec="util.CompoundDistribution">
- #     <distribution id="prior" spec="util.CompoundDistribution">
- #     </distribution>
- #     <distribution id="likelihood" ...>
- #       HERE, where the ID of the distribution is 'likelihood'
- #     </distribution>
- # </distribution>
 }
 \seealso{
 this function is called by \code{create_beast2_input_distr},

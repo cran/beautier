@@ -1,16 +1,43 @@
-#' Creates the \code{tree} section (part of the \code{state} section)
-#' of a phylogeny and/or taxa
+#' Creates the '\code{tree}' section of a BEAST2 XML parameter file
+#'
+#' Creates the '\code{tree}' section of a BEAST2 XML parameter file,
+#' which is part of a '\code{state}' section,
+#' without being indented.
+#'
+#' The \code{tree} tag has these elements:
+#' \preformatted{
+#'    <tree[...]>
+#'        <taxonset[...]>
+#'        [...]
+#'        </taxonset>
+#'     </run>
+#' }
 #' @inheritParams default_params_doc
-#' @return the random phylogeny as XML text
+#' @return lines of XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 taxa_to_xml_tree <- function(
-  id,
-  tipdates_filename = NA
+  inference_model,
+  id = "deprecated",
+  tipdates_filename = "deprecated"
 ) {
+  if (tipdates_filename != "deprecated") {
+    stop("'tipdates_filename' is deprecated, use 'inference_model' instead")
+  }
+  if (id != "deprecated") {
+    stop("'id' is deprecated, use an initialized 'inference_model' instead")
+  }
+
+  # Don't be smart yet
+  id <- inference_model$tree_prior$id
+  tipdates_filename <- inference_model$tipdates_filename
+
   testit::assert(beautier::is_id(id))
   if (beautier::is_one_na(tipdates_filename)) {
-    beautier::no_taxa_to_xml_tree(id = id)
+    beautier::no_taxa_to_xml_tree(
+      id = id,
+      inference_model = inference_model
+    )
   } else {
     beautier::tipdate_taxa_to_xml_tree(
       id = id,
@@ -19,24 +46,55 @@ taxa_to_xml_tree <- function(
   }
 }
 
-#' Creates the \code{tree} section
-#' (part of the \code{state} section)
+#' Creates the '\code{tree}' section of a BEAST2 XML parameter file,
+#' which is part of a '\code{state}' section,
+#' without being indented,
 #' when there is no tip-dating
+#'
+#' The \code{tree} tag has these elements:
+#' \preformatted{
+#'    <tree[...]>
+#'        <taxonset[...]>
+#'        [...]
+#'        </taxonset>
+#'     </run>
+#' }
 #' @inheritParams default_params_doc
 #' @return the random phylogeny as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 no_taxa_to_xml_tree <- function(
-  id
+  id,
+  inference_model
 ) {
   testit::assert(beautier::is_id(id))
   text <- NULL
-  text <- c(text, paste0("<tree id=\"Tree.t:", id, "\" name=\"stateNode\">"))
+  if (inference_model$beauti_options$beast2_version == "2.6") {
+    text <- c(
+      text,
+      paste0(
+        "<tree id=\"Tree.t:", id, "\" ",
+        "spec=\"beast.evolution.tree.Tree\" ",
+        "name=\"stateNode\">"
+      )
+    )
+  } else {
+    text <- c(text, paste0("<tree id=\"Tree.t:", id, "\" name=\"stateNode\">"))
+  }
   text <- c(text, paste0("    <taxonset id=\"TaxonSet.", id, "\" ",
                          "spec=\"TaxonSet\">"))
   text <- c(text, paste0("        <alignment idref=\"", id, "\"/>")) # nolint this is no absolute path
   text <- c(text, "    </taxonset>")
   text <- c(text, "</tree>")
+  if (inference_model$beauti_options$beast2_version == "2.6") {
+    # Add spaces in between
+    text <- rep(text, each = 2)
+    text[2] <- "                "
+    text[4] <- "                        "
+    text[6] <- "                    "
+    text[8] <- "            "
+    text <- text[-length(text)]
+  }
   text
 }
 

@@ -4,9 +4,25 @@
 \alias{create_beast2_input_init}
 \title{Creates the \code{init} section of a BEAST2 XML parameter file}
 \usage{
-create_beast2_input_init(ids)
+create_beast2_input_init(
+  inference_model,
+  id = "deprecated",
+  ids = "deprecated"
+)
 }
 \arguments{
+\item{inference_model}{a Bayesian phylogenetic inference model.
+An inference model is the complete model setup in which a site model,
+clock model, tree prior and more are specified.
+Use \link{create_inference_model} to create an inference model.
+Use \link{check_inference_model} to check if  an inference model is valid.
+Use \link{rename_inference_model_filenames} to rename the files in an
+inference model.}
+
+\item{id}{an alignment's IDs.
+An ID can be extracted from its FASTA filename
+with \code{\link{get_alignment_ids_from_fasta_filenames}})}
+
 \item{ids}{one or more alignments' IDs.
 IDs can be extracted from their FASTA filenames
 with \code{\link{get_alignment_ids_from_fasta_filenames}})}

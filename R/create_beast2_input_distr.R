@@ -15,17 +15,28 @@
 #' @author Richèl J.C. Bilderbeek
 #' @export
 create_beast2_input_distr <- function(
-  site_models,
-  clock_models,
-  tree_priors,
-  mrca_priors = NA,
-  tipdates_filename = NA
+  inference_model,
+  site_models = "deprecated",
+  clock_models = "deprecated",
+  tree_priors = "deprecated",
+  mrca_priors = "deprecated",
+  tipdates_filename = "deprecated"
 ) {
-  testit::assert(beautier::are_site_models(site_models))
-  testit::assert(beautier::are_clock_models(clock_models))
-  testit::assert(beautier::are_tree_priors(tree_priors))
-  testit::assert(beautier::are_init_tree_priors(tree_priors))
-  testit::assert(beautier::are_mrca_priors(mrca_priors))
+  if (site_models != "deprecated") {
+    stop("'site_models' is deprecated, use 'inference_model' instead")
+  }
+  if (clock_models != "deprecated") {
+    stop("'clock_models' is deprecated, use 'inference_model' instead")
+  }
+  if (tree_priors != "deprecated") {
+    stop("'tree_priors' is deprecated, use 'inference_model' instead")
+  }
+  if (mrca_priors != "deprecated") {
+    stop("'mrca_priors' is deprecated, use 'inference_model' instead")
+  }
+  if (tipdates_filename != "deprecated") {
+    stop("'tipdates_filename' is deprecated, use 'inference_model' instead")
+  }
 
   text <- NULL
 
@@ -33,11 +44,7 @@ create_beast2_input_distr <- function(
   text <- c(
     text,
     create_beast2_input_distr_prior(
-      site_models = site_models,
-      clock_models = clock_models,
-      tree_priors = tree_priors,
-      mrca_priors = mrca_priors,
-      tipdates_filename = tipdates_filename
+      inference_model = inference_model
     )
   )
 
@@ -45,10 +52,7 @@ create_beast2_input_distr <- function(
   text <- c(
     text,
     create_beast2_input_distr_lh(
-      site_models = site_models,
-      clock_models = clock_models,
-      mrca_priors = mrca_priors,
-      tipdates_filename = tipdates_filename
+      inference_model = inference_model
     )
   )
   text <- beautier::indent(text)
@@ -57,7 +61,6 @@ create_beast2_input_distr <- function(
     text
   )
   text <- c(text, "</distribution>") # posterior distribution
-  text <- beautier::indent(text)
   text
 }
 
@@ -80,12 +83,36 @@ create_beast2_input_distr <- function(
 #'  # </distribution>
 #' @export
 create_beast2_input_distr_prior <- function( # nolint indeed long function name
-  site_models,
-  clock_models,
-  tree_priors,
-  mrca_priors = NA,
-  tipdates_filename = NA
+  inference_model,
+  site_models = "deprecated",
+  clock_models = "deprecated",
+  tree_priors = "deprecated",
+  mrca_priors = "deprecated",
+  tipdates_filename = "deprecated"
 ) {
+  if (site_models != "deprecated") {
+    stop("'site_models' is deprecated, use 'inference_model' instead")
+  }
+  if (clock_models != "deprecated") {
+    stop("'clock_models' is deprecated, use 'inference_model' instead")
+  }
+  if (tree_priors != "deprecated") {
+    stop("'tree_priors' is deprecated, use 'inference_model' instead")
+  }
+  if (mrca_priors != "deprecated") {
+    stop("'mrca_priors' is deprecated, use 'inference_model' instead")
+  }
+  if (tipdates_filename != "deprecated") {
+    stop("'tipdates_filename' is deprecated, use 'inference_model' instead")
+  }
+
+  # Do not be smart yet
+  site_models <- list(inference_model$site_model)
+  clock_models <- list(inference_model$clock_model)
+  tree_priors <- list(inference_model$tree_prior)
+  mrca_priors <- list(inference_model$mrca_prior)
+  tipdates_filename <- inference_model$tipdates_filename
+
   text <- NULL
   text <- c(text, beautier::tree_priors_to_xml_prior_distr(tree_priors))
   text <- c(text, beautier::gamma_site_models_to_xml_prior_distr(site_models))
@@ -113,83 +140,71 @@ create_beast2_input_distr_prior <- function( # nolint indeed long function name
 }
 
 
-#' Creates the likelihood section in the distribution section
-#' of a BEAST2 XML parameter file
+
+#' Creates the XML text for the \code{distribution} tag
+#' with the \code{likelihood} ID,
+#' of a BEAST2 parameter file.
+#'
+#' Creates the XML text for the \code{distribution} tag
+#' with the \code{likelihood} ID,
+#' of a BEAST2 parameter file,
+#' in an unindented form
+#'
+#' The \code{distribution} tag (with ID equals \code{likelihood})
+#' has these elements:
+#'
+#' \preformatted{
+#'   <distribution id="likelihood"[...]>
+#'      <distribution id="treeLikelihood"[...]>
+#'        [...]
+#'      </distribution>
+#'   </distribution>
+#' }
+#'
+#' The \code{distribution} section with ID \code{treeLikelihood}
+#' is created by \link{create_tree_likelihood_distr_xml}.
+#'
+#' Zooming out:
+#'
+#' \preformatted{
+#'   <beast[...]>
+#'     <run[...]>
+#'       <distribution id="posterior"[...]>
+#'         <distribution id="likelihood"[...]>
+#'           [this section]
+#'         </distribution>
+#'       </distribution>
+#'     </run>
+#'   </beast>
+#' }
+#'
 #' @inheritParams default_params_doc
 #' @note this function is not intended for regular use, thus its
 #'   long name length is accepted
 #' @author Richèl J.C. Bilderbeek
 #' @seealso this function is called by \code{create_beast2_input_distr},
 #'   together with \code{create_beast2_input_distr_prior}
-#' @examples
-#'  # <distribution id="posterior" spec="util.CompoundDistribution">
-#'  #     <distribution id="prior" spec="util.CompoundDistribution">
-#'  #     </distribution>
-#'  #     <distribution id="likelihood" ...>
-#'  #       HERE, where the ID of the distribution is 'likelihood'
-#'  #     </distribution>
-#'  # </distribution>
 #' @export
 create_beast2_input_distr_lh <- function(
-  site_models,
-  clock_models,
-  mrca_priors = NA,
-  tipdates_filename = NA
+  inference_model,
+  site_models = "deprecated",
+  clock_models = "deprecated",
+  mrca_priors = "deprecated",
+  tipdates_filename = "deprecated"
 ) {
-  testit::assert(length(site_models) == 1)
-  testit::assert(length(site_models) == length(clock_models))
-
-  text <- NULL
-  n <- length(site_models)
-  for (i in seq(1, n)) {
-    site_model <- site_models[[i]]
-    clock_model <- clock_models[[i]]
-    id <- site_model$id
-    brm_line <- ""
-    text <- c(text, paste0("<distribution id=\"treeLikelihood.",
-      id, "\" spec=\"ThreadedTreeLikelihood\" ",
-      brm_line,
-      "data=\"@", id,
-      "\" tree=\"@Tree.t:", id, "\">"))
-    text <- c(text,
-      beautier::indent(
-        beautier::site_model_to_xml_lh_distr(site_model)
-      )
-    )
-
-    if (beautier::is_one_na(mrca_priors) ||
-        get_has_non_strict_clock_model(clock_models)
-    ) {
-      text <- c(text,
-        beautier::indent(
-          beautier::clock_model_to_xml_lh_distr(
-            clock_model,
-            mrca_priors = mrca_priors,
-            tipdates_filename = tipdates_filename
-          )
-        )
-      )
-    }
-    # Can be either NA or a list of 1 element
-    testit::assert(beautier::are_mrca_priors(mrca_priors))
-    testit::assert(length(mrca_priors) >= 1)
-    mrca_prior <- NA
-    if (!beautier::is_one_na(mrca_priors)) mrca_prior <- mrca_priors[[1]]
-    testit::assert(beautier::is_mrca_prior(mrca_prior))
-    text <- c(text,
-      beautier::indent(
-        beautier::mrca_prior_to_xml_lh_distr(
-          mrca_prior,
-          has_non_strict_clock_model = beautier::get_has_non_strict_clock_model(
-            clock_models
-          )
-        )
-      )
-    )
-    # Close of '<distribution id="treeLikelihood.test_output_0"...'
-    text <- c(text, "</distribution>")
+  if (site_models != "deprecated") {
+    stop("'site_models' is deprecated, use 'inference_model' instead")
   }
-
+  if (clock_models != "deprecated") {
+    stop("'clock_models' is deprecated, use 'inference_model' instead")
+  }
+  if (mrca_priors != "deprecated") {
+    stop("'mrca_priors' is deprecated, use 'inference_model' instead")
+  }
+  if (tipdates_filename != "deprecated") {
+    stop("'tipdates_filename' is deprecated, use 'inference_model' instead")
+  }
+  text <- beautier::create_tree_likelihood_distr_xml(inference_model)
 
   text <- beautier::indent(text)
 

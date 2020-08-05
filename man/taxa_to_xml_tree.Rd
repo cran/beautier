@@ -2,12 +2,23 @@
 % Please edit documentation in R/taxa_to_xml_tree.R
 \name{taxa_to_xml_tree}
 \alias{taxa_to_xml_tree}
-\title{Creates the \code{tree} section (part of the \code{state} section)
-of a phylogeny and/or taxa}
+\title{Creates the '\code{tree}' section of a BEAST2 XML parameter file}
 \usage{
-taxa_to_xml_tree(id, tipdates_filename = NA)
+taxa_to_xml_tree(
+  inference_model,
+  id = "deprecated",
+  tipdates_filename = "deprecated"
+)
 }
 \arguments{
+\item{inference_model}{a Bayesian phylogenetic inference model.
+An inference model is the complete model setup in which a site model,
+clock model, tree prior and more are specified.
+Use \link{create_inference_model} to create an inference model.
+Use \link{check_inference_model} to check if  an inference model is valid.
+Use \link{rename_inference_model_filenames} to rename the files in an
+inference model.}
+
 \item{id}{an alignment's IDs.
 An ID can be extracted from its FASTA filename
 with \code{\link{get_alignment_ids_from_fasta_filenames}})}
@@ -18,11 +29,22 @@ The first column contains the taxa names, the second column contains
 the date.}
 }
 \value{
-the random phylogeny as XML text
+lines of XML text
 }
 \description{
-Creates the \code{tree} section (part of the \code{state} section)
-of a phylogeny and/or taxa
+Creates the '\code{tree}' section of a BEAST2 XML parameter file,
+which is part of a '\code{state}' section,
+without being indented.
+}
+\details{
+The \code{tree} tag has these elements:
+\preformatted{
+   <tree[...]>
+       <taxonset[...]>
+       [...]
+       </taxonset>
+    </run>
+}
 }
 \author{
 Richèl J.C. Bilderbeek
