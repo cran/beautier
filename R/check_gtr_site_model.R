@@ -5,15 +5,7 @@
 #' GTR nucleotide substitution model.
 #' @inheritParams default_params_doc
 #' @examples
-#' library(testthat)
-#'
-#' expect_silent(check_gtr_site_model(create_gtr_site_model()))
-#'
-#' expect_error(check_gtr_site_model("nonsense"))
-#' expect_error(check_gtr_site_model(NA))
-#' expect_error(check_gtr_site_model(NULL))
-#' expect_error(check_gtr_site_model(""))
-#' expect_error(check_gtr_site_model(c()))
+#' check_gtr_site_model(create_gtr_site_model())
 #' @export
 check_gtr_site_model <- function(gtr_site_model) {
   if (!beautier::is_site_model(gtr_site_model)) {

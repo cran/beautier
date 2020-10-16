@@ -1,6 +1,6 @@
 Package: beautier
 Title: 'BEAUti' from R
-Version: 2.3.7
+Version: 2.4
 Authors@R: c(
   person("Richèl J.C.", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1107-7049")),
   person("Joëlle", "Barido-Sottani", role = "rev", comment = "Joëlle reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/209"),
@@ -34,7 +34,7 @@ Suggests: spelling, devtools, knitr, ggplot2, hunspell, lintr,
 Language: en-US
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2020-08-05 12:26:19 UTC; richel
+Packaged: 2020-10-15 12:05:10 UTC; richel
 Author: Richèl J.C. Bilderbeek [aut, cre]
     (<https://orcid.org/0000-0003-1107-7049>),
   Joëlle Barido-Sottani [rev] (Joëlle reviewed the package for rOpenSci,
@@ -47,4 +47,4 @@ Author: Richèl J.C. Bilderbeek [aut, cre]
   Katharine S. Walter [ctb] (<https://orcid.org/0000-0003-0065-2204>),
   Jana Riederer [ctb]
 Repository: CRAN
-Date/Publication: 2020-08-05 16:10:07 UTC
+Date/Publication: 2020-10-16 06:20:16 UTC

@@ -7,12 +7,13 @@
 #' @inheritParams default_params_doc
 #' @return an MCMC configuration
 #' @seealso
+#' Use \code{\link{create_test_mcmc}} to create a short regular MCMC,
+#' that can be used for testing runs.
 #' Use \code{\link{create_ns_mcmc}} to create an MCMC for a Nested Sampling run.
 #' Use \code{\link{check_mcmc}} to check if an MCMC is valid.
 #' Use \code{\link{rename_mcmc_filenames}} to rename the filenames in an MCMC.
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
 #'
 #' # Create an MCMC chain with 50 states
 #' mcmc <- create_mcmc(chain_length = 50000, store_every = 1000)
@@ -23,7 +24,6 @@
 #'   beast2_input_file,
 #'   mcmc = mcmc
 #' )
-#' expect_true(file.exists(beast2_input_file))
 #' @export
 create_mcmc <- function(
   chain_length = 10000000,

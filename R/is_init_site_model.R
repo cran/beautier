@@ -28,12 +28,13 @@ is_init_site_model <- function(
 #' @return TRUE if x is an initialized GTR site model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
 #'
 #' gtr_site_model <- create_gtr_site_model()
-#' expect_false(is_init_gtr_site_model(gtr_site_model))
+#' # FALSE: not yet initialized
+#' is_init_gtr_site_model(gtr_site_model)
 #' gtr_site_model <- init_gtr_site_model(gtr_site_model)
-#' expect_true(is_init_gtr_site_model(gtr_site_model))
+#' # TRUE: now it is initialized
+#' is_init_gtr_site_model(gtr_site_model)
 #' @export
 is_init_gtr_site_model <- function( # nolint simplification of this hurts readability
   x
@@ -62,12 +63,13 @@ is_init_gtr_site_model <- function( # nolint simplification of this hurts readab
 #' @return TRUE if x is an initialized HKY site model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
 #'
 #' hky_site_model <- create_hky_site_model()
-#' expect_false(is_init_hky_site_model(hky_site_model))
+#' # FALSE: not yet initialized
+#' is_init_hky_site_model(hky_site_model)
 #' hky_site_model <- init_hky_site_model(hky_site_model)
-#' expect_true(is_init_hky_site_model(hky_site_model))
+#' # TRUE: now it is initialized
+#' is_init_hky_site_model(hky_site_model)
 #' @export
 is_init_hky_site_model <- function(
   x
@@ -84,7 +86,6 @@ is_init_hky_site_model <- function(
 #' @return TRUE if x is an initialized JC69 site model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
 #'
 #' jc69_site_model <- create_jc69_site_model(
 #'   gamma_site_model = create_gamma_site_model(
@@ -92,9 +93,11 @@ is_init_hky_site_model <- function(
 #'     gamma_shape_prior_distr = create_normal_distr()
 #'   )
 #' )
-#' expect_false(is_init_jc69_site_model(jc69_site_model))
+#' # FALSE: not yet initialized
+#' is_init_jc69_site_model(jc69_site_model)
 #' jc69_site_model <- init_jc69_site_model(jc69_site_model)
-#' expect_true(is_init_jc69_site_model(jc69_site_model))
+#' # TRUE: now it is initialized
+#' is_init_jc69_site_model(jc69_site_model)
 #' @export
 is_init_jc69_site_model <- function(
   x
@@ -111,12 +114,13 @@ is_init_jc69_site_model <- function(
 #' @return TRUE if x is an initialized TN93 site model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
 #'
 #' tn93_site_model <- create_tn93_site_model()
-#' expect_false(is_init_tn93_site_model(tn93_site_model))
+#' # FALSE: not yet initialized
+#' is_init_tn93_site_model(tn93_site_model)
 #' tn93_site_model <- init_tn93_site_model(tn93_site_model)
-#' expect_true(is_init_tn93_site_model(tn93_site_model))
+#' # TRUE: now it is initialized
+#' is_init_tn93_site_model(tn93_site_model)
 #' @export
 is_init_tn93_site_model <- function(
   x

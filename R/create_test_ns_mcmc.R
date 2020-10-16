@@ -8,7 +8,6 @@
 #' @seealso Use \code{\link{create_ns_mcmc}} to create a default
 #' nested sampling MCMC
 #' @examples
-#' library(testthat)
 #'
 #' mcmc <- create_test_ns_mcmc()
 #'
@@ -19,8 +18,6 @@
 #'   beast2_input_file,
 #'   mcmc = mcmc
 #' )
-#'
-#' expect_true(file.exists(beast2_input_file))
 #' @author Richèl J.C. Bilderbeek
 #' @export
 create_test_ns_mcmc <- function(

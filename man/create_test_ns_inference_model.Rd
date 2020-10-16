@@ -28,6 +28,21 @@ Use \code{\link{create_ns_mcmc}} to create an MCMC
 Use \code{\link{check_mcmc}} to check if an MCMC is valid.
 Use \code{\link{rename_mcmc_filenames}} to rename the filenames in an MCMC.}
 }
+\value{
+an inference model
+}
 \description{
 Create an inference model to be tested by Nested Sampling
+}
+\examples{
+inference_model <- create_test_ns_inference_model()
+}
+\seealso{
+Use \link{create_test_inference_model} to create a
+regular inference model with a short MCMC, to be used in testing.
+Use \link{create_ns_inference_model} to create an inference model
+to estimate the marginal likelihood.
+}
+\author{
+Richèl J.C. Bilderbeek
 }

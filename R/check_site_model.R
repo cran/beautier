@@ -5,29 +5,14 @@
 #' @return nothing
 #' @seealso Use \link{create_site_model} to create a valid site model
 #' @examples
-#' library(testthat)
 #'
-#' expect_silent(check_site_model(create_jc69_site_model()))
-#' expect_silent(check_site_model(create_hky_site_model()))
-#' expect_silent(check_site_model(create_tn93_site_model()))
-#' expect_silent(check_site_model(create_gtr_site_model()))
+#' check_site_model(create_jc69_site_model())
+#' check_site_model(create_hky_site_model())
+#' check_site_model(create_tn93_site_model())
+#' check_site_model(create_gtr_site_model())
 #'
 #' # Can use list of one site model
-#' expect_silent(check_site_model(list(create_jc69_site_model())))
-#'
-#' # List of two site models is not a/one site model
-#' expect_error(
-#'    check_site_model(
-#'      list(create_jc69_site_model(), create_jc69_site_model())
-#'    )
-#'  )
-#'
-#' # Must stop on non-site models
-#' expect_error(check_site_model("nonsense"))
-#' expect_error(check_site_model(NULL))
-#' expect_error(check_site_model(NA))
-#' expect_error(check_site_model(""))
-#' expect_error(check_site_model(c()))
+#' check_site_model(list(create_jc69_site_model()))
 #' @author Richèl J.C. Bilderbeek
 #' @export
 check_site_model <- function(site_model) {

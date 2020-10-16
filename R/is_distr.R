@@ -17,22 +17,22 @@
 #'  to check for more specific distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
+#' # TRUE
+#' is_distr(create_beta_distr())
+#' is_distr(create_exp_distr())
+#' is_distr(create_gamma_distr())
+#' is_distr(create_inv_gamma_distr())
+#' is_distr(create_laplace_distr())
+#' is_distr(create_log_normal_distr())
+#' is_distr(create_normal_distr())
+#' is_distr(create_one_div_x_distr())
+#' is_distr(create_poisson_distr())
+#' is_distr(create_uniform_distr())
 #'
-#' expect_true(is_distr(create_beta_distr()))
-#' expect_true(is_distr(create_exp_distr()))
-#' expect_true(is_distr(create_gamma_distr()))
-#' expect_true(is_distr(create_inv_gamma_distr()))
-#' expect_true(is_distr(create_laplace_distr()))
-#' expect_true(is_distr(create_log_normal_distr()))
-#' expect_true(is_distr(create_normal_distr()))
-#' expect_true(is_distr(create_one_div_x_distr()))
-#' expect_true(is_distr(create_poisson_distr()))
-#' expect_true(is_distr(create_uniform_distr()))
-#'
-#' expect_false(is_distr(NA))
-#' expect_false(is_distr(NULL))
-#' expect_false(is_distr("nonsense"))
+#' # FALSE
+#' is_distr(NA)
+#' is_distr(NULL)
+#' is_distr("nonsense")
 #' @export
 is_distr <- function( # nolint simplification of this will hurt readablity
   x
@@ -61,14 +61,13 @@ is_distr <- function( # nolint simplification of this will hurt readablity
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_beta_distr(create_beta_distr()))
-#' expect_false(is_beta_distr(create_exp_distr()))
-#'
-#' expect_false(is_beta_distr(NA))
-#' expect_false(is_beta_distr(NULL))
-#' expect_false(is_beta_distr("nonsense"))
+#' # TRUE
+#' is_beta_distr(create_beta_distr())
+#' # FALSE
+#' is_beta_distr(create_exp_distr())
+#' is_beta_distr(NA)
+#' is_beta_distr(NULL)
+#' is_beta_distr("nonsense")
 #' @export
 is_beta_distr <- function(
   x
@@ -93,13 +92,13 @@ is_beta_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_exp_distr(create_exp_distr()))
-#' expect_false(is_exp_distr(create_gamma_distr()))
-#' expect_false(is_exp_distr(NA))
-#' expect_false(is_exp_distr(NULL))
-#' expect_false(is_exp_distr("nonsense"))
+#' # TRUE
+#' is_exp_distr(create_exp_distr())
+#' # FALSE
+#' is_exp_distr(create_gamma_distr())
+#' is_exp_distr(NA)
+#' is_exp_distr(NULL)
+#' is_exp_distr("nonsense")
 #' @export
 is_exp_distr <- function(
   x
@@ -122,14 +121,13 @@ is_exp_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_gamma_distr(create_gamma_distr()))
-#'
-#' expect_false(is_gamma_distr(create_inv_gamma_distr()))
-#' expect_false(is_gamma_distr(NA))
-#' expect_false(is_gamma_distr(NULL))
-#' expect_false(is_gamma_distr("nonsense"))
+#' # TRUE
+#' is_gamma_distr(create_gamma_distr())
+#' # FALSE
+#' is_gamma_distr(create_inv_gamma_distr())
+#' is_gamma_distr(NA)
+#' is_gamma_distr(NULL)
+#' is_gamma_distr("nonsense")
 #' @export
 is_gamma_distr <- function(
   x
@@ -154,14 +152,13 @@ is_gamma_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_inv_gamma_distr(create_inv_gamma_distr()))
-#'
-#' expect_false(is_inv_gamma_distr(create_laplace_distr()))
-#' expect_false(is_inv_gamma_distr(NA))
-#' expect_false(is_inv_gamma_distr(NULL))
-#' expect_false(is_inv_gamma_distr("nonsense"))
+#' # TRUE
+#' is_inv_gamma_distr(create_inv_gamma_distr())
+#' # FALSE
+#' is_inv_gamma_distr(create_laplace_distr())
+#' is_inv_gamma_distr(NA)
+#' is_inv_gamma_distr(NULL)
+#' is_inv_gamma_distr("nonsense")
 #' @export
 is_inv_gamma_distr <- function(
   x
@@ -186,14 +183,13 @@ is_inv_gamma_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_laplace_distr(create_laplace_distr()))
-#'
-#' expect_false(is_laplace_distr(create_log_normal_distr()))
-#' expect_false(is_laplace_distr(NA))
-#' expect_false(is_laplace_distr(NULL))
-#' expect_false(is_laplace_distr("nonsense"))
+#' # TRUE
+#' is_laplace_distr(create_laplace_distr())
+#' # FALSE
+#' is_laplace_distr(create_log_normal_distr())
+#' is_laplace_distr(NA)
+#' is_laplace_distr(NULL)
+#' is_laplace_distr("nonsense")
 #' @export
 is_laplace_distr <- function(
   x
@@ -218,14 +214,13 @@ is_laplace_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_log_normal_distr(create_log_normal_distr()))
-#'
-#' expect_false(is_log_normal_distr(create_normal_distr()))
-#' expect_false(is_distr(NA))
-#' expect_false(is_distr(NULL))
-#' expect_false(is_distr("nonsense"))
+#' # TRUE
+#' is_log_normal_distr(create_log_normal_distr())
+#' # FALSE
+#' is_log_normal_distr(create_normal_distr())
+#' is_distr(NA)
+#' is_distr(NULL)
+#' is_distr("nonsense")
 #' @export
 is_log_normal_distr <- function(
   x
@@ -250,14 +245,13 @@ is_log_normal_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_normal_distr(create_normal_distr()))
-#'
-#' expect_false(is_normal_distr(create_one_div_x_distr()))
-#' expect_false(is_normal_distr(NA))
-#' expect_false(is_normal_distr(NULL))
-#' expect_false(is_normal_distr("nonsense"))
+#' # TRUE
+#' is_normal_distr(create_normal_distr())
+#' # FALSE
+#' is_normal_distr(create_one_div_x_distr())
+#' is_normal_distr(NA)
+#' is_normal_distr(NULL)
+#' is_normal_distr("nonsense")
 #' @export
 is_normal_distr <- function(
   x
@@ -282,14 +276,13 @@ is_normal_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_one_div_x_distr(create_one_div_x_distr()))
-#'
-#' expect_false(is_one_div_x_distr(create_poisson_distr()))
-#' expect_false(is_one_div_x_distr(NA))
-#' expect_false(is_one_div_x_distr(NULL))
-#' expect_false(is_one_div_x_distr("nonsense"))
+#' # TRUE
+#' is_one_div_x_distr(create_one_div_x_distr())
+#' # FALSE
+#' is_one_div_x_distr(create_poisson_distr())
+#' is_one_div_x_distr(NA)
+#' is_one_div_x_distr(NULL)
+#' is_one_div_x_distr("nonsense")
 #' @export
 is_one_div_x_distr <- function(
   x
@@ -308,14 +301,13 @@ is_one_div_x_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_poisson_distr(create_poisson_distr()))
-#'
-#' expect_false(is_poisson_distr(create_uniform_distr()))
-#' expect_false(is_distr(NA))
-#' expect_false(is_distr(NULL))
-#' expect_false(is_distr("nonsense"))
+#' # TRUE
+#' is_poisson_distr(create_poisson_distr())
+#' # FALSE
+#' is_poisson_distr(create_uniform_distr())
+#' is_distr(NA)
+#' is_distr(NULL)
+#' is_distr("nonsense")
 #' @export
 is_poisson_distr <- function(
   x
@@ -338,14 +330,13 @@ is_poisson_distr <- function(
 #'   distribution
 #' @author Richèl J.C. Bilderbeek
 #' @examples
-#' library(testthat)
-#'
-#' expect_true(is_uniform_distr(create_uniform_distr()))
-#' expect_false(is_uniform_distr(create_beta_distr()))
-#'
-#' expect_false(is_uniform_distr(NA))
-#' expect_false(is_uniform_distr(NULL))
-#' expect_false(is_uniform_distr("nonsense"))
+#' # TRUE
+#' is_uniform_distr(create_uniform_distr())
+#' # FALSE
+#' is_uniform_distr(create_beta_distr())
+#' is_uniform_distr(NA)
+#' is_uniform_distr(NULL)
+#' is_uniform_distr("nonsense")
 #' @export
 is_uniform_distr <- function(
   x

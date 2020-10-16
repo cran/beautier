@@ -16,18 +16,13 @@ the closing tag if found, else NA
 Get the XML closing tag
 }
 \examples{
-library(testthat)
 
-expect_equal(
-  get_xml_closing_tag("<my_tag text=something></my_tag>"),
-  "my_tag"
-)
-expect_true(
-  is_one_na(
-    get_xml_closing_tag("<my_tag text=something/>")
-  )
-)
-expect_true(is_one_na(get_xml_closing_tag("no_xml")))
+# my_tag
+get_xml_closing_tag("<my_tag text=something></my_tag>")
+
+# Will return NA
+get_xml_closing_tag("<my_tag text=something/>")
+get_xml_closing_tag("no_xml")
 }
 \author{
 Richèl J.C. Bilderbeek

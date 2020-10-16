@@ -21,12 +21,13 @@ an initialized strict clock model
 Initializes a strict clock model
 }
 \examples{
-library(testthat)
 
 strict_clock_model <- create_strict_clock_model()
-expect_false(is_init_strict_clock_model(strict_clock_model))
+# FALSE: not yet initialized
+is_init_strict_clock_model(strict_clock_model)
 strict_clock_model <- init_strict_clock_model(strict_clock_model)
-expect_true(is_init_strict_clock_model(strict_clock_model))
+# TRUE: initialized
+is_init_strict_clock_model(strict_clock_model)
 }
 \author{
 Richèl J.C. Bilderbeek

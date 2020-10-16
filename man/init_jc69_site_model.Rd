@@ -21,12 +21,11 @@ an initialized HKY site model
 Initializes a JC69 site model
 }
 \examples{
-library(testthat)
 
 hky_site_model <- create_hky_site_model()
-expect_false(is_init_hky_site_model(hky_site_model))
+is_init_hky_site_model(hky_site_model)
 hky_site_model <- init_hky_site_model(hky_site_model)
-expect_true(is_init_hky_site_model(hky_site_model))
+is_init_hky_site_model(hky_site_model)
 }
 \author{
 Richèl J.C. Bilderbeek

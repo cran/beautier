@@ -34,9 +34,7 @@ Internal function to create the XML of an MRCA prior,
   as used in the \code{state} section
 }
 \examples{
-library(testthat)
-
-created <- mrca_prior_to_xml_state(
+mrca_prior_to_xml_state(
   inference_model = create_inference_model(
     mrca_prior = create_mrca_prior(
       alignment_id = "test_output_0",
@@ -45,7 +43,6 @@ created <- mrca_prior_to_xml_state(
     clock_model = create_strict_clock_model()
   )
 )
-expect_match(created, "<parameter id=\"clockRate.c:")
 }
 \author{
 Richèl J.C. Bilderbeek

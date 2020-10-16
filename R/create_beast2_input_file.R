@@ -2,7 +2,6 @@
 #' @inheritParams default_params_doc
 #' @return nothing
 #' @examples
-#' library(testthat)
 #'
 #' # Get an example FASTA file
 #' input_filename <- get_fasta_filename()
@@ -14,7 +13,6 @@
 #'   input_filename,
 #'   output_filename
 #' )
-#' expect_true(file.exists(output_filename))
 #' @author Richèl J.C. Bilderbeek
 #' @seealso
 #'   Use \link{create_beast2_input_file_from_model} to do the same with an

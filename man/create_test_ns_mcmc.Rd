@@ -51,7 +51,6 @@ an MCMC object
 Create an NS MCMC object for testing
 }
 \examples{
-library(testthat)
 
 mcmc <- create_test_ns_mcmc()
 
@@ -62,8 +61,6 @@ create_beast2_input_file(
   beast2_input_file,
   mcmc = mcmc
 )
-
-expect_true(file.exists(beast2_input_file))
 }
 \seealso{
 Use \code{\link{create_ns_mcmc}} to create a default
