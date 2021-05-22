@@ -46,7 +46,7 @@ create_branch_rate_model_xml <- function(# nolint long function name, which is f
   inference_model
 ) {
   has_no_mrca_prior <- beautier::is_one_na(inference_model$mrca_prior)
-  has_non_strict_clock <- get_has_non_strict_clock_model(
+  has_non_strict_clock <- beautier::get_has_non_strict_clock_model(
     list(inference_model$clock_model)
   )
   has_mrca_prior <- !has_no_mrca_prior
@@ -94,7 +94,10 @@ create_branch_rate_model_sc_xml <- function(# nolint long function name, which i
     )
     # initialization may happen here
     inference_model$clock_model$clock_rate_param$id <- id
-    xml_param <- beautier::parameter_to_xml(inference_model$clock_model$clock_rate_param) # nolint indeed a long line
+    xml_param <- beautier::parameter_to_xml(
+      parameter = inference_model$clock_model$clock_rate_param,
+      beauti_options = inference_model$beauti_options
+    )
     xml_end <- "</branchRateModel>"
 
     # Layout
@@ -137,7 +140,7 @@ create_branch_rate_model_rln_xml <- function(# nolint long function name, which 
   line <- paste0("<branchRateModel ",
     "id=\"RelaxedClock.c:", id, "\" ",
     "spec=\"beast.evolution.branchratemodel.UCRelaxedClockModel\" ",
-    ifelse(!is_mrca_prior_with_distr(mrca_priors[[1]]),
+    ifelse(!beautier::is_mrca_prior_with_distr(mrca_priors[[1]]),
       "",
       paste0("clock.rate=\"@ucldMean.c:", id, "\" ")
     ),
@@ -160,7 +163,7 @@ create_branch_rate_model_rln_xml <- function(# nolint long function name, which 
     "estimate=\"false\" lower=\"0.0\" name=\"M\" ",
     "upper=\"1.0\">1.0</parameter>"))
   text <- c(text, paste0("    </LogNormal>"))
-  if (!is_mrca_prior_with_distr(mrca_priors[[1]])) {
+  if (!beautier::is_mrca_prior_with_distr(mrca_priors[[1]])) {
     text <- c(text, paste0("    <parameter ",
       "id=\"ucldMean.c:", id, "\" estimate=\"false\" ",
       "name=\"clock.rate\">", clock_model$mean_clock_rate, "</parameter>"))

@@ -15,20 +15,8 @@
 #' )
 #' @export
 mrca_prior_to_xml_state <- function(
-  inference_model,
-  mrca_prior = "deprecated",
-  has_non_strict_clock_model = "deprecated"
+  inference_model
 ) {
-  if (mrca_prior != "deprecated") {
-    stop("'mrca_prior' is deprecated, use 'inference_model' instead")
-  }
-  if (has_non_strict_clock_model != "deprecated") {
-    stop(
-      "'has_non_strict_clock_model' is deprecated, ",
-      "use 'inference_model' instead"
-    )
-  }
-
   # Do not be smart yet
   mrca_prior <- inference_model$mrca_prior
   has_non_strict_clock_model <- !beautier::is_strict_clock_model(
@@ -41,7 +29,8 @@ mrca_prior_to_xml_state <- function(
       beautier::is_one_na(mrca_prior$mrca_distr)) return(NULL)
   if (mrca_prior$is_monophyletic == TRUE &&
     beautier::is_one_na(mrca_prior$mrca_distr)) return(NULL)
-  if (!has_non_strict_clock_model) {
+  if (!has_non_strict_clock_model &&
+      beautier::is_one_na(inference_model$tipdates_filename)) {
     testit::assert(!beautier::is_one_na(mrca_prior$alignment_id))
     paste0(
       "<parameter ",

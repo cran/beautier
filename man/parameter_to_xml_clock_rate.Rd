@@ -4,13 +4,19 @@
 \alias{parameter_to_xml_clock_rate}
 \title{Converts a \code{clockRate} parameter to XML}
 \usage{
-parameter_to_xml_clock_rate(parameter)
+parameter_to_xml_clock_rate(
+  parameter,
+  beauti_options = create_beauti_options_v2_4()
+)
 }
 \arguments{
 \item{parameter}{a \code{clockRate} parameter,
 a numeric value.
 For advanced usage, use the structure
 as created by \code{\link{create_clock_rate_param}})}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
 }
 \value{
 the parameter as XML text

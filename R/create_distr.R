@@ -2,6 +2,10 @@
 #' @param name the distribution name. Valid
 #'   names can be found in \code{get_distr_names}
 #' @param id the distribution's ID
+#' @param value the initial value for the MCMC
+#' @param lower the lower bound, the lowest possible value
+#' @param upper an upper limit of the uniform distribution.
+#'   If the upper limits needs to be infinity, set \code{upper} to \code{Inf}.
 #' @param ... specific distribution parameters
 #' @note Prefer using the
 #'   named functions
@@ -46,12 +50,15 @@
 create_distr <- function(
   name,
   id,
+  value = NA,
+  lower = NA,
+  upper = NA,
   ...
 ) {
-  if (!is_distr_name(name)) {
+  if (!beautier::is_distr_name(name)) {
     distr_as_string <- function() {
       s <- NULL
-      for (p in get_distr_names()) {
+      for (p in beautier::get_distr_names()) {
         s <- paste0(s, ", ", p)
       }
       s <- substr(s, start = 3, stop = nchar(s))
@@ -65,6 +72,9 @@ create_distr <- function(
   distr <- list(
     name = name,
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     ...
   )
   distr
@@ -106,7 +116,10 @@ create_distr <- function(
 create_beta_distr <- create_distr_beta <- function(
   id = NA,
   alpha = 0.0,
-  beta = 1.0
+  beta = 1.0,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   if (beautier::is_one_double(alpha)) {
     alpha <- create_alpha_param(value = alpha)
@@ -131,6 +144,9 @@ create_beta_distr <- create_distr_beta <- function(
   beautier::create_distr(
     name = "beta",
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     alpha = alpha,
     beta = beta
   )
@@ -162,10 +178,13 @@ create_beta_distr <- create_distr_beta <- function(
 #' @export create_exp_distr create_distr_exp
 create_exp_distr <- create_distr_exp <- function(
   id = NA,
-  mean = 1.0
+  mean = 1.0,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   if (beautier::is_one_double(mean)) {
-    mean <- create_mean_param(value = mean)
+    mean <- beautier::create_mean_param(value = mean)
   }
   if (!is_mean_param(mean)) {
     stop("'mean' must be a mean parameter, ",
@@ -174,6 +193,9 @@ create_exp_distr <- create_distr_exp <- function(
   beautier::create_distr(
     name = "exponential",
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     mean = mean
   )
 }
@@ -214,7 +236,10 @@ create_exp_distr <- create_distr_exp <- function(
 create_gamma_distr <- create_distr_gamma <- function(
   id = NA,
   alpha = 0.5396,
-  beta = 0.3819
+  beta = 0.3819,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   if (beautier::is_one_double(alpha)) {
     alpha <- create_alpha_param(value = alpha)
@@ -240,6 +265,9 @@ create_gamma_distr <- create_distr_gamma <- function(
   beautier::create_distr(
     name = "gamma",
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     alpha = alpha,
     beta = beta
   )
@@ -276,7 +304,10 @@ create_gamma_distr <- create_distr_gamma <- function(
 create_inv_gamma_distr <- create_distr_inv_gamma <- function(
   id = NA,
   alpha = 0.0,
-  beta = 1.0
+  beta = 1.0,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   if (beautier::is_one_double(alpha)) {
     alpha <- create_alpha_param(value = alpha)
@@ -295,6 +326,9 @@ create_inv_gamma_distr <- create_distr_inv_gamma <- function(
   beautier::create_distr(
     name = "inv_gamma",
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     alpha = alpha,
     beta = beta
   )
@@ -331,7 +365,10 @@ create_inv_gamma_distr <- create_distr_inv_gamma <- function(
 create_laplace_distr <- create_distr_laplace <- function(
   id = NA,
   mu = 0.0,
-  scale = 1.0
+  scale = 1.0,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   if (beautier::is_one_double(mu)) {
     mu <- create_mu_param(value = mu)
@@ -351,6 +388,9 @@ create_laplace_distr <- create_distr_laplace <- function(
   beautier::create_distr(
     name = "laplace",
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     mu = mu,
     scale = scale
   )
@@ -387,7 +427,10 @@ create_laplace_distr <- create_distr_laplace <- function(
 create_log_normal_distr <- create_distr_log_normal <- function(
   id = NA,
   m = 0.0,
-  s = 0.0
+  s = 0.0,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   if (beautier::is_one_double(m)) {
     m <- create_m_param(value = m)
@@ -407,6 +450,9 @@ create_log_normal_distr <- create_distr_log_normal <- function(
   beautier::create_distr(
     name = "log_normal",
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     m = m,
     s = s
   )
@@ -443,13 +489,16 @@ create_log_normal_distr <- create_distr_log_normal <- function(
 create_normal_distr <- create_distr_normal <- function(
   id = NA,
   mean = 0.0,
-  sigma = 1.0
+  sigma = 1.0,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   if (beautier::is_one_double(mean)) {
-    mean <- create_mean_param(value = mean)
+    mean <- beautier::create_mean_param(value = mean)
   }
   if (beautier::is_one_double(sigma)) {
-    sigma <- create_sigma_param(value = sigma)
+    sigma <- beautier::create_sigma_param(value = sigma)
   }
 
   if (!beautier::is_mean_param(mean)) {
@@ -463,6 +512,9 @@ create_normal_distr <- create_distr_normal <- function(
   beautier::create_distr(
     name = "normal",
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     mean = mean,
     sigma = sigma
   )
@@ -489,11 +541,17 @@ create_normal_distr <- create_distr_normal <- function(
 #' @aliases create_one_div_x_distr create_distr_one_div_x
 #' @export create_one_div_x_distr create_distr_one_div_x
 create_one_div_x_distr <- create_distr_one_div_x <- function(
-  id = NA
+  id = NA,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   beautier::create_distr(
     name = "one_div_x",
-    id = id
+    id = id,
+    value = value,
+    lower = lower,
+    upper = upper
   )
 }
 
@@ -523,7 +581,10 @@ create_one_div_x_distr <- create_distr_one_div_x <- function(
 #' @export create_poisson_distr create_distr_poisson
 create_poisson_distr <- create_distr_poisson <- function(
   id = NA,
-  lambda = 0.0
+  lambda = 0.0,
+  value = NA,
+  lower = NA,
+  upper = NA
 ) {
   if (beautier::is_one_double(lambda)) {
     lambda <- create_lambda_param(value = lambda)
@@ -536,14 +597,15 @@ create_poisson_distr <- create_distr_poisson <- function(
   beautier::create_distr(
     name = "poisson",
     id = id,
+    value = value,
+    lower = lower,
+    upper = upper,
     lambda = lambda
   )
 }
 
 #' Create a uniform distribution
 #' @inheritParams create_distr
-#' @param upper an upper limit of the uniform distribution.
-#'   If the upper limits needs to be infinity, set \code{upper} to \code{Inf}.
 #' @return a uniform distribution
 #' @seealso the function \code{\link{create_distr}} shows an overview
 #'   of all supported distributions
@@ -564,6 +626,8 @@ create_poisson_distr <- create_distr_poisson <- function(
 #' @export create_uniform_distr create_distr_uniform
 create_uniform_distr <- create_distr_uniform <- function(
   id = NA,
+  value = NA,
+  lower = NA,
   upper = Inf
 ) {
   if (!beautier::is_one_na(upper) && upper <= 0.0) {
@@ -572,6 +636,8 @@ create_uniform_distr <- create_distr_uniform <- function(
   beautier::create_distr(
     name = "uniform",
     id = id,
+    value = value,
+    lower = lower,
     upper = upper
   )
 }

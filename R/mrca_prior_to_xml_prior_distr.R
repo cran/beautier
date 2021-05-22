@@ -17,14 +17,34 @@
 #'  # </distribution>
 #' @export
 mrca_prior_to_xml_prior_distr <- function(
-  mrca_prior,
-  has_non_strict_clock_model = FALSE,
-  taxa_names_with_ids = NULL
+  inference_model,
+  mrca_prior = "deprecated",
+  has_non_strict_clock_model = "deprecated",
+  taxa_names_with_ids = "deprecated"
 ) {
+  if (mrca_prior != "deprecated") {
+    stop("'mrca_prior' is deprecated. Use 'inference_model' instead")
+  }
+  if (has_non_strict_clock_model != "deprecated") {
+    stop(
+      "'has_non_strict_clock_model' is deprecated, ",
+      "it is extracted from 'inference_model'"
+    )
+  }
+  if (taxa_names_with_ids != "deprecated") {
+    stop("'taxa_names_with_ids' is deprecated, it is always NULL")
+  }
+  # Don't be smart yet
+  mrca_prior <- inference_model$mrca_prior
+  taxa_names_with_ids <- NULL
+  has_non_strict_clock_model <- beautier::get_has_non_strict_clock_model(
+    list(inference_model$clock_model)
+  )
   testit::assert(beautier::is_mrca_prior(mrca_prior))
   text <- NULL
   if (!has_non_strict_clock_model &&
-      !beautier::is_one_na(mrca_prior$mrca_distr)
+      !beautier::is_one_na(mrca_prior$mrca_distr) &&
+      beautier::is_one_na(inference_model$tipdates_filename)
   ) {
     testit::assert(!beautier::is_one_na(mrca_prior$alignment_id))
     text <- c(
@@ -71,7 +91,7 @@ mrca_prior_to_xml_prior_distr <- function(
   if (beautier::is_distr(mrca_prior$mrca_distr)) {
     text <- c(
       text,
-      beautier::indent(distr_to_xml(mrca_prior$mrca_distr))
+      beautier::indent(beautier::distr_to_xml(mrca_prior$mrca_distr))
     )
   }
   text <- c(text, paste0("</distribution>"))

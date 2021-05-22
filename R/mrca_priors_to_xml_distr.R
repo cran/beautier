@@ -17,27 +17,25 @@
 #' @author Richèl J.C. Bilderbeek
 #' @export
 mrca_priors_to_xml_prior_distr <- function(
-  mrca_priors,
-  has_non_strict_clock_model
+  inference_model,
+  mrca_priors = "deprecated",
+  has_non_strict_clock_model = "deprecated"
 ) {
-  testit::assert(beautier::are_mrca_priors(mrca_priors))
-  if (length(mrca_priors) == 1 && beautier::is_one_na(mrca_priors)) return(NULL)
-
-  text <- NULL
-  taxa_names_with_ids <- NULL
-  for (mrca_prior in mrca_priors) {
-    text <- c(
-      text,
-      mrca_prior_to_xml_prior_distr(
-        mrca_prior,
-        has_non_strict_clock_model = has_non_strict_clock_model,
-        taxa_names_with_ids = taxa_names_with_ids
-      )
-    )
-    testit::assert(!beautier::is_one_na(mrca_prior$taxa_names))
-    taxa_names_with_ids <- unique(
-      c(taxa_names_with_ids, mrca_prior$taxa_names)
+  if (mrca_priors != "deprecated") {
+    stop("'mrca_priors' is deprecated. Use 'inference_model' instead")
+  }
+  if (has_non_strict_clock_model != "deprecated") {
+    stop(
+      "'has_non_strict_clock_model' is deprecated, ",
+      "it is extracted from 'inference_model'"
     )
   }
-  text
+  # Don't be smart yet
+  mrca_priors <- list(inference_model$mrca_prior)
+  testit::assert(beautier::are_mrca_priors(mrca_priors))
+
+  if (beautier::is_one_na(mrca_priors)) return(NULL)
+  beautier::mrca_prior_to_xml_prior_distr(
+    inference_model = inference_model
+  )
 }

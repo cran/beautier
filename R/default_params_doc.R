@@ -31,7 +31,10 @@
 #'   if the crown age needs to be estimated
 #' @param distr_id a distributions' ID
 #' @param fasta_filename a FASTA filename.
-#'   Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.
+#' Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.
+#' Note that BEAST2 also supports missing data,
+#' by using a dash (\code{-}) or question mark (\code{?})
+#' as a sequence.
 #' @param fasta_filenames One or more FASTA filenames.
 #'   Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.
 #' @param fixed_crown_age determines if the phylogeny's crown age is
@@ -152,6 +155,10 @@
 #'   as returned by \code{\link{get_taxa_names}}.
 #'   Keep at \code{NA} to have it initialized automatically,
 #'   using all taxa in the alignment
+#' @param tipdates_filename name of the file containing the tip dates.
+#'   This file is assumed to have two columns, separated by a tab.
+#'   The first column contains the taxa names, the second column contains
+#'   the date.
 #' @param tn93_site_model a TN93 site model,
 #'   as returned by \code{\link{create_tn93_site_model}}
 #' @param tracelog a \code{tracelog},
@@ -166,10 +173,6 @@
 #'   must be a name among those returned by \code{\link{get_tree_prior_names}}
 #' @param tree_priors one or more tree priors,
 #'   as returned by \code{\link{create_tree_prior}}
-#' @param tipdates_filename name of the file containing the tip dates.
-#'   This file is assumed to have two columns, separated by a tab.
-#'   The first column contains the taxa names, the second column contains
-#'   the date.
 #' @param verbose if TRUE, additional information is displayed, that
 #'   is potentially useful in debugging
 #' @param yule_tree_prior a Yule tree_prior,

@@ -64,7 +64,7 @@ create_site_model <- function(
   if (!beautier::is_site_model_name(name)) {
     site_models_as_string <- function() {
       s <- NULL
-      for (p in get_site_model_names()) {
+      for (p in beautier::get_site_model_names()) {
         s <- paste0(s, ", ", p)
       }
       s <- substr(s, start = 3, stop = nchar(s))
@@ -177,6 +177,9 @@ create_gtr_site_model <- create_site_model_gtr <- function(
   rate_gt_param = create_rate_gt_param(),
   freq_equilibrium = "estimated"
 ) {
+  if (!beautier::is_one_na(id) && !beautier::is_id(id)) {
+    stop("'id' must be NA (recommended) or an ID")
+  }
   if (beautier::is_one_double(rate_ac_param)) {
     rate_ac_param <- create_rate_ac_param(value = rate_ac_param)
   }
