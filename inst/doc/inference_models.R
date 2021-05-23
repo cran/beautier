@@ -69,9 +69,13 @@ inference_model <- create_inference_model(
 )
 
 ## -----------------------------------------------------------------------------
+output_filename <- get_beautier_tempfilename()
+
 create_beast2_input_file_from_model(
   input_filename = get_beautier_path("G_VII_pre2003_msa.fas"),
   inference_model = inference_model,
-  output_filename = tempfile(pattern = "irrelevant here")
+  output_filename = output_filename
 )
+# Cleanup
+file.remove(output_filename)
 
