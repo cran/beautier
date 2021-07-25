@@ -2,13 +2,16 @@
 % Please edit documentation in R/distr_to_xml.R
 \name{distr_to_xml_one_div_x}
 \alias{distr_to_xml_one_div_x}
-\title{Converts a 1/x distribution to XML}
+\title{Internal function}
 \usage{
-distr_to_xml_one_div_x(distr)
+distr_to_xml_one_div_x(distr, beauti_options = create_beauti_options())
 }
 \arguments{
 \item{distr}{a 1/x distribution,
 as created by \code{\link{create_one_div_x_distr}})}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
 }
 \value{
 the distribution as XML text

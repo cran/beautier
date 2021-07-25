@@ -2,13 +2,16 @@
 % Please edit documentation in R/distr_to_xml.R
 \name{distr_to_xml_normal}
 \alias{distr_to_xml_normal}
-\title{Converts a normal distribution to XML}
+\title{Internal function}
 \usage{
-distr_to_xml_normal(distr)
+distr_to_xml_normal(distr, beauti_options = create_beauti_options())
 }
 \arguments{
 \item{distr}{a normal distribution,
 as created by \code{\link{create_normal_distr}})}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
 }
 \value{
 the distribution as XML text

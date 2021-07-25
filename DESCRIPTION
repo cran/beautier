@@ -1,6 +1,6 @@
 Package: beautier
 Title: 'BEAUti' from R
-Version: 2.6
+Version: 2.6.2
 Authors@R: c(
   person("Richèl J.C.", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1107-7049")),
   person("Joëlle", "Barido-Sottani", role = "rev", comment = "Joëlle reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/209"),
@@ -32,11 +32,11 @@ URL: https://docs.ropensci.org/beautier/ (website)
 BugReports: https://github.com/ropensci/beautier
 Imports: ape, assertive, pryr, rappdirs, seqinr, stringr, testit
 Suggests: spelling, devtools, knitr, ggplot2, hunspell, lintr,
-        markdown, rmarkdown, testthat (>= 2.1.0)
+        markdown, readr, rmarkdown, testthat (>= 2.1.0)
 Language: en-US
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2021-05-22 19:06:41 UTC; richel
+Packaged: 2021-07-24 08:37:32 UTC; richel
 Author: Richèl J.C. Bilderbeek [aut, cre]
     (<https://orcid.org/0000-0003-1107-7049>),
   Joëlle Barido-Sottani [rev] (Joëlle reviewed the package for rOpenSci,
@@ -52,4 +52,4 @@ Author: Richèl J.C. Bilderbeek [aut, cre]
   Thijs Janzen [ctb] (<https://orcid.org/0000-0002-4162-1140>),
   Jana Riederer [ctb] (<https://orcid.org/0000-0001-6951-9984>)
 Repository: CRAN
-Date/Publication: 2021-05-23 04:30:18 UTC
+Date/Publication: 2021-07-25 13:50:02 UTC

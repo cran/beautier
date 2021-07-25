@@ -4,8 +4,6 @@
 #' These lines start with '<distribution id='
 #' @inheritParams default_params_doc
 #' @return lines of XML text
-#' @param taxa_names_with_ids taxa names that already have received
-#'   an ID. Causes the XML to \code{idref} these
 #' @author Richèl J.C. Bilderbeek
 #' @examples
 #'  # <distribution id="posterior" spec="util.CompoundDistribution">
@@ -17,23 +15,8 @@
 #'  # </distribution>
 #' @export
 mrca_prior_to_xml_prior_distr <- function(
-  inference_model,
-  mrca_prior = "deprecated",
-  has_non_strict_clock_model = "deprecated",
-  taxa_names_with_ids = "deprecated"
+  inference_model
 ) {
-  if (mrca_prior != "deprecated") {
-    stop("'mrca_prior' is deprecated. Use 'inference_model' instead")
-  }
-  if (has_non_strict_clock_model != "deprecated") {
-    stop(
-      "'has_non_strict_clock_model' is deprecated, ",
-      "it is extracted from 'inference_model'"
-    )
-  }
-  if (taxa_names_with_ids != "deprecated") {
-    stop("'taxa_names_with_ids' is deprecated, it is always NULL")
-  }
   # Don't be smart yet
   mrca_prior <- inference_model$mrca_prior
   taxa_names_with_ids <- NULL

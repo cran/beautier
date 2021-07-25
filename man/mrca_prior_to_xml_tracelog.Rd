@@ -2,11 +2,24 @@
 % Please edit documentation in R/mrca_prior_to_xml_tracelog.R
 \name{mrca_prior_to_xml_tracelog}
 \alias{mrca_prior_to_xml_tracelog}
-\title{Creates the MRCA prior's XML for the tracelog section}
+\title{Internal function}
 \usage{
-mrca_prior_to_xml_tracelog(clock_models, mrca_prior, tipdates_filename = NA)
+mrca_prior_to_xml_tracelog(
+  inference_model,
+  clock_models = "deprecated",
+  mrca_prior = "deprecated",
+  tipdates_filename = "deprecated"
+)
 }
 \arguments{
+\item{inference_model}{a Bayesian phylogenetic inference model.
+An inference model is the complete model setup in which a site model,
+clock model, tree prior and more are specified.
+Use \link{create_inference_model} to create an inference model.
+Use \link{check_inference_model} to check if  an inference model is valid.
+Use \link{rename_inference_model_filenames} to rename the files in an
+inference model.}
+
 \item{clock_models}{a list of one or more clock models,
 as returned by \code{\link{create_clock_model}}}
 
@@ -22,7 +35,7 @@ the date.}
 lines of XML text
 }
 \description{
-Creates the MRCA prior's XML for the tracelog section.
+Internal function to creates the MRCA prior's XML for the tracelog section.
 }
 \details{
 \code{

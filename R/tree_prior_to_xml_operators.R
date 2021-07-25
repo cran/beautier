@@ -1,3 +1,5 @@
+#' Internal function
+#'
 #' Creates the XML of a tree prior,
 #'   as used in the \code{operators} section
 #' @inheritParams default_params_doc
@@ -5,9 +7,13 @@
 #' @author Richèl J.C. Bilderbeek
 #' @export
 tree_prior_to_xml_operators <- function(
-  tree_prior,
-  fixed_crown_age = FALSE
+  inference_model
 ) {
+  # Don't be smart yet
+  tree_prior <- inference_model$tree_prior
+  fixed_crown_age <- FALSE
+
+  testthat::expect_false(fixed_crown_age)
   testit::assert(beautier::is_tree_prior(tree_prior))
   id <- tree_prior$id
   testit::assert(beautier::is_id(id))
@@ -46,37 +52,27 @@ tree_prior_to_xml_operators <- function(
       "weight=\"3.0\" windowSize=\"1.0\"/>")) # nolint this is no absolute path
   } else {
     # Will fail on unimplemented tree priors
-    testit::assert(beautier::is_yule_tree_prior(tree_prior))
-
-    text <- c(text,
-      paste0(
-        "<operator id=\"YuleBirthRateScaler.t:", id, "\" ",
-        "spec=\"ScaleOperator\" parameter=\"@birthRate.t:", id, "\" ",
-        "scaleFactor=\"0.75\" weight=\"3.0\"/>" # nolint this is no absolute path
-      )
+    testthat::expect_true(beautier::is_yule_tree_prior(tree_prior))
+    text <- c(
+      text,
+      beautier::yule_tree_prior_to_xml_operators(inference_model)
     )
   }
 
-  if (fixed_crown_age == FALSE) {
-    text <- c(text, paste0("<operator ",
-      "id=\"", operator_id_pre, "TreeScaler.t:", id, "\" ",
-      "spec=\"ScaleOperator\" scaleFactor=\"0.5\" tree=\"@Tree.t:",
-      id, "\" weight=\"3.0\"/>")) # nolint this is no absolute path
-  }
-  if (fixed_crown_age == FALSE) {
-    text <- c(text, paste0("<operator ",
-      "id=\"", operator_id_pre, "TreeRootScaler.t:", id, "\" ",
-      "spec=\"ScaleOperator\" rootOnly=\"true\" scaleFactor=\"0.5\" ",
-      "tree=\"@Tree.t:", id, "\" weight=\"3.0\"/>")) # nolint this is no absolute path
-  }
+  text <- c(text, paste0("<operator ",
+    "id=\"", operator_id_pre, "TreeScaler.t:", id, "\" ",
+    "spec=\"ScaleOperator\" scaleFactor=\"0.5\" tree=\"@Tree.t:",
+    id, "\" weight=\"3.0\"/>")) # nolint this is no absolute path
+  text <- c(text, paste0("<operator ",
+    "id=\"", operator_id_pre, "TreeRootScaler.t:", id, "\" ",
+    "spec=\"ScaleOperator\" rootOnly=\"true\" scaleFactor=\"0.5\" ",
+    "tree=\"@Tree.t:", id, "\" weight=\"3.0\"/>")) # nolint this is no absolute path
   text <- c(text, paste0("<operator ",
     "id=\"", operator_id_pre, "UniformOperator.t:", id, "\" spec=\"Uniform\" ",
     "tree=\"@Tree.t:", id, "\" weight=\"30.0\"/>")) # nolint this is no absolute path
-  if (fixed_crown_age == FALSE) {
-    text <- c(text, paste0("<operator ",
-      "id=\"", operator_id_pre, "SubtreeSlide.t:", id, "\" ",
-      "spec=\"SubtreeSlide\" tree=\"@Tree.t:", id, "\" weight=\"15.0\"/>")) # nolint this is no absolute path
-  }
+  text <- c(text, paste0("<operator ",
+    "id=\"", operator_id_pre, "SubtreeSlide.t:", id, "\" ",
+    "spec=\"SubtreeSlide\" tree=\"@Tree.t:", id, "\" weight=\"15.0\"/>")) # nolint this is no absolute path
   text <- c(text, paste0("<operator ",
     "id=\"", operator_id_pre, "Narrow.t:", id, "\" spec=\"Exchange\" ",
     "tree=\"@Tree.t:", id, "\" weight=\"15.0\"/>")) # nolint this is no absolute path

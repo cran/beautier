@@ -2,13 +2,16 @@
 % Please edit documentation in R/distr_to_xml.R
 \name{distr_to_xml_exp}
 \alias{distr_to_xml_exp}
-\title{Converts an exponential distribution to XML}
+\title{Internal function}
 \usage{
-distr_to_xml_exp(distr)
+distr_to_xml_exp(distr, beauti_options = create_beauti_options())
 }
 \arguments{
 \item{distr}{an exponential distribution,
 as created by \code{\link{create_exp_distr}})}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
 }
 \value{
 the distribution as XML text

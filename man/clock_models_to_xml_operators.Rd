@@ -2,31 +2,12 @@
 % Please edit documentation in R/clock_models_to_xml_operators.R
 \name{clock_models_to_xml_operators}
 \alias{clock_models_to_xml_operators}
-\title{Create all clock models' operators' XML text}
+\title{Deprecated}
 \usage{
-clock_models_to_xml_operators(
-  clock_models,
-  mrca_priors = NA,
-  tipdates_filename = NA
-)
-}
-\arguments{
-\item{clock_models}{a list of one or more clock models,
-as returned by \code{\link{create_clock_model}}}
-
-\item{mrca_priors}{a list of one or more Most Recent Common Ancestor priors,
-as returned by \code{\link{create_mrca_prior}}}
-
-\item{tipdates_filename}{name of the file containing the tip dates.
-This file is assumed to have two columns, separated by a tab.
-The first column contains the taxa names, the second column contains
-the date.}
-}
-\value{
-a character vector of XML strings
+clock_models_to_xml_operators()
 }
 \description{
-Create all clock models' operators' XML text
+Deprecated
 }
 \author{
 Richèl J.C. Bilderbeek

@@ -1,3 +1,5 @@
+#' Internal function
+#'
 #' Creates the \code{tracelog} section of the \code{logger} section
 #' of a BEAST2 XML parameter file
 #' @inheritParams default_params_doc
@@ -9,26 +11,22 @@ create_tracelog_xml <- function(# nolint keep long function name, as it extends 
 ) {
   # Do not be smart yet
   site_models <- list(inference_model$site_model)
-  clock_models <- list(inference_model$clock_model)
   tree_priors <- list(inference_model$tree_prior)
-  mrca_priors <- list(inference_model$mrca_prior)
-  tipdates_filename <- inference_model$tipdates_filename
 
   text <- NULL
 
   text <- c(text, "<log idref=\"posterior\"/>") # nolint this is no absolute path
   text <- c(text, "<log idref=\"likelihood\"/>") # nolint this is no absolute path
   text <- c(text, "<log idref=\"prior\"/>") # nolint this is no absolute path
-  text <- c(text, beautier::tree_models_to_xml_tracelog(site_models))
+  text <- c(text, beautier::tree_model_to_tracelog_xml(inference_model))
 
   site_models_xml <- beautier::site_models_to_xml_tracelog(site_models)
   if (!is.null(site_models_xml)) {
     text <- c(text, site_models_xml)
   }
 
-  clock_models_xml <- beautier::clock_models_to_xml_tracelog(
-    clock_models = clock_models,
-    mrca_priors = mrca_priors
+  clock_models_xml <- beautier::clock_model_to_xml_tracelog(
+    inference_model = inference_model
   )
   if (!is.null(clock_models_xml)) {
     text <- c(text, clock_models_xml)
@@ -37,10 +35,8 @@ create_tracelog_xml <- function(# nolint keep long function name, as it extends 
   text <- c(text, beautier::tree_priors_to_xml_tracelog(tree_priors))
   text <- c(
     text,
-    beautier::mrca_priors_to_xml_tracelog(
-      clock_models = clock_models,
-      mrca_priors = mrca_priors,
-      tipdates_filename = tipdates_filename
+    beautier::mrca_prior_to_xml_tracelog(
+      inference_model = inference_model
     )
   )
 
@@ -50,6 +46,10 @@ create_tracelog_xml <- function(# nolint keep long function name, as it extends 
     "<logger ",
     "id=\"tracelog\" "
   )
+  # Add 'spec=\"Logger\" ' for
+  if (inference_model$beauti_options$beast2_version == "2.6") {
+    top_line <- paste0(top_line, "spec=\"Logger\" ")
+  }
   if (is.na(inference_model$mcmc$tracelog$filename)) {
     # Alignment IDs
     ids <- beautier::get_alignment_id(

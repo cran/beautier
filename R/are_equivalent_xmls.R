@@ -1,4 +1,7 @@
-#' Determine if XML files result in equivalent trees
+#' Internal function
+#'
+#' Internal function used for debugging to
+#' determine if XML files result in equivalent trees
 #' @param filename_1 name of a first XML file
 #' @param filename_2 name of a second XML file
 #' @param section the name of the XML section, use NA to check the whole file
@@ -38,7 +41,7 @@ are_equivalent_xml_lines <- function(
 ) {
   if (beautier::is_one_na(section)) {
     return(
-      are_equivalent_xml_lines_all(
+      beautier::are_equivalent_xml_lines_all(
         lines_1 = lines_1,
         lines_2 = lines_2,
         verbose = verbose
@@ -47,7 +50,7 @@ are_equivalent_xml_lines <- function(
   } else {
     testit::assert(!beautier::is_one_na(section))
     return(
-      are_equivalent_xml_lines_section(
+      beautier::are_equivalent_xml_lines_section(
         lines_1 = lines_1,
         lines_2 = lines_2,
         section = section,
@@ -70,6 +73,18 @@ are_equivalent_xml_lines_all <- function(
   lines_2,
   verbose = FALSE
 ) {
+  # Remove whitespace-only lines from both files
+  lines_1 <- stringr::str_subset(
+    string = lines_1,
+    pattern = "^[:blank:]*$",
+    negate = TRUE
+  )
+  lines_2 <- stringr::str_subset(
+    string = lines_2,
+    pattern = "^[:blank:]*$",
+    negate = TRUE
+  )
+
   if (length(lines_1) != length(lines_2)) {
     if (verbose) {
       message(
@@ -98,6 +113,7 @@ are_equivalent_xml_lines_all <- function(
 #' @return TRUE if the two XML lines result in equivalent trees,
 #'   FALSE otherwise
 #' @author Richèl J.C. Bilderbeek
+#' @export
 are_equivalent_xml_lines_section <- function( # nolint don't care about internal function length
   lines_1,
   lines_2,

@@ -1,4 +1,7 @@
+#' Internal function
+#'
 #' Converts a distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr a distribution,
 #'   as created by \code{\link{create_distr}})
 #' @return the distribution as XML text
@@ -7,49 +10,56 @@
 #' distr_to_xml(create_uniform_distr(id = 1))
 #' @export
 distr_to_xml <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
+  beautier::check_beauti_options(beauti_options)
   text <- NULL
   id <- distr$id
   if (!beautier::is_id(id)) {
     stop("distribution must have an ID")
   }
   if (beautier::is_beta_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_beta(distr))
+    text <- c(text, beautier::distr_to_xml_beta(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_exp_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_exp(distr))
+    text <- c(text, beautier::distr_to_xml_exp(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_gamma_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_gamma(distr))
+    text <- c(text, beautier::gamma_distr_to_xml(gamma_distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_inv_gamma_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_inv_gamma(distr))
+    text <- c(text, beautier::distr_to_xml_inv_gamma(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_laplace_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_laplace(distr))
+    text <- c(text, beautier::distr_to_xml_laplace(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_log_normal_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_log_normal(distr))
+    text <- c(text, beautier::distr_to_xml_log_normal(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_normal_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_normal(distr))
+    text <- c(text, beautier::distr_to_xml_normal(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_one_div_x_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_one_div_x(distr))
+    text <- c(text, beautier::distr_to_xml_one_div_x(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_poisson_distr(distr)) {
-    text <- c(text, beautier::distr_to_xml_poisson(distr))
+    text <- c(text, beautier::distr_to_xml_poisson(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   } else {
     testit::assert(beautier::is_uniform_distr(distr))
-    text <- c(text, beautier::distr_to_xml_uniform(distr))
+    text <- c(text, beautier::distr_to_xml_uniform(distr = distr, beauti_options = beauti_options)) # nolint indeed a long line
   }
   testit::assert(beautier::is_xml(text))
   text
 }
 
+#' Internal function
+#'
 #' Converts a beta distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr a beta distribution,
 #'   as created by \code{\link{create_beta_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_beta <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_beta_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 
@@ -69,16 +79,21 @@ distr_to_xml_beta <- function(
   text
 }
 
+#' Internal function
+#'
 #' Converts an exponential distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr an exponential distribution,
 #'   as created by \code{\link{create_exp_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_exp <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_exp_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 
@@ -94,46 +109,21 @@ distr_to_xml_exp <- function(
   text
 }
 
-#' Converts a gamma distribution to XML
-#' @param distr a gamma distribution,
-#'   as created by \code{\link{create_gamma_distr}})
-#' @return the distribution as XML text
-#' @author Richèl J.C. Bilderbeek
-#' @export
-distr_to_xml_gamma <- function(
-  distr
-) {
-  testit::assert(beautier::is_gamma_distr(distr))
-  id <- distr$id
-  testit::assert(beautier::is_id(id))
-
-  text <- NULL
-  text <- c(text, paste0("<Gamma ",
-    "id=\"Gamma.", id, "\" name=\"distr\">"))
-  text <- c(text,
-    beautier::indent(
-      beautier::parameter_to_xml(distr$alpha)
-    )
-  )
-  text <- c(text,
-    beautier::indent(
-      beautier::parameter_to_xml(distr$beta)
-    )
-  )
-  text <- c(text, paste0("</Gamma>"))
-  text
-}
-
+#' Internal function
+#'
 #' Converts an inverse-gamma distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr an inverse-gamma distribution,
 #'   as created by \code{\link{create_inv_gamma_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_inv_gamma <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_inv_gamma_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 
@@ -154,16 +144,21 @@ distr_to_xml_inv_gamma <- function(
   text
 }
 
+#' Internal function
+#'
 #' Converts a Laplace distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr a Laplace distribution
 #'   as created by \code{\link{create_laplace_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_laplace <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_laplace_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 
@@ -183,16 +178,22 @@ distr_to_xml_laplace <- function(
   text <- c(text, paste0("</LaplaceDistribution>"))
   text
 }
+
+#' Internal function
+#'
 #' Converts a log-normal distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr a log-normal distribution,
 #'   as created by \code{\link{create_log_normal_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_log_normal <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_log_normal_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 
@@ -214,16 +215,21 @@ distr_to_xml_log_normal <- function(
 }
 
 
+#' Internal function
+#'
 #' Converts a normal distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr a normal distribution,
 #'   as created by \code{\link{create_normal_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_normal <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_normal_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 
@@ -244,16 +250,21 @@ distr_to_xml_normal <- function(
   text
 }
 
+#' Internal function
+#'
 #' Converts a 1/x distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr a 1/x distribution,
 #'   as created by \code{\link{create_one_div_x_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_one_div_x <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_one_div_x_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 
@@ -263,16 +274,21 @@ distr_to_xml_one_div_x <- function(
   text
 }
 
+#' Internal function
+#'
 #' Converts a Poisson distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr a Poisson distribution,
 #'   as created by \code{\link{create_poisson_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_poisson <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_poisson_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 
@@ -289,16 +305,21 @@ distr_to_xml_poisson <- function(
   text
 }
 
+#' Internal function
+#'
 #' Converts a uniform distribution to XML
+#' @inheritParams default_params_doc
 #' @param distr a uniform distribution,
 #'   as created by \code{\link{create_uniform_distr}})
 #' @return the distribution as XML text
 #' @author Richèl J.C. Bilderbeek
 #' @export
 distr_to_xml_uniform <- function(
-  distr
+  distr,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_uniform_distr(distr))
+  beautier::check_beauti_options(beauti_options)
   id <- distr$id
   testit::assert(beautier::is_id(id))
 

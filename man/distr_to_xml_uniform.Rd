@@ -2,13 +2,16 @@
 % Please edit documentation in R/distr_to_xml.R
 \name{distr_to_xml_uniform}
 \alias{distr_to_xml_uniform}
-\title{Converts a uniform distribution to XML}
+\title{Internal function}
 \usage{
-distr_to_xml_uniform(distr)
+distr_to_xml_uniform(distr, beauti_options = create_beauti_options())
 }
 \arguments{
 \item{distr}{a uniform distribution,
 as created by \code{\link{create_uniform_distr}})}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
 }
 \value{
 the distribution as XML text

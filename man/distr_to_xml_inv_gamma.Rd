@@ -2,13 +2,16 @@
 % Please edit documentation in R/distr_to_xml.R
 \name{distr_to_xml_inv_gamma}
 \alias{distr_to_xml_inv_gamma}
-\title{Converts an inverse-gamma distribution to XML}
+\title{Internal function}
 \usage{
-distr_to_xml_inv_gamma(distr)
+distr_to_xml_inv_gamma(distr, beauti_options = create_beauti_options())
 }
 \arguments{
 \item{distr}{an inverse-gamma distribution,
 as created by \code{\link{create_inv_gamma_distr}})}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
 }
 \value{
 the distribution as XML text

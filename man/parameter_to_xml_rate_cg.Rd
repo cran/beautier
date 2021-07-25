@@ -2,15 +2,22 @@
 % Please edit documentation in R/parameter_to_xml.R
 \name{parameter_to_xml_rate_cg}
 \alias{parameter_to_xml_rate_cg}
-\title{Converts a 'rate CG' parameter to XML}
+\title{Internal function}
 \usage{
-parameter_to_xml_rate_cg(parameter, which_name = "state_node")
+parameter_to_xml_rate_cg(
+  parameter,
+  beauti_options = create_beauti_options(),
+  which_name = "state_node"
+)
 }
 \arguments{
 \item{parameter}{a 'rate CG' parameter,
 a numeric value.
 For advanced usage, use the structure
 as created by \code{\link{create_rate_cg_param}})}
+
+\item{beauti_options}{one BEAUti options object,
+as returned by \code{\link{create_beauti_options}}}
 
 \item{which_name}{the name, can be \code{state_node} or \code{rate_name}}
 }

@@ -193,12 +193,13 @@ create_beta_param <- create_param_beta <- function(
 #' @export create_clock_rate_param create_param_clock_rate
 create_clock_rate_param <- create_param_clock_rate <- function(
   value = "1.0",
+  estimate = FALSE,
   id = NA
 ) {
   beautier::create_param(
     name = "clock_rate",
     id = id,
-    estimate = FALSE,
+    estimate = estimate,
     value = value
   )
 }
@@ -317,12 +318,17 @@ create_lambda_param <- create_param_lambda <- function(
 #' @export create_m_param create_param_m
 create_m_param <- create_param_m <- function(
   id = NA,
+  estimate = FALSE,
+  lower = NA,
+  upper = NA,
   value = 0.0
 ) {
   beautier::create_param(
     name = "m",
     id = id,
-    estimate = FALSE,
+    estimate = estimate,
+    lower = lower,
+    upper = upper,
     value = value
   )
 }

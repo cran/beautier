@@ -2,13 +2,19 @@
 #' This function does nothing.
 #' It is intended to inherit function argument documentation.
 #' @param alignment_id ID of the alignment,
-#'   as returned by \link{get_alignment_id}.
-#'   Keep at \code{NA} to have it initialized automatically
+#' as returned by \link{get_alignment_id}.
+#' Keep at \code{NA} to have it initialized automatically
+#' @param alpha_parameter an alpha parameter,
+#' as created by \link{create_alpha_param}
 #' @param bd_tree_prior a Birth-Death tree prior, as created
-#'   by \code{\link{create_bd_tree_prior}}
+#' by \code{\link{create_bd_tree_prior}}
 #' @param beast2_version BEAST2 version, for example, code{"2.5"}
 #' @param beauti_options one BEAUti options object,
-#'   as returned by \code{\link{create_beauti_options}}
+#' as returned by \code{\link{create_beauti_options}}
+#' @param beautier_folder the path to
+#' the \link{beautier} temporary files folder
+#' @param beta_parameter a beta parameter,
+#' as created by \link{create_beta_param}
 #' @param clock_prior_distr_id ID of an MRCA clock model's distribution.
 #'   Keep at \code{NA} to have it initialized automatically
 #' @param cbs_tree_prior a Coalescent Bayesian Skyline tree prior,
@@ -26,6 +32,9 @@
 #'   must be name among those returned by \code{\link{get_clock_model_names}}
 #' @param clock_models a list of one or more clock models,
 #'   as returned by \code{\link{create_clock_model}}
+#' @param clock_rate_param a \code{clockRate} parameter,
+#' a numeric value,
+#' as created by \link{create_clock_rate_param}
 #' @param crown_age the crown age of the phylogeny
 #' @param crown_ages the crown ages of the phylogenies. Set to NA
 #'   if the crown age needs to be estimated
@@ -46,6 +55,8 @@
 #'   If FALSE, crown age is estimated by BEAST2. If TRUE,
 #'   the crown age is fixed to the crown age
 #'   of the initial phylogeny.
+#' @param gamma_distr a gamma distribution,
+#'   as created by \code{\link{create_gamma_distr}})
 #' @param gamma_site_model a site model's gamma site model,
 #'   as returned by \code{\link{create_gamma_site_model}}
 #' @param group_sizes_dimension the group sizes' dimension,
@@ -87,6 +98,8 @@
 #' @param jc69_site_model a JC69 site model,
 #'   as returned by \code{\link{create_jc69_site_model}}
 #' @param log_every number of MCMC states between writing to file
+#' @param m_param an m parameter,
+#' as created by \link{create_m_param}
 #' @param mcmc one MCMC.
 #'   Use \code{\link{create_mcmc}} to create an MCMC.
 #'   Use \code{\link{create_ns_mcmc}} to create an MCMC
@@ -110,7 +123,6 @@
 #' @param param_id a parameter's ID
 #' @param phylogeny a phylogeny of type \code{phylo} from the \code{ape}
 #'   package
-#' @param posterior_crown_age deprecated
 #' @param pre_burnin number of burn in samples taken before entering
 #'   the main loop
 #' @param rename_fun a function to rename a filename,
@@ -183,10 +195,13 @@
 #'   functions to find the documentation parameters
 default_params_doc <- function(
   alignment_id,
+  alpha_parameter,
   bd_tree_prior,
+  beautier_folder,
   cbs_tree_prior,
   beast2_version,
   beauti_options,
+  beta_parameter,
   ccp_tree_prior,
   cep_tree_prior,
   chain_length,
@@ -195,11 +210,13 @@ default_params_doc <- function(
   clock_model_names,
   clock_models,
   clock_prior_distr_id,
+  clock_rate_param,
   crown_age, crown_ages,
   distr_id,
   fasta_filename, fasta_filenames,
   fixed_crown_age,
   fixed_crown_ages,
+  gamma_distr,
   gamma_site_model,
   group_sizes_dimension,
   gtr_site_model,
@@ -214,6 +231,7 @@ default_params_doc <- function(
   is_monophyletic,
   jc69_site_model,
   log_every,
+  m_param,
   mcmc,
   mode,
   mrca_prior, mrca_priors,
@@ -223,7 +241,6 @@ default_params_doc <- function(
   param,
   param_id,
   phylogeny,
-  posterior_crown_age,
   pre_burnin,
   rename_fun,
   rln_clock_model,

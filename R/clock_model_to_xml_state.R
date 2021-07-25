@@ -1,3 +1,5 @@
+#' Internal function
+#'
 #' Converts a clock model to the \code{state} section of the
 #' XML as text
 #' @inheritParams default_params_doc
@@ -6,38 +8,51 @@
 #' @author Richèl J.C. Bilderbeek
 #' @export
 clock_model_to_xml_state <- function(
-  clock_model,
-  has_tip_dating = FALSE
+  inference_model
 ) {
-  testit::assert(beautier::is_clock_model(clock_model))
-  id <- clock_model$id
-  testit::assert(beautier::is_id(clock_model$id))
+  beautier::check_inference_model(inference_model)
+  if (beautier::has_strict_clock_model(inference_model) &&
+    !beautier::has_tip_dating(inference_model)
+  ) {
+    return(NULL)
+  }
+
+  # Don't be smart yet
+  clock_model <- inference_model$clock_model
 
   text <- NULL
-  if (beautier::is_strict_clock_model(clock_model) || has_tip_dating == TRUE) {
+  if (beautier::has_strict_clock_model(inference_model) ||
+      (
+        beautier::has_strict_clock_model(inference_model) &&
+        beautier::has_tip_dating(inference_model)
+      )
+    ) {
     text <- c(
       text,
-      paste0("<parameter id=\"clockRate.c:", clock_model$id, "\" ",
-        "name=\"stateNode\">", clock_model$clock_rate_param$value,
-        "</parameter>"
-      )
+      beautier::create_clock_rate_state_node_parameter_xml(inference_model)
     )
   } else {
     # Fails on unimplemented clock models
-    testit::assert(beautier::is_rln_clock_model(clock_model))
-    testit::assert(!beautier::is_one_na(clock_model$mean_clock_rate))
-    testit::assert(!beautier::is_one_na(clock_model$dimension))
+    testthat::expect_true(beautier::is_rln_clock_model(clock_model))
+    testthat::expect_false(beautier::is_one_na(clock_model$mean_clock_rate))
+    testthat::expect_false(beautier::is_one_na(clock_model$dimension))
 
-    text <- c(text, paste0("<parameter id=\"ucldMean.c:", id, "\" ",
-        "name=\"stateNode\">", clock_model$mean_clock_rate, "</parameter>")
+    if (beautier::has_mrca_prior_with_distr(inference_model) ||
+        beautier::has_tip_dating(inference_model)
+    ) {
+      text <- c(
+        text,
+        beautier::create_ucld_mean_state_node_param_xml(inference_model)
+      )
+    }
+    text <- c(
+      text,
+      beautier::create_ucld_stdev_state_node_param_xml(inference_model)
     )
-    # ucldStdev.c is always 0.1, cannot set it to other value
-    text <- c(text, paste0("<parameter id=\"ucldStdev.c:", id, "\" ",
-      "lower=\"0.0\" name=\"stateNode\">0.1</parameter>"))
-    # value is always 1, dimension d = 2n - 2, where n is the number of taxa
-    text <- c(text, paste0("<stateNode id=\"rateCategories.c:", id, "\" ",
-      "spec=\"parameter.IntegerParameter\" ",
-      "dimension=\"", clock_model$dimension, "\">1</stateNode>"))
+    text <- c(
+      text,
+      beautier::create_rate_categories_state_node_xml(inference_model)
+    )
   }
 
   text

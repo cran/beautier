@@ -8,10 +8,13 @@ It is intended to inherit function argument documentation.}
 \usage{
 default_params_doc(
   alignment_id,
+  alpha_parameter,
   bd_tree_prior,
+  beautier_folder,
   cbs_tree_prior,
   beast2_version,
   beauti_options,
+  beta_parameter,
   ccp_tree_prior,
   cep_tree_prior,
   chain_length,
@@ -20,6 +23,7 @@ default_params_doc(
   clock_model_names,
   clock_models,
   clock_prior_distr_id,
+  clock_rate_param,
   crown_age,
   crown_ages,
   distr_id,
@@ -27,6 +31,7 @@ default_params_doc(
   fasta_filenames,
   fixed_crown_age,
   fixed_crown_ages,
+  gamma_distr,
   gamma_site_model,
   group_sizes_dimension,
   gtr_site_model,
@@ -43,6 +48,7 @@ default_params_doc(
   is_monophyletic,
   jc69_site_model,
   log_every,
+  m_param,
   mcmc,
   mode,
   mrca_prior,
@@ -53,7 +59,6 @@ default_params_doc(
   param,
   param_id,
   phylogeny,
-  posterior_crown_age,
   pre_burnin,
   rename_fun,
   rln_clock_model,
@@ -86,8 +91,14 @@ default_params_doc(
 as returned by \link{get_alignment_id}.
 Keep at \code{NA} to have it initialized automatically}
 
+\item{alpha_parameter}{an alpha parameter,
+as created by \link{create_alpha_param}}
+
 \item{bd_tree_prior}{a Birth-Death tree prior, as created
 by \code{\link{create_bd_tree_prior}}}
+
+\item{beautier_folder}{the path to
+the \link{beautier} temporary files folder}
 
 \item{cbs_tree_prior}{a Coalescent Bayesian Skyline tree prior,
 as returned by \code{\link{create_cbs_tree_prior}}}
@@ -96,6 +107,9 @@ as returned by \code{\link{create_cbs_tree_prior}}}
 
 \item{beauti_options}{one BEAUti options object,
 as returned by \code{\link{create_beauti_options}}}
+
+\item{beta_parameter}{a beta parameter,
+as created by \link{create_beta_param}}
 
 \item{ccp_tree_prior}{a Coalescent Constant Population tree prior,
 as returned by \code{\link{create_ccp_tree_prior}}}
@@ -119,6 +133,10 @@ as returned by \code{\link{create_clock_model}}}
 
 \item{clock_prior_distr_id}{ID of an MRCA clock model's distribution.
 Keep at \code{NA} to have it initialized automatically}
+
+\item{clock_rate_param}{a \code{clockRate} parameter,
+a numeric value,
+as created by \link{create_clock_rate_param}}
 
 \item{crown_age}{the crown age of the phylogeny}
 
@@ -146,6 +164,9 @@ phylogenies' crown ages are fixed.
 If FALSE, crown age is estimated by BEAST2. If TRUE,
 the crown age is fixed to the crown age
 of the initial phylogeny.}
+
+\item{gamma_distr}{a gamma distribution,
+as created by \code{\link{create_gamma_distr}})}
 
 \item{gamma_site_model}{a site model's gamma site model,
 as returned by \code{\link{create_gamma_site_model}}}
@@ -204,6 +225,9 @@ as returned by \code{\link{create_jc69_site_model}}}
 
 \item{log_every}{number of MCMC states between writing to file}
 
+\item{m_param}{an m parameter,
+as created by \link{create_m_param}}
+
 \item{mcmc}{one MCMC.
 Use \code{\link{create_mcmc}} to create an MCMC.
 Use \code{\link{create_ns_mcmc}} to create an MCMC
@@ -236,8 +260,6 @@ function. BEAST2 uses this file as input.}
 
 \item{phylogeny}{a phylogeny of type \code{phylo} from the \code{ape}
 package}
-
-\item{posterior_crown_age}{deprecated}
 
 \item{pre_burnin}{number of burn in samples taken before entering
 the main loop}
