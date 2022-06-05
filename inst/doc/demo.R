@@ -3,6 +3,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = ""
 )
+beautier::remove_beautier_folder()
+beautier::check_empty_beautier_folder()
 
 ## ----load_beautier------------------------------------------------------------
 library(beautier)
@@ -28,4 +30,7 @@ readLines(output_filename)
 
 ## ----cleanup------------------------------------------------------------------
 file.remove(output_filename)
+
+beautier::remove_beautier_folder()
+beautier::check_empty_beautier_folder()
 

@@ -2,6 +2,13 @@
 #'
 #' Will call \link{stop} if not.
 #' @inheritParams default_params_doc
+#' @examples
+#' check_empty_beautier_folder()
+#'
+#' check_treelog(create_test_treelog())
+#'
+#' check_empty_beautier_folder()
+#' @author Richèl J.C. Bilderbeek
 #' @export
 check_treelog <- function(treelog) {
 
@@ -43,11 +50,7 @@ check_treelog_names <- function(treelog) {
 #' @author Richèl J.C. Bilderbeek
 #' @export
 check_treelog_values <- function(treelog) {
-
-  if (!beautier::is_one_na(treelog$filename)) {
-    assertive::assert_is_character(treelog$filename)
-    assertive::assert_is_a_string(treelog$filename)
-  }
+  beautier::check_filename(filename = treelog$filename, allow_na = TRUE)
   assertive::assert_is_numeric(treelog$log_every)
   assertive::assert_all_are_positive(treelog$log_every)
   beautier::check_log_mode(treelog$mode)

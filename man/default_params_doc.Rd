@@ -8,6 +8,8 @@ It is intended to inherit function argument documentation.}
 \usage{
 default_params_doc(
   alignment_id,
+  allow_empty_str,
+  allow_na,
   alpha_parameter,
   bd_tree_prior,
   beautier_folder,
@@ -29,6 +31,7 @@ default_params_doc(
   distr_id,
   fasta_filename,
   fasta_filenames,
+  filename,
   fixed_crown_age,
   fixed_crown_ages,
   gamma_distr,
@@ -90,6 +93,10 @@ default_params_doc(
 \item{alignment_id}{ID of the alignment,
 as returned by \link{get_alignment_id}.
 Keep at \code{NA} to have it initialized automatically}
+
+\item{allow_empty_str}{allow a string to be empty}
+
+\item{allow_na}{allow \link{NA}}
 
 \item{alpha_parameter}{an alpha parameter,
 as created by \link{create_alpha_param}}
@@ -153,6 +160,8 @@ as a sequence.}
 
 \item{fasta_filenames}{One or more FASTA filenames.
 Use \code{\link{get_fasta_filename}} to obtain a testing FASTA filename.}
+
+\item{filename}{a filename, as can be checked by \link{check_filename}}
 
 \item{fixed_crown_age}{determines if the phylogeny's crown age is
 fixed. If FALSE, crown age is estimated by BEAST2. If TRUE,

@@ -1,6 +1,6 @@
 Package: beautier
 Title: 'BEAUti' from R
-Version: 2.6.2
+Version: 2.6.4
 Authors@R: c(
   person("Richèl J.C.", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1107-7049")),
   person("Joëlle", "Barido-Sottani", role = "rev", comment = "Joëlle reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/209"),
@@ -25,7 +25,7 @@ Description: 'BEAST2' (<https://www.beast2.org>) is a widely used
   files without active user input, but using
   R function calls instead.
 License: GPL-3
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 VignetteBuilder: knitr
 URL: https://docs.ropensci.org/beautier/ (website)
         https://github.com/ropensci/beautier/
@@ -36,7 +36,7 @@ Suggests: spelling, devtools, knitr, ggplot2, hunspell, lintr,
 Language: en-US
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2021-07-24 08:37:32 UTC; richel
+Packaged: 2022-06-01 15:49:55 UTC; richel
 Author: Richèl J.C. Bilderbeek [aut, cre]
     (<https://orcid.org/0000-0003-1107-7049>),
   Joëlle Barido-Sottani [rev] (Joëlle reviewed the package for rOpenSci,
@@ -52,4 +52,4 @@ Author: Richèl J.C. Bilderbeek [aut, cre]
   Thijs Janzen [ctb] (<https://orcid.org/0000-0002-4162-1140>),
   Jana Riederer [ctb] (<https://orcid.org/0000-0001-6951-9984>)
 Repository: CRAN
-Date/Publication: 2021-07-25 13:50:02 UTC
+Date/Publication: 2022-06-05 16:50:02 UTC

@@ -3,6 +3,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+beautier::remove_beautier_folder()
+beautier::check_empty_beautier_folder()
 
 ## -----------------------------------------------------------------------------
 library(beautier)
@@ -78,4 +80,7 @@ create_beast2_input_file_from_model(
 )
 # Cleanup
 file.remove(output_filename)
+
+beautier::remove_beautier_folder()
+beautier::check_empty_beautier_folder()
 
