@@ -8,16 +8,16 @@
 create_gtr_site_model(
   id = NA,
   gamma_site_model = create_gamma_site_model(),
-  rate_ac_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value
-    = "10.0")),
-  rate_ag_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value
-    = "20.0")),
-  rate_at_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value
-    = "10.0")),
-  rate_cg_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value
-    = "10.0")),
-  rate_gt_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value
-    = "10.0")),
+  rate_ac_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value =
+    "10.0")),
+  rate_ag_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value =
+    "20.0")),
+  rate_at_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value =
+    "10.0")),
+  rate_cg_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value =
+    "10.0")),
+  rate_gt_prior_distr = create_gamma_distr(alpha = 0.05, beta = create_beta_param(value =
+    "10.0")),
   rate_ac_param = create_rate_ac_param(),
   rate_ag_param = create_rate_ag_param(),
   rate_at_param = create_rate_at_param(),
@@ -91,27 +91,27 @@ a GTR site_model
 Create a GTR site model
 }
 \examples{
-check_empty_beautier_folder()
+if (is_on_ci()) {
 
-gtr_site_model <- create_gtr_site_model(
-  rate_ac_param = 1.2,
-  rate_ag_param = 2.3,
-  rate_at_param = 3.4,
-  rate_cg_param = 4.5,
-  rate_ct_param = 5.6,
-  rate_gt_param = 6.7
-)
+  gtr_site_model <- create_gtr_site_model(
+    rate_ac_param = 1.2,
+    rate_ag_param = 2.3,
+    rate_at_param = 3.4,
+    rate_cg_param = 4.5,
+    rate_ct_param = 5.6,
+    rate_gt_param = 6.7
+  )
 
-beast2_input_file <- get_beautier_tempfilename()
-create_beast2_input_file(
-  input_filename = get_fasta_filename(),
-  beast2_input_file,
-  site_model = gtr_site_model
-)
-file.remove(beast2_input_file)
+  beast2_input_file <- get_beautier_tempfilename()
+  create_beast2_input_file(
+    input_filename = get_fasta_filename(),
+    beast2_input_file,
+    site_model = gtr_site_model
+  )
+  file.remove(beast2_input_file)
 
-remove_beautier_folder()
-check_empty_beautier_folder()
+  remove_beautier_folder()
+}
 }
 \author{
 Richèl J.C. Bilderbeek
