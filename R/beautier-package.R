@@ -53,6 +53,9 @@
 #'   }
 #' }
 #' @author Richèl J.C. Bilderbeek
-#' @docType package
-#' @name beautier
+#' @keywords internal
+"_PACKAGE"
+
+## usethis namespace: start
+## usethis namespace: end
 NULL

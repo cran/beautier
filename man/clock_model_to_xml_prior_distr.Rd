@@ -31,6 +31,9 @@ check_empty_beautier_folder()
  #     <distribution id="likelihood" ...>
  #     </distribution>
  # </distribution>
+clock_model_to_xml_prior_distr(
+  inference_model = create_inference_model()
+)
 check_empty_beautier_folder()
 }
 \author{

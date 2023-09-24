@@ -98,6 +98,54 @@ is_alpha_param <- function(
 }
 
 #' Determine if the object is a valid
+#' b_pop_sizes parameter
+#' @param x an object, to be determined if it is a valid
+#'   b_pop_sizes parameter
+#' @return TRUE if x is a valid b_pop_sizes parameter,
+#'   FALSE otherwise
+#' @author Richèl J.C. Bilderbeek
+#' @examples
+#' check_empty_beautier_folder()
+#'
+#' is_b_pop_sizes_param(create_alpha_param())
+#' is_b_pop_sizes_param(create_b_pop_sizes_param())
+#' is_b_pop_sizes_param(create_beta_param())
+#' is_b_pop_sizes_param(create_clock_rate_param())
+#' is_b_pop_sizes_param(create_kappa_1_param())
+#' is_b_pop_sizes_param(create_kappa_2_param())
+#' is_b_pop_sizes_param(create_lambda_param())
+#' is_b_pop_sizes_param(create_m_param())
+#' is_b_pop_sizes_param(create_mean_param())
+#' is_b_pop_sizes_param(create_mu_param())
+#' is_b_pop_sizes_param(create_rate_ac_param())
+#' is_b_pop_sizes_param(create_rate_ag_param())
+#' is_b_pop_sizes_param(create_rate_at_param())
+#' is_b_pop_sizes_param(create_rate_cg_param())
+#' is_b_pop_sizes_param(create_rate_ct_param())
+#' is_b_pop_sizes_param(create_rate_gt_param())
+#' is_b_pop_sizes_param(create_s_param())
+#' is_b_pop_sizes_param(create_scale_param())
+#' is_b_pop_sizes_param(create_sigma_param())
+#'
+#' is_b_pop_sizes_param(NA)
+#' is_b_pop_sizes_param(NULL)
+#' is_b_pop_sizes_param("nonsense")
+#' is_b_pop_sizes_param(create_jc69_site_model())
+#' is_b_pop_sizes_param(create_strict_clock_model())
+#' is_b_pop_sizes_param(create_yule_tree_prior())
+#' is_b_pop_sizes_param(create_mcmc())
+#'
+#' check_empty_beautier_folder()
+#' @export
+is_b_pop_sizes_param <- function(
+  x
+) {
+  if (!beautier::is_param(x)) return(FALSE)
+  x$name == "b_pop_sizes"
+}
+
+
+#' Determine if the object is a valid
 #' beta parameter
 #' @param x an object, to be determined if it is a valid
 #'   beta parameter
@@ -189,6 +237,115 @@ is_clock_rate_param <- function(
   x$name == "clock_rate"
 }
 
+
+#' Determine if the object is a valid freq parameter
+#' @param x an object, to be determined if it is a valid
+#'   freq parameter
+#' @return TRUE if x is a valid freq parameter,
+#'   FALSE otherwise
+#' @seealso freq parameters are returned by
+#'   \code{\link{create_freq_param}}
+#' @author Richèl J.C. Bilderbeek
+#' @examples
+#' check_empty_beautier_folder()
+#'
+#' is_freq_param(create_alpha_param())
+#' is_freq_param(create_beta_param())
+#' is_freq_param(create_clock_rate_param())
+#' is_freq_param(create_freq_param())
+#' is_freq_param(create_freq_param())
+#' is_freq_param(create_kappa_param())
+#' is_freq_param(create_kappa_1_param())
+#' is_freq_param(create_kappa_2_param())
+#' is_freq_param(create_lambda_param())
+#' is_freq_param(create_m_param())
+#' is_freq_param(create_mean_param())
+#' is_freq_param(create_mu_param())
+#' is_freq_param(create_rate_ac_param())
+#' is_freq_param(create_rate_ag_param())
+#' is_freq_param(create_rate_at_param())
+#' is_freq_param(create_rate_cg_param())
+#' is_freq_param(create_rate_ct_param())
+#' is_freq_param(create_rate_gt_param())
+#' is_freq_param(create_s_param())
+#' is_freq_param(create_scale_param())
+#' is_freq_param(create_sigma_param())
+#'
+#' is_freq_param(NA)
+#' is_freq_param(NULL)
+#' is_freq_param("nonsense")
+#' is_freq_param(create_jc69_site_model())
+#' is_freq_param(create_strict_clock_model())
+#' is_freq_param(create_yule_tree_prior())
+#' is_freq_param(create_mcmc())
+#'
+#' check_empty_beautier_folder()
+#' @export
+is_freq_param <- function(
+  x
+) {
+  if (!beautier::is_param(x)) return(FALSE)
+  if (x$name != "freqParameter") return(FALSE) # redundant name
+  if (!"lower" %in% names(x)) return(FALSE)
+  if (!"upper" %in% names(x)) return(FALSE)
+  if (!"value" %in% names(x)) return(FALSE)
+  if (!"estimate" %in% names(x)) return(FALSE)
+  if (!"dimension" %in% names(x)) return(FALSE)
+  TRUE
+}
+
+#' Determine if the object is a valid kappa parameter
+#' @param x an object, to be determined if it is a valid
+#'   kappa parameter
+#' @return TRUE if x is a valid kappa parameter,
+#'   FALSE otherwise
+#' @seealso kappa parameters are returned by
+#'   \code{\link{create_kappa_param}}
+#' @author Richèl J.C. Bilderbeek
+#' @examples
+#' check_empty_beautier_folder()
+#'
+#' is_kappa_param(create_alpha_param())
+#' is_kappa_param(create_beta_param())
+#' is_kappa_param(create_clock_rate_param())
+#' is_kappa_param(create_kappa_param())
+#' is_kappa_param(create_kappa_1_param())
+#' is_kappa_param(create_kappa_2_param())
+#' is_kappa_param(create_lambda_param())
+#' is_kappa_param(create_m_param())
+#' is_kappa_param(create_mean_param())
+#' is_kappa_param(create_mu_param())
+#' is_kappa_param(create_rate_ac_param())
+#' is_kappa_param(create_rate_ag_param())
+#' is_kappa_param(create_rate_at_param())
+#' is_kappa_param(create_rate_cg_param())
+#' is_kappa_param(create_rate_ct_param())
+#' is_kappa_param(create_rate_gt_param())
+#' is_kappa_param(create_s_param())
+#' is_kappa_param(create_scale_param())
+#' is_kappa_param(create_sigma_param())
+#'
+#' is_kappa_param(NA)
+#' is_kappa_param(NULL)
+#' is_kappa_param("nonsense")
+#' is_kappa_param(create_jc69_site_model())
+#' is_kappa_param(create_strict_clock_model())
+#' is_kappa_param(create_yule_tree_prior())
+#' is_kappa_param(create_mcmc())
+#'
+#' check_empty_beautier_folder()
+#' @export
+is_kappa_param <- function(
+  x
+) {
+  if (!beautier::is_param(x)) return(FALSE)
+  if (x$name != "kappa") return(FALSE)
+
+  if (!"lower" %in% names(x)) return(FALSE)
+  if (!"estimate" %in% names(x)) return(FALSE)
+  TRUE
+}
+
 #' Determine if the object is a valid kappa 1 parameter
 #' @param x an object, to be determined if it is a valid
 #'   kappa 1 parameter
@@ -203,6 +360,7 @@ is_clock_rate_param <- function(
 #' is_kappa_1_param(create_alpha_param())
 #' is_kappa_1_param(create_beta_param())
 #' is_kappa_1_param(create_clock_rate_param())
+#' is_kappa_1_param(create_kappa_param())
 #' is_kappa_1_param(create_kappa_1_param())
 #' is_kappa_1_param(create_kappa_2_param())
 #' is_kappa_1_param(create_lambda_param())

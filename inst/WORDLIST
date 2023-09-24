@@ -25,6 +25,8 @@ Durr
 Els
 Etienne
 FASTA
+fileName
+FrequenciesPrior
 github
 GitHub
 GTR
@@ -37,6 +39,7 @@ io
 JC
 Klaere
 knitr
+logEvery
 macOS
 Maturana
 mcmc
@@ -47,12 +50,14 @@ monophyletic
 monophyly
 MRCA
 Neotropical
+nolint
 Norambuena
 ns
 NS
 nsm
 NSM
 nucleotides
+param
 Phylodynamics
 Patricio
 phylogenies
@@ -65,6 +70,7 @@ rmarkdown
 ropensci
 rOpenSci
 sanitise
+sanitiseHeaders
 screenlog
 Selleck
 setenv
@@ -80,6 +86,7 @@ tipdates
 tipdating
 tracelog
 treelog
+TreeWithMetaDataLogger
 undeleted
 unindent
 unindented
@@ -91,3 +98,5 @@ VignetteIndexEntry
 Wibowo
 www
 Yacine
+bPopSizes
+scaler

@@ -6,7 +6,7 @@
 #' @return a character vector of XML strings
 #' @author Richèl J.C. Bilderbeek
 #' @export
-create_branch_rate_model_rln_xml <- function(# nolint long function name, which is fine for a long function
+create_rln_clock_branch_rate_model_xml <- function(# nolint long function name, which is fine for a long function
   inference_model
 ) {
   testthat::expect_true(
@@ -49,9 +49,14 @@ create_branch_rate_model_rln_xml <- function(# nolint long function name, which 
 
   text <- c(text, line)
 
-  text <- c(text, paste0("    <LogNormal ",
-    "id=\"LogNormalDistributionModel.c:", id, "\" ",
-    "S=\"@ucldStdev.c:", id, "\" meanInRealSpace=\"true\" name=\"distr\">"))
+  text <- c(
+    text,
+    paste0(
+      "    <LogNormal ",
+      "id=\"LogNormalDistributionModel.c:", id, "\" ",
+      "S=\"@ucldStdev.c:", id, "\" meanInRealSpace=\"true\" name=\"distr\">"
+    )
+  )
   text <- c(
     text,
     indent(
@@ -70,7 +75,8 @@ create_branch_rate_model_rln_xml <- function(# nolint long function name, which 
   )
   text <- c(text, paste0("    </LogNormal>"))
   if (!beautier::has_mrca_prior_with_distr(inference_model) &&
-      !has_tip_dating(inference_model)) {
+      !has_tip_dating(inference_model)
+  ) {
     xml_here <- beautier::clock_rate_param_to_xml(
       clock_rate_param = beautier::create_clock_rate_param(
         id = id,

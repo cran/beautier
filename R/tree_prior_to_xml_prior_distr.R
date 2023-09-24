@@ -19,21 +19,23 @@
 #' check_empty_beautier_folder()
 #' @export
 tree_prior_to_xml_prior_distr <- function(
-  tree_prior
+  tree_prior,
+  beauti_options
 ) {
-  testit::assert(beautier::is_tree_prior(tree_prior))
+  beautier::check_tree_prior(tree_prior)
+  beautier::check_beauti_options(beauti_options)
   text <- NULL
   if (beautier::is_bd_tree_prior(tree_prior)) {
-    text <- c(text, beautier::bd_tree_prior_to_xml_prior_distr(tree_prior))
+    text <- c(text, beautier::bd_tree_prior_to_xml_prior_distr(tree_prior, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_cbs_tree_prior(tree_prior)) {
-    text <- c(text, beautier::cbs_tree_prior_to_xml_prior_distr(tree_prior))
+    text <- c(text, beautier::cbs_tree_prior_to_xml_prior_distr(tree_prior, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_ccp_tree_prior(tree_prior)) {
-    text <- c(text, beautier::ccp_tree_prior_to_xml_prior_distr(tree_prior))
+    text <- c(text, beautier::ccp_tree_prior_to_xml_prior_distr(tree_prior, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_cep_tree_prior(tree_prior)) {
-    text <- c(text, beautier::cep_tree_prior_to_xml_prior_distr(tree_prior))
+    text <- c(text, beautier::cep_tree_prior_to_xml_prior_distr(tree_prior, beauti_options = beauti_options)) # nolint indeed a long line
   } else {
     testit::assert(beautier::is_yule_tree_prior(tree_prior))
-    text <- c(text, beautier::yule_tree_prior_to_xml_prior_distr(tree_prior))
+    text <- c(text, beautier::yule_tree_prior_to_xml_prior_distr(tree_prior, beauti_options = beauti_options)) # nolint indeed a long line
   }
   text
 }

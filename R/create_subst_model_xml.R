@@ -69,8 +69,10 @@ create_hky_subst_model_xml <- function( # nolint indeed a long function name, wh
   testit::assert(beautier::is_hky_site_model(site_model))
   text <- c(
     text,
-    paste0("<substModel ",
-      "id=\"hky.s:", id, "\" spec=\"HKY\" kappa=\"@kappa.s:", id, "\">")
+    paste0(
+      "<substModel ",
+      "id=\"hky.s:", id, "\" spec=\"HKY\" kappa=\"@kappa.s:", id, "\">"
+    )
   )
   text <- c(text, freq_equilibrium_text)
   text <- c(text, paste0("</substModel>"))
@@ -112,17 +114,25 @@ create_tn93_subst_model_xml <- function( # nolint indeed a long function name, w
   subst_model_line <- paste0(subst_model_line, ">")
   text <- c(text, subst_model_line)
   if (site_model$kappa_1_param$estimate == FALSE) {
-    text <- c(text, paste0("<parameter id=\"kappa1.s:", id, "\" ",
-      "estimate=\"false\" ",
-      "lower=\"", site_model$kappa_1_param$lower, "\" ",
-      "name=\"kappa1\">", site_model$kappa_1_param$value, "</parameter>")
+    text <- c(
+      text,
+      paste0(
+        "<parameter id=\"kappa1.s:", id, "\" ",
+        "estimate=\"false\" ",
+        "lower=\"", site_model$kappa_1_param$lower, "\" ",
+        "name=\"kappa1\">", site_model$kappa_1_param$value, "</parameter>"
+      )
     )
   }
   if (site_model$kappa_2_param$estimate == FALSE) {
-    text <- c(text, paste0("<parameter id=\"kappa2.s:", id, "\" ",
-      "estimate=\"false\" ",
-      "lower=\"", site_model$kappa_2_param$lower, "\" ",
-      "name=\"kappa2\">", site_model$kappa_2_param$value, "</parameter>")
+    text <- c(
+      text,
+      paste0(
+        "<parameter id=\"kappa2.s:", id, "\" ",
+        "estimate=\"false\" ",
+        "lower=\"", site_model$kappa_2_param$lower, "\" ",
+        "name=\"kappa2\">", site_model$kappa_2_param$value, "</parameter>"
+      )
     )
   }
   text <- c(text, freq_equilibrium_text)

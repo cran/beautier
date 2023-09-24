@@ -4,7 +4,30 @@
 \alias{create_beauti_options_v2_6}
 \title{Function to create the BEAUti options for version 2.6.}
 \usage{
-create_beauti_options_v2_6()
+create_beauti_options_v2_6(
+  beast2_version = "2.6",
+  sequence_indent = 8,
+  nucleotides_uppercase = FALSE,
+  status = "",
+  namespace = beautier::get_default_beast_namespace_v2_6(),
+  required = ""
+)
+}
+\arguments{
+\item{beast2_version}{the BEAST2 version}
+
+\item{sequence_indent}{the number of spaces the XML \code{sequence}
+lines are indented}
+
+\item{nucleotides_uppercase}{must the nucleotides of the DNA sequence be
+in uppercase?}
+
+\item{status}{the BEAUti status}
+
+\item{namespace}{the `namespace` XML element in the `beast` XML tag.}
+
+\item{required}{things that may be required,
+for example \code{BEAST v2.5.0}}
 }
 \value{
 a BEAUti options structure
@@ -26,6 +49,9 @@ if (is_on_ci()) {
 
   check_empty_beautier_folder()
 }
+}
+\seealso{
+see \link{create_beauti_options_v2_4} for using the older v2.4
 }
 \author{
 Richèl J.C. Bilderbeek

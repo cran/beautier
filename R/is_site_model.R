@@ -95,15 +95,16 @@ is_gtr_site_model <- function(
 #'
 #' check_empty_beautier_folder()
 #' @export
-is_hky_site_model <- function(
+is_hky_site_model <- function( # nolint indeed a function with high cyclomatic complexity
   x
 ) {
   if (!beautier::is_site_model(x)) return(FALSE)
   if (x$name != "HKY") return(FALSE)
-  if (!"kappa" %in% names(x)) return(FALSE)
+  if (!"kappa_param" %in% names(x)) return(FALSE)
   if (!"kappa_prior_distr" %in% names(x)) return(FALSE)
   if (!beautier::is_distr(x$kappa_prior_distr)) return(FALSE)
   if (!"freq_equilibrium" %in% names(x)) return(FALSE)
+  if (!beautier::is_kappa_param(x$kappa_param)) return(FALSE)
   if (!beautier::is_freq_equilibrium_name(x$freq_equilibrium)) return(FALSE)
   TRUE
 }

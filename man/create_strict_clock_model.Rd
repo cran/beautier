@@ -8,7 +8,8 @@
 create_strict_clock_model(
   id = NA,
   clock_rate_param = create_clock_rate_param(),
-  clock_rate_distr = create_uniform_distr()
+  clock_rate_distr = create_uniform_distr(),
+  rate_scaler_factor = 0.75
 )
 }
 \arguments{
@@ -23,12 +24,21 @@ as created by the \code{\link{create_clock_rate_param}} function}
 
 \item{clock_rate_distr}{the clock rate's distribution,
 as created by a \code{\link{create_distr}} function}
+
+\item{rate_scaler_factor}{the strict clock model's operator scaler
+for the rate.
+Use an empty string to indicate the default.}
 }
 \value{
 a strict clock_model
 }
 \description{
 Create a strict clock model
+}
+\note{
+I am unsure about the relationship between `clock_rate_param`
+and `clock_rate_distr`. Please contact me if you know
+the most natural architecture
 }
 \examples{
 if (is_on_ci()) {

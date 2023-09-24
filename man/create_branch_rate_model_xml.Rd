@@ -24,8 +24,6 @@ Creates the \code{branchRateModel} section
 of the XML as text.
 }
 \details{
-This function will be called only if there are no MRCA priors.
-
 The \code{distribution} tag (with ID equals \code{treeLikelihood})
 has these elements:
 
@@ -36,9 +34,9 @@ has these elements:
 }
 
 When there is a strict clock,
-  \link{create_branch_rate_model_sc_xml} is called.
+  \link{create_strict_clock_branch_rate_model_xml} is called.
 When there is an RLN clock,
-  \link{create_branch_rate_model_rln_xml} is called.
+  \link{create_rln_clock_branch_rate_model_xml} is called.
 
 Zooming out:
 

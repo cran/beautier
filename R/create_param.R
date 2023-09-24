@@ -127,6 +127,34 @@ create_alpha_param <- create_param_alpha <- function(
   )
 }
 
+#' Create a parameter called `b_pop_sizes`.
+#' @inheritParams default_parameters_doc
+#' @return a parameter called b_pop_sizes
+#' @note this parameter is used in a CBS model,
+#' as created by \link{create_cbs_tree_prior}
+#' @seealso the function \code{\link{create_param}} contains a list
+#'   of all parameters that can be created
+#' @author Richèl J.C. Bilderbeek
+#' @examples
+#' # Create the parameter
+#' b_pop_sizes_param <- create_b_pop_sizes_param()
+#' @aliases create_b_pop_sizes_param create_param_b_pop_sizes
+#' @export create_b_pop_sizes_param create_param_b_pop_sizes
+create_b_pop_sizes_param <- create_param_b_pop_sizes <- function(
+  id = NA,
+  value = 1.0,
+  upper = "380000.0"
+) {
+  beautier::create_param(
+    name = "b_pop_sizes",
+    id = id,
+    estimate = FALSE,
+    value = value,
+    upper = upper
+  )
+}
+
+
 #' Create a parameter called beta
 #' @inheritParams default_parameters_doc
 #' @return a parameter called beta
@@ -221,6 +249,52 @@ create_clock_rate_param <- create_param_clock_rate <- function(
     id = id,
     estimate = estimate,
     value = value
+  )
+}
+
+#' Create a parameter called freq
+#' @inheritParams default_parameters_doc
+#' @return a parameter called freq
+#' @author Richèl J.C. Bilderbeek
+#' @aliases create_freq_param create_param_freq
+#' @export create_freq_param create_param_freq
+create_freq_param <- create_param_freq <- function(
+  id = NA,
+  lower = "0.0",
+  upper = "1.0",
+  value = "0.25",
+  estimate = TRUE,
+  dimension = 4
+) {
+  beautier::create_param(
+    name = "freqParameter",
+    id = id,
+    lower = lower,
+    upper = upper,
+    value = value,
+    estimate = estimate,
+    dimension = dimension
+  )
+}
+
+#' Create a parameter called kappa
+#' @inheritParams default_parameters_doc
+#' @return a parameter called kappa
+#' @author Richèl J.C. Bilderbeek
+#' @aliases create_kappa_param create_param_kappa
+#' @export create_kappa_param create_param_kappa
+create_kappa_param <- create_param_kappa <- function(
+  id = NA,
+  lower = "0.0",
+  value = "2.0",
+  estimate = TRUE
+) {
+  beautier::create_param(
+    name = "kappa",
+    id = id,
+    lower = lower,
+    value = value,
+    estimate = estimate
   )
 }
 

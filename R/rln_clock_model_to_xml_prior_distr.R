@@ -46,15 +46,23 @@ rln_clock_model_to_xml_prior_distr <- function( # nolint indeed a long function 
   if (beautier::has_mrca_prior_with_distr(inference_model)) {
     text <- c(
       text,
-      beautier::rln_clock_model_to_xml_mean_rate_prior(clock_model)
+      beautier::rln_clock_model_to_xml_mean_rate_prior(
+        clock_model,
+        beauti_options = inference_model$beauti_options
+      )
     )
   }
 
   id <- clock_model$id
   testit::assert(beautier::is_id(id))
-  text <- c(text, paste0("<prior ",
-    "id=\"ucldStdevPrior.c:", id, "\" name=\"distribution\" ",
-    "x=\"@ucldStdev.c:", id, "\">"))
+  text <- c(
+    text,
+    paste0(
+      "<prior ",
+      "id=\"ucldStdevPrior.c:", id, "\" name=\"distribution\" ",
+      "x=\"@ucldStdev.c:", id, "\">"
+    )
+  )
   text <- c(text,
     beautier::indent(
       beautier::distr_to_xml(

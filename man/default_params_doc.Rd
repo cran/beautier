@@ -11,6 +11,8 @@ default_params_doc(
   allow_empty_str,
   allow_na,
   alpha_parameter,
+  b_pop_sizes_param,
+  b_pop_sizes_parameter,
   bd_tree_prior,
   beautier_folder,
   cbs_tree_prior,
@@ -34,6 +36,7 @@ default_params_doc(
   filename,
   fixed_crown_age,
   fixed_crown_ages,
+  freq_param,
   gamma_distr,
   gamma_site_model,
   group_sizes_dimension,
@@ -50,6 +53,7 @@ default_params_doc(
   input_filenames,
   is_monophyletic,
   jc69_site_model,
+  kappa_param,
   log_every,
   m_param,
   mcmc,
@@ -62,7 +66,9 @@ default_params_doc(
   param,
   param_id,
   phylogeny,
+  pop_sizes_scaler_scale_factor,
   pre_burnin,
+  rate_scaler_factor,
   rename_fun,
   rln_clock_model,
   sample_from_prior,
@@ -100,6 +106,12 @@ Keep at \code{NA} to have it initialized automatically}
 
 \item{alpha_parameter}{an alpha parameter,
 as created by \link{create_alpha_param}}
+
+\item{b_pop_sizes_param}{a Bayesian population size parameter,
+as created by \link{create_b_pop_sizes_param}}
+
+\item{b_pop_sizes_parameter}{a Bayesian population size parameter,
+as created by \link{create_b_pop_sizes_param}}
 
 \item{bd_tree_prior}{a Birth-Death tree prior, as created
 by \code{\link{create_bd_tree_prior}}}
@@ -174,6 +186,9 @@ If FALSE, crown age is estimated by BEAST2. If TRUE,
 the crown age is fixed to the crown age
 of the initial phylogeny.}
 
+\item{freq_param}{a `freq` parameter,
+as created by \link{create_freq_param}}
+
 \item{gamma_distr}{a gamma distribution,
 as created by \code{\link{create_gamma_distr}})}
 
@@ -232,6 +247,9 @@ as returned by \code{\link{create_mrca_prior}}}
 \item{jc69_site_model}{a JC69 site model,
 as returned by \code{\link{create_jc69_site_model}}}
 
+\item{kappa_param}{a kappa parameter,
+as created by \link{create_kappa_param}}
+
 \item{log_every}{number of MCMC states between writing to file}
 
 \item{m_param}{an m parameter,
@@ -270,8 +288,15 @@ function. BEAST2 uses this file as input.}
 \item{phylogeny}{a phylogeny of type \code{phylo} from the \code{ape}
 package}
 
+\item{pop_sizes_scaler_scale_factor}{the scale factor used by the
+population sizes scaler operator}
+
 \item{pre_burnin}{number of burn in samples taken before entering
 the main loop}
+
+\item{rate_scaler_factor}{the strict clock model's operator scaler
+for the rate.
+Use an empty string to indicate the default.}
 
 \item{rename_fun}{a function to rename a filename,
 as can be checked by \link{check_rename_fun}. This function should

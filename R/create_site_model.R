@@ -4,7 +4,7 @@
 #' @param id the IDs of the alignment (can be extracted from
 #'   the FASTA filename using \code{\link{get_alignment_id}})
 #' @param gamma_site_model a gamma site model, as created
-#'   by \code{\link{create_gamma_site_model}}
+#'   by \link{create_gamma_site_model}
 #' @param ... specific site model parameters
 #' @note Prefer using the
 #'   named functions
@@ -107,13 +107,15 @@ create_site_model <- function(
 #'   For advanced usage, use the structure
 #'   as returned by \code{\link{create_rate_ct_param}}
 #' @param rate_gt_param the 'rate GT' parameter,
-#'   a numeric value.
-#'   For advanced usage, use the structure
-#'   as returned by \code{\link{create_rate_gt_param}}
+#' a numeric value.
+#' For advanced usage, use the structure
+#' as returned by \code{\link{create_rate_gt_param}}
 #' @param freq_equilibrium the frequency in which the rates are at equilibrium
 #'   are either \code{estimated}, \code{empirical} or \code{all_equal}.
 #'   \code{get_freq_equilibrium_names} returns the possible values
 #'   for \code{freq_equilibrium}
+#' @param freq_param a `freq` parameter,
+#' as created by \link{create_freq_param}
 #' @return a GTR site_model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
@@ -169,10 +171,14 @@ create_gtr_site_model <- create_site_model_gtr <- function(
   rate_cg_param = create_rate_cg_param(),
   rate_ct_param = create_rate_ct_param(),
   rate_gt_param = create_rate_gt_param(),
-  freq_equilibrium = "estimated"
+  freq_equilibrium = "estimated",
+  freq_param = create_freq_param()
 ) {
   if (!beautier::is_one_na(id) && !beautier::is_id(id)) {
     stop("'id' must be NA (recommended) or an ID")
+  }
+  if (!beautier::is_freq_param(freq_param)) {
+    stop("'freq_param' must a valid freq_param. Tip: use 'create_freq_param'")
   }
   if (beautier::is_one_double(rate_ac_param)) {
     rate_ac_param <- create_rate_ac_param(value = rate_ac_param)
@@ -208,13 +214,17 @@ create_gtr_site_model <- create_site_model_gtr <- function(
     rate_cg_param = rate_cg_param,
     rate_ct_param = rate_ct_param,
     rate_gt_param = rate_gt_param,
-    freq_equilibrium = freq_equilibrium
+    freq_equilibrium = freq_equilibrium,
+    freq_param = freq_param
   )
 }
 
 #' Create an HKY site model
 #' @inheritParams create_site_model
-#' @param kappa the kappa
+#' @param kappa obsoleted parameter. It is the value in the `kappa_param`
+#' argument
+#' @param kappa_param a `kappa` parameter,
+#' as created by \link{create_kappa_param}
 #' @param kappa_prior_distr the distribution of the kappa prior,
 #'   which is a log-normal distribution
 #'   (as created by \code{\link{create_log_normal_distr}})
@@ -223,6 +233,8 @@ create_gtr_site_model <- create_site_model_gtr <- function(
 #'   are either \code{estimated}, \code{empirical} or \code{all_equal}.
 #'   \code{get_freq_equilibrium_names} returns the possible values
 #'   for \code{freq_equilibrium}
+#' @param freq_param a `freq` parameter,
+#' as created by \link{create_freq_param}
 #' @return an HKY site_model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
@@ -243,21 +255,34 @@ create_gtr_site_model <- create_site_model_gtr <- function(
 #' @export create_hky_site_model create_site_model_hky
 create_hky_site_model <- create_site_model_hky <- function(
   id = NA,
-  kappa = "2.0",
+  kappa = "obsolete",
+  kappa_param = create_kappa_param(value = "2.0"),
   gamma_site_model = create_gamma_site_model(),
   kappa_prior_distr = create_log_normal_distr(
     m = create_m_param(value = "1.0"),
     s = 1.25
   ),
-  freq_equilibrium = "estimated"
+  freq_equilibrium = "estimated",
+  freq_param = create_freq_param()
 ) {
+  if (kappa != "obsolete") {
+    stop(
+      "Parameter 'kappa' is obsolete. \n",
+      "Use 'kappa_param' instead.\n",
+      " \n",
+      "Example: \n",
+      "  create_hky_site_model(kappa = \"123\") # OBSOLETE \n",
+      "  create_hky_site_model(kappa_param = create_kappa_param(value = \"123\")) # NEW" # nolint
+    )
+  }
   beautier::create_site_model(
     name = "HKY",
     id = id,
     gamma_site_model = gamma_site_model,
-    kappa = kappa,
+    kappa_param = kappa_param,
     kappa_prior_distr = kappa_prior_distr,
-    freq_equilibrium = freq_equilibrium
+    freq_equilibrium = freq_equilibrium,
+    freq_param = freq_param
   )
 }
 
@@ -315,6 +340,8 @@ create_jc69_site_model <- create_site_model_jc69 <- function(
 #'   are either \code{estimated}, \code{empirical} or \code{all_equal}.
 #'   \code{get_freq_equilibrium_names} returns the possible values
 #'   for \code{freq_equilibrium}
+#' @param freq_param a `freq` parameter,
+#' as created by \link{create_freq_param}
 #' @return a TN93 site_model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
@@ -350,7 +377,8 @@ create_tn93_site_model <- create_site_model_tn93 <- function(
     m = 1.0,
     s = 1.25
   ),
-  freq_equilibrium = "estimated"
+  freq_equilibrium = "estimated",
+  freq_param = create_freq_param()
 ) {
   if (beautier::is_one_double(kappa_1_param)) {
     kappa_1_param <- create_kappa_1_param(value = kappa_1_param)
@@ -366,6 +394,7 @@ create_tn93_site_model <- create_site_model_tn93 <- function(
     kappa_2_prior_distr = kappa_2_prior_distr,
     kappa_1_param = kappa_1_param,
     kappa_2_param = kappa_2_param,
-    freq_equilibrium = freq_equilibrium
+    freq_equilibrium = freq_equilibrium,
+    freq_param = freq_param
   )
 }

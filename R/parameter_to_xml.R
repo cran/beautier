@@ -9,13 +9,16 @@
 #' @examples
 #' check_empty_beautier_folder()
 #'
-#' parameter_to_xml(create_alpha_param(id = 1))
+#' parameter_to_xml(
+#'   create_alpha_param(id = 1),
+#'   beauti_options = create_beauti_options()
+#' )
 #'
 #' check_empty_beautier_folder()
 #' @export
 parameter_to_xml <- function( # nolint simplifying further hurts readability
   parameter,
-  beauti_options = create_beauti_options()
+  beauti_options
 ) {
   beautier::check_beauti_options(beauti_options)
   beautier::check_param(parameter)
@@ -29,6 +32,8 @@ parameter_to_xml <- function( # nolint simplifying further hurts readability
       clock_rate_param = parameter,
       beauti_options = beauti_options
     ))
+  } else if (beautier::is_kappa_param(parameter)) {
+    return(beautier::kappa_param_to_xml(kappa_param = parameter, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_kappa_1_param(parameter)) {
     return(beautier::parameter_to_xml_kappa_1(parameter, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_kappa_2_param(parameter)) {
@@ -54,7 +59,7 @@ parameter_to_xml <- function( # nolint simplifying further hurts readability
   } else if (beautier::is_rate_gt_param(parameter)) {
     return(beautier::parameter_to_xml_rate_gt(parameter, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_s_param(parameter)) {
-    return(beautier::parameter_to_xml_s(parameter, beauti_options = beauti_options)) # nolint indeed a long line
+    return(beautier::s_parameter_to_xml(parameter, beauti_options = beauti_options)) # nolint indeed a long line
   } else if (beautier::is_scale_param(parameter)) {
     return(beautier::parameter_to_xml_scale(parameter, beauti_options = beauti_options)) # nolint indeed a long line
   }
@@ -428,50 +433,6 @@ parameter_to_xml_rate_gt <- function(
   paste0(line, " lower=\"", lower, "\"",
     " name=\"", name_str, "\">", value, "</parameter>"
   )
-}
-
-#' Internal function
-#'
-#' Converts a s parameter to XML
-#' @inheritParams default_params_doc
-#' @param parameter a s parameter,
-#'   a numeric value.
-#'   For advanced usage, use the structure
-#'   as created by \code{\link{create_s_param}})
-#' @return the parameter as XML text
-#' @author Richèl J.C. Bilderbeek
-#' @export
-parameter_to_xml_s <- function(
-  parameter,
-  beauti_options = create_beauti_options()
-) {
-  beautier::check_beauti_options(beauti_options)
-  testit::assert(beautier::is_s_param(parameter))
-  id <- parameter$id
-  testit::assert(beautier::is_id(id))
-  testit::assert(parameter$estimate == FALSE)
-  estimate <- ifelse(parameter$estimate == TRUE, "true", "false")
-  value <- parameter$value
-  lower <- parameter$lower
-  upper <- parameter$upper
-  text <- paste0(
-      "<parameter ",
-      "id=\"RealParameter.", id, "\" ",
-      "estimate=\"", estimate, "\""
-    )
-  if (!beautier::is_one_na(lower)) {
-    text <- paste0(text, " lower=\"", lower, "\"")
-  }
-  text <- paste0(text, " name=\"S\"")
-  if (!beautier::is_one_na(upper)) {
-    upper_txt <- upper
-    if (is.infinite(upper)) {
-      upper_txt <- "Infinity"
-    }
-    text <- paste0(text, " upper=\"", upper_txt, "\"")
-  }
-  text <- paste0(text, ">", value, "</parameter>")
-  text
 }
 
 #' Internal function

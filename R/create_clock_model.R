@@ -99,7 +99,8 @@ create_rln_clock_model <- create_clock_model_rln <- function(
   mean_clock_rate = "1.0",
   n_rate_categories = -1,
   normalize_mean_clock_rate = FALSE,
-  dimension = NA
+  dimension = NA,
+  rate_scaler_factor = 0.75
 ) {
   rln_clock_model <- beautier::create_clock_model(
     name = "relaxed_log_normal",
@@ -110,9 +111,10 @@ create_rln_clock_model <- create_clock_model_rln <- function(
     mean_clock_rate = mean_clock_rate,
     n_rate_categories = n_rate_categories,
     normalize_mean_clock_rate = normalize_mean_clock_rate,
-    dimension = dimension
+    dimension = dimension,
+    rate_scaler_factor = rate_scaler_factor
   )
-  testit::assert(beautier::is_rln_clock_model(rln_clock_model))
+  beautier::check_rln_clock_model(rln_clock_model)
   rln_clock_model
 }
 
@@ -124,6 +126,9 @@ create_rln_clock_model <- create_clock_model_rln <- function(
 #'   as created by the \code{\link{create_clock_rate_param}} function
 #' @param clock_rate_distr the clock rate's distribution,
 #'   as created by a \code{\link{create_distr}} function
+#' @note I am unsure about the relationship between `clock_rate_param`
+#' and `clock_rate_distr`. Please contact me if you know
+#' the most natural architecture
 #' @return a strict clock_model
 #' @author Richèl J.C. Bilderbeek
 #' @examples
@@ -148,9 +153,13 @@ create_rln_clock_model <- create_clock_model_rln <- function(
 create_strict_clock_model <- create_clock_model_strict <- function(
   id = NA,
   clock_rate_param = create_clock_rate_param(),
-  clock_rate_distr = create_uniform_distr()
+  clock_rate_distr = create_uniform_distr(),
+  rate_scaler_factor = 0.75
 ) {
-  if (beautier::is_one_double(clock_rate_param)) {
+  if (
+    beautier::is_one_double(clock_rate_param) ||
+      beautier::is_one_string(clock_rate_param)
+  ) {
     clock_rate_param <- create_clock_rate_param(clock_rate_param)
   }
   if (!beautier::is_clock_rate_param(clock_rate_param)) {
@@ -169,8 +178,9 @@ create_strict_clock_model <- create_clock_model_strict <- function(
     name = "strict",
     id = id,
     clock_rate_param = clock_rate_param,
-    clock_rate_distr = clock_rate_distr
+    clock_rate_distr = clock_rate_distr,
+    rate_scaler_factor = rate_scaler_factor
   )
-  testit::assert(beautier::is_strict_clock_model(strict_clock_model))
+  beautier::check_strict_clock_model(strict_clock_model)
   strict_clock_model
 }

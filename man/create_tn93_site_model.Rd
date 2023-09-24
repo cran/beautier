@@ -12,7 +12,8 @@ create_tn93_site_model(
   kappa_2_param = create_kappa_2_param(),
   kappa_1_prior_distr = create_log_normal_distr(m = 1, s = 1.25),
   kappa_2_prior_distr = create_log_normal_distr(m = 1, s = 1.25),
-  freq_equilibrium = "estimated"
+  freq_equilibrium = "estimated",
+  freq_param = create_freq_param()
 )
 }
 \arguments{
@@ -20,7 +21,7 @@ create_tn93_site_model(
 the FASTA filename using \code{\link{get_alignment_id}})}
 
 \item{gamma_site_model}{a gamma site model, as created
-by \code{\link{create_gamma_site_model}}}
+by \link{create_gamma_site_model}}
 
 \item{kappa_1_param}{the 'kappa 1' parameter,
 a numeric value.
@@ -46,6 +47,9 @@ by default}
 are either \code{estimated}, \code{empirical} or \code{all_equal}.
 \code{get_freq_equilibrium_names} returns the possible values
 for \code{freq_equilibrium}}
+
+\item{freq_param}{a `freq` parameter,
+as created by \link{create_freq_param}}
 }
 \value{
 a TN93 site_model

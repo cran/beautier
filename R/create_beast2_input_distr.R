@@ -88,9 +88,26 @@ create_beast2_input_distr_prior <- function( # nolint indeed long function name
   tree_priors <- list(inference_model$tree_prior)
 
   text <- NULL
-  text <- c(text, beautier::tree_priors_to_xml_prior_distr(tree_priors))
-  text <- c(text, beautier::gamma_site_models_to_xml_prior_distr(site_models))
-  text <- c(text, beautier::site_models_to_xml_prior_distr(site_models))
+  text <- c(
+    text,
+    beautier::tree_priors_to_xml_prior_distr(
+      tree_priors,
+      beauti_options = inference_model$beauti_options
+    )
+  )
+  text <- c(
+    text,
+    beautier::gamma_site_model_to_xml_prior_distr(
+      inference_model
+    )
+  )
+  text <- c(
+    text,
+    beautier::site_models_to_xml_prior_distr(
+      site_models,
+      beauti_options = inference_model$beauti_options
+    )
+  )
   text <- c(
     text,
     beautier::mrca_priors_to_xml_prior_distr(inference_model = inference_model)
@@ -107,7 +124,8 @@ create_beast2_input_distr_prior <- function( # nolint indeed long function name
   # Surround text by prior distribution tag
   text <- c(
     "<distribution id=\"prior\" spec=\"util.CompoundDistribution\">",
-    text)
+    text
+  )
   text <- c(text, "</distribution>")
 }
 
@@ -165,10 +183,13 @@ create_beast2_input_distr_lh <- function(
   text <- beautier::indent(text)
 
   # Surround by likelihood distribution tags
-  text <- c(paste0(
-    "<distribution id=\"likelihood\" ",
-    "spec=\"util.CompoundDistribution\" useThreads=\"true\">"),
-    text)
+  text <- c(
+    paste0(
+      "<distribution id=\"likelihood\" ",
+      "spec=\"util.CompoundDistribution\" useThreads=\"true\">"
+    ),
+    text
+  )
   text <- c(text, "</distribution>")
 
   # Must have one or zero branchRateModel
@@ -197,7 +218,8 @@ create_beast2_input_distr_lh <- function(
 #' check_empty_beautier_folder()
 #' @export
 bd_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
-  bd_tree_prior
+  bd_tree_prior,
+  beauti_options
 ) {
   testit::assert(beautier::is_bd_tree_prior(bd_tree_prior))
   id <- bd_tree_prior$id
@@ -205,21 +227,32 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
 
   text <- NULL
 
-  text <- c(text, paste0("<distribution id=\"BirthDeath.t:", id,
-    "\" spec=\"beast.evolution.speciation.BirthDeathGernhard08Model\" ",
-    "birthDiffRate=\"@BDBirthRate.t:", id, "\" ",
-    "relativeDeathRate=\"@BDDeathRate.t:", id, "\" ",
-    "tree=\"@Tree.t:", id, "\"/>")) # nolint this is no absolute path
+  text <- c(
+    text,
+    paste0(
+      "<distribution id=\"BirthDeath.t:", id,
+      "\" spec=\"beast.evolution.speciation.BirthDeathGernhard08Model\" ",
+      "birthDiffRate=\"@BDBirthRate.t:", id, "\" ",
+      "relativeDeathRate=\"@BDDeathRate.t:", id, "\" ",
+      "tree=\"@Tree.t:", id, "\"/>"
+    )
+  )
 
   # BDBirthRate
   bd_birth_rate_distr <- bd_tree_prior$birth_rate_distr
 
-  text <- c(text, paste0("<prior id=\"BirthRatePrior.t:", id,
-    "\" name=\"distribution\" x=\"@BDBirthRate.t:", id, "\">"))
+  text <- c(
+    text,
+    paste0(
+      "<prior id=\"BirthRatePrior.t:", id,
+      "\" name=\"distribution\" x=\"@BDBirthRate.t:", id, "\">"
+    )
+  )
   text <- c(text,
     beautier::indent(
       beautier::distr_to_xml(
-        distr = bd_birth_rate_distr
+        distr = bd_birth_rate_distr,
+        beauti_options = beauti_options
       )
     )
   )
@@ -228,12 +261,18 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
   # BDDeathRate
   bd_death_rate_distr <- bd_tree_prior$death_rate_distr
 
-  text <- c(text, paste0("<prior id=\"DeathRatePrior.t:", id,
-    "\" name=\"distribution\" x=\"@BDDeathRate.t:", id, "\">"))
+  text <- c(
+    text,
+    paste0(
+      "<prior id=\"DeathRatePrior.t:", id,
+      "\" name=\"distribution\" x=\"@BDDeathRate.t:", id, "\">"
+    )
+  )
   text <- c(text,
     beautier::indent(
       beautier::distr_to_xml(
-        distr = bd_death_rate_distr
+        distr = bd_death_rate_distr,
+        beauti_options = beauti_options
       )
     )
   )
@@ -261,24 +300,39 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
 #' check_empty_beautier_folder()
 #' @export
 cbs_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
-  cbs_tree_prior
+  cbs_tree_prior,
+  beauti_options
 ) {
   testit::assert(beautier::is_cbs_tree_prior(cbs_tree_prior))
   id <- cbs_tree_prior$id
   testit::assert(beautier::is_id(id))
 
   text <- NULL
-  text <- c(text, paste0("<distribution ",
-    "id=\"BayesianSkyline.t:",
-    id, "\" spec=\"BayesianSkyline\" groupSizes=\"@bGroupSizes.t:", id,
-    "\" popSizes=\"@bPopSizes.t:", id, "\">"))
-  text <- c(text, paste0("    ",
-    "<treeIntervals id=\"BSPTreeIntervals.t:", id, "\" ",
-    "spec=\"TreeIntervals\" tree=\"@Tree.t:", id, "\"/>")) # nolint this is no absolute path
+  text <- c(
+    text,
+    paste0(
+      "<distribution ",
+      "id=\"BayesianSkyline.t:",
+      id, "\" spec=\"BayesianSkyline\" groupSizes=\"@bGroupSizes.t:", id,
+      "\" popSizes=\"@bPopSizes.t:", id, "\">"
+    )
+  )
+  text <- c(
+    text,
+    paste0("    ",
+      "<treeIntervals id=\"BSPTreeIntervals.t:", id, "\" ",
+      "spec=\"TreeIntervals\" tree=\"@Tree.t:", id, "\"/>"
+    )
+  )
   text <- c(text, paste0("</distribution>"))
-  text <- c(text, paste0("<distribution id=\"MarkovChainedPopSizes.t:", id,
-    "\" spec=\"beast.math.distributions.MarkovChainDistribution\" ",
-    "jeffreys=\"true\" parameter=\"@bPopSizes.t:", id, "\"/>")) # nolint this is no absolute path
+  text <- c(
+    text,
+    paste0(
+      "<distribution id=\"MarkovChainedPopSizes.t:", id,
+      "\" spec=\"beast.math.distributions.MarkovChainDistribution\" ",
+      "jeffreys=\"true\" parameter=\"@bPopSizes.t:", id, "\"/>"
+    )
+  )
   text
 }
 
@@ -302,7 +356,8 @@ cbs_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
 #' check_empty_beautier_folder()
 #' @export
 ccp_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
-  ccp_tree_prior
+  ccp_tree_prior,
+  beauti_options
 ) {
   testit::assert(beautier::is_ccp_tree_prior(ccp_tree_prior))
   id <- ccp_tree_prior$id
@@ -311,26 +366,45 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
   text <- NULL
 
   # distributions
-  text <- c(text, paste0("<distribution id=\"CoalescentConstant.t:", id,
-    "\" spec=\"Coalescent\">"))
-  text <- c(text, paste0("    ",
-    "<populationModel id=\"ConstantPopulation.t:", id,
-    "\" spec=\"ConstantPopulation\" popSize=\"@popSize.t:", id, "\"/>")) # nolint this is no absolute path
-  text <- c(text, paste0(
-    "    <treeIntervals id=\"TreeIntervals.t:",
-    id, "\" spec=\"TreeIntervals\" tree=\"@Tree.t:",
-    id, "\"/>")) # nolint this is no absolute path
+  text <- c(
+    text,
+    paste0(
+      "<distribution id=\"CoalescentConstant.t:", id,
+      "\" spec=\"Coalescent\">"
+    )
+  )
+  text <- c(
+    text,
+    paste0(
+      "    ",
+      "<populationModel id=\"ConstantPopulation.t:", id,
+      "\" spec=\"ConstantPopulation\" popSize=\"@popSize.t:", id, "\"/>"
+    )
+  )
+  text <- c(
+    text,
+    paste0(
+      "    <treeIntervals id=\"TreeIntervals.t:",
+      id, "\" spec=\"TreeIntervals\" tree=\"@Tree.t:",
+      id, "\"/>"
+    )
+  )
   text <- c(text, "</distribution>")
 
   # pop size
-  text <- c(text, paste0(
-    "<prior id=\"PopSizePrior.t:", id,
-    "\" name=\"distribution\" x=\"@popSize.t:",
-    id, "\">"))
+  text <- c(
+    text,
+    paste0(
+      "<prior id=\"PopSizePrior.t:", id,
+      "\" name=\"distribution\" x=\"@popSize.t:",
+      id, "\">"
+    )
+  )
   text <- c(text,
     beautier::indent(
       beautier::distr_to_xml(
-        distr = ccp_tree_prior$pop_size_distr
+        distr = ccp_tree_prior$pop_size_distr,
+        beauti_options = beauti_options
       )
     )
   )
@@ -357,7 +431,8 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
 #' check_empty_beautier_folder()
 #' @export
 cep_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
-  cep_tree_prior
+  cep_tree_prior,
+  beauti_options
 ) {
   testit::assert(beautier::is_cep_tree_prior(cep_tree_prior))
   id <- cep_tree_prior$id
@@ -366,37 +441,64 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
   text <- NULL
 
   # distribution
-  text <- c(text, paste0("<distribution ",
-    "id=\"CoalescentExponential.t:", id, "\" spec=\"Coalescent\">"))
-  text <- c(text, paste0("    <populationModel ",
-    "id=\"ExponentialGrowth.t:", id, "\" spec=\"ExponentialGrowth\" ",
-    "growthRate=\"@growthRate.t:", id, "\" ",
-    "popSize=\"@ePopSize.t:", id, "\"/>")) # nolint this is no absolute path
-  text <- c(text, paste0("    <treeIntervals ",
-    "id=\"TreeIntervals.t:", id, "\" spec=\"TreeIntervals\" ",
-    "tree=\"@Tree.t:", id, "\"/>")) # nolint this is no absolute path
+  text <- c(
+    text,
+    paste0(
+      "<distribution ",
+      "id=\"CoalescentExponential.t:", id, "\" spec=\"Coalescent\">"
+    )
+  )
+  text <- c(
+    text,
+    paste0(
+      "    <populationModel ",
+      "id=\"ExponentialGrowth.t:", id, "\" spec=\"ExponentialGrowth\" ",
+      "growthRate=\"@growthRate.t:", id, "\" ",
+      "popSize=\"@ePopSize.t:", id, "\"/>"
+    )
+  )
+  text <- c(
+    text,
+    paste0(
+      "    <treeIntervals ",
+      "id=\"TreeIntervals.t:", id, "\" spec=\"TreeIntervals\" ",
+      "tree=\"@Tree.t:", id, "\"/>"
+    )
+  )
   text <- c(text, paste0("</distribution>"))
 
   # prior
-  text <- c(text, paste0("<prior ",
-    "id=\"ePopSizePrior.t:", id, "\" name=\"distribution\" ",
-    "x=\"@ePopSize.t:", id, "\">"))
+  text <- c(
+    text,
+    paste0(
+      "<prior ",
+      "id=\"ePopSizePrior.t:", id, "\" name=\"distribution\" ",
+      "x=\"@ePopSize.t:", id, "\">"
+    )
+  )
   text <- c(text,
     beautier::indent(
       beautier::distr_to_xml(
-        distr = cep_tree_prior$pop_size_distr
+        distr = cep_tree_prior$pop_size_distr,
+        beauti_options = beauti_options
       )
     )
   )
   text <- c(text, paste0("</prior>"))
 
-  text <- c(text, paste0("<prior ",
-    "id=\"GrowthRatePrior.t:", id, "\" name=\"distribution\" ",
-    "x=\"@growthRate.t:", id, "\">"))
+  text <- c(
+    text,
+    paste0(
+      "<prior ",
+      "id=\"GrowthRatePrior.t:", id, "\" name=\"distribution\" ",
+      "x=\"@growthRate.t:", id, "\">"
+    )
+  )
   text <- c(text,
     beautier::indent(
       beautier::distr_to_xml(
-        distr = cep_tree_prior$growth_rate_distr
+        distr = cep_tree_prior$growth_rate_distr,
+        beauti_options = beauti_options
       )
     )
   )
@@ -423,7 +525,8 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
 #' check_empty_beautier_folder()
 #' @export
 yule_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
-  yule_tree_prior
+  yule_tree_prior,
+  beauti_options = create_beauti_options()
 ) {
   testit::assert(beautier::is_yule_tree_prior(yule_tree_prior))
   id <- yule_tree_prior$id
@@ -432,19 +535,29 @@ yule_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function na
   text <- NULL
 
   # distribution
-  text <- c(text, paste0("<distribution id=\"YuleModel.t:", id,
-    "\" spec=\"beast.evolution.speciation.YuleModel\" ",
-    "birthDiffRate=\"@birthRate.t:", id, "\" tree=\"@Tree.t:", id, "\"/>")) # nolint this is no absolute path
+  text <- c(
+    text,
+    paste0(
+      "<distribution id=\"YuleModel.t:", id,
+      "\" spec=\"beast.evolution.speciation.YuleModel\" ",
+      "birthDiffRate=\"@birthRate.t:", id, "\" tree=\"@Tree.t:", id, "\"/>"
+    )
+  )
 
   # prior
-  text <- c(text, paste0(
+  text <- c(
+    text,
+    paste0(
       "<prior id=\"YuleBirthRatePrior.t:", id, "\" ",
       "name=\"distribution\" x=\"@birthRate.t:", id, "\">"
     )
   )
   text <- c(text,
     beautier::indent(
-      beautier::distr_to_xml(yule_tree_prior$birth_rate_distr)
+      beautier::distr_to_xml(
+        yule_tree_prior$birth_rate_distr,
+        beauti_options = beauti_options
+      )
     )
   )
   text <- c(text, paste0("</prior>"))

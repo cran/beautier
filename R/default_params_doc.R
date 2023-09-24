@@ -8,6 +8,10 @@
 #' @param allow_na allow \link{NA}
 #' @param alpha_parameter an alpha parameter,
 #' as created by \link{create_alpha_param}
+#' @param b_pop_sizes_param a Bayesian population size parameter,
+#' as created by \link{create_b_pop_sizes_param}
+#' @param b_pop_sizes_parameter a Bayesian population size parameter,
+#' as created by \link{create_b_pop_sizes_param}
 #' @param bd_tree_prior a Birth-Death tree prior, as created
 #' by \code{\link{create_bd_tree_prior}}
 #' @param beast2_version BEAST2 version, for example, code{"2.5"}
@@ -58,6 +62,8 @@
 #'   If FALSE, crown age is estimated by BEAST2. If TRUE,
 #'   the crown age is fixed to the crown age
 #'   of the initial phylogeny.
+#' @param freq_param a `freq` parameter,
+#' as created by \link{create_freq_param}
 #' @param gamma_distr a gamma distribution,
 #'   as created by \code{\link{create_gamma_distr}})
 #' @param gamma_site_model a site model's gamma site model,
@@ -100,6 +106,8 @@
 #'   as returned by \code{\link{create_mrca_prior}}
 #' @param jc69_site_model a JC69 site model,
 #'   as returned by \code{\link{create_jc69_site_model}}
+#' @param kappa_param a kappa parameter,
+#' as created by \link{create_kappa_param}
 #' @param log_every number of MCMC states between writing to file
 #' @param m_param an m parameter,
 #' as created by \link{create_m_param}
@@ -126,8 +134,13 @@
 #' @param param_id a parameter's ID
 #' @param phylogeny a phylogeny of type \code{phylo} from the \code{ape}
 #'   package
+#' @param pop_sizes_scaler_scale_factor the scale factor used by the
+#' population sizes scaler operator
 #' @param pre_burnin number of burn in samples taken before entering
 #'   the main loop
+#' @param rate_scaler_factor the strict clock model's operator scaler
+#' for the rate.
+#' Use an empty string to indicate the default.
 #' @param rename_fun a function to rename a filename,
 #' as can be checked by \link{check_rename_fun}. This function should
 #' have one argument, which will be a filename or \link{NA}. The
@@ -201,6 +214,8 @@ default_params_doc <- function(
   allow_empty_str,
   allow_na,
   alpha_parameter,
+  b_pop_sizes_param,
+  b_pop_sizes_parameter,
   bd_tree_prior,
   beautier_folder,
   cbs_tree_prior,
@@ -222,6 +237,7 @@ default_params_doc <- function(
   filename,
   fixed_crown_age,
   fixed_crown_ages,
+  freq_param,
   gamma_distr,
   gamma_site_model,
   group_sizes_dimension,
@@ -236,6 +252,7 @@ default_params_doc <- function(
   input_filename, input_filenames,
   is_monophyletic,
   jc69_site_model,
+  kappa_param,
   log_every,
   m_param,
   mcmc,
@@ -247,7 +264,9 @@ default_params_doc <- function(
   param,
   param_id,
   phylogeny,
+  pop_sizes_scaler_scale_factor,
   pre_burnin,
+  rate_scaler_factor,
   rename_fun,
   rln_clock_model,
   sample_from_prior,
@@ -278,6 +297,8 @@ default_params_doc <- function(
 
 #' Documentation of parameters (for example, \code{create_param}.
 #' This function does nothing. It is intended to inherit documentation from.
+#' @param dimension the number of dimensions, for example, as used in
+#' \link{create_freq_param}
 #' @param estimate TRUE if this parameter is to be estimated by BEAST2,
 #'   FALSE otherwise
 #' @param id the parameter's ID
@@ -293,6 +314,7 @@ default_params_doc <- function(
 #'   \code{@export}. This is not done, as this will disallow all
 #'   functions to find the documentation parameters
 default_parameters_doc <- function(
+  dimension,
   estimate,
   id,
   lower,
