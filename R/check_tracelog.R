@@ -2,6 +2,7 @@
 #'
 #' Will call \link{stop} if not.
 #' @inheritParams default_params_doc
+#' @return No return value, called for side effects
 #' @export
 check_tracelog <- function(tracelog) {
 
@@ -44,10 +45,11 @@ check_tracelog_names <- function(tracelog) {
 #' @export
 check_tracelog_values <- function(tracelog) {
 
-  beautier::check_filename(tracelog$filename, allow_na = TRUE)
-  assertive::assert_is_numeric(tracelog$log_every)
-  assertive::assert_all_are_positive(tracelog$log_every)
-  beautier::check_log_mode(tracelog$mode)
-  assertive::assert_is_if_condition(tracelog$sanitise_headers)
-  beautier::check_log_sort(tracelog$sort)
+  check_filename(tracelog$filename, allow_na = TRUE)
+  lapply(tracelog$log_every, function(x) check_number_whole(x, min = 1, arg = "log_every"))
+
+  check_log_mode(tracelog$mode)
+  check_logical(tracelog$sanitise_headers)
+  check_log_sort(tracelog$sort)
+  invisible(tracelog)
 }

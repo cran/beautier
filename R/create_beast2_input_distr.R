@@ -48,7 +48,7 @@ create_beast2_input_distr <- function(
       inference_model = inference_model
     )
   )
-  text <- beautier::indent(text)
+  text <- indent(text)
   text <- c(
     "<distribution id=\"posterior\" spec=\"util.CompoundDistribution\">",
     text
@@ -61,6 +61,7 @@ create_beast2_input_distr <- function(
 #' Creates the prior section in the distribution section
 #' of a BEAST2 XML parameter file
 #' @inheritParams default_params_doc
+#' @return lines of XML text
 #' @seealso this function is called by \code{create_beast2_input_distr},
 #'   together with \code{create_beast2_input_distr_lh}
 #' @note this function is not intended for regular use, thus its
@@ -90,36 +91,36 @@ create_beast2_input_distr_prior <- function( # nolint indeed long function name
   text <- NULL
   text <- c(
     text,
-    beautier::tree_priors_to_xml_prior_distr(
+    tree_priors_to_xml_prior_distr(
       tree_priors,
       beauti_options = inference_model$beauti_options
     )
   )
   text <- c(
     text,
-    beautier::gamma_site_model_to_xml_prior_distr(
+    gamma_site_model_to_xml_prior_distr(
       inference_model
     )
   )
   text <- c(
     text,
-    beautier::site_models_to_xml_prior_distr(
+    site_models_to_xml_prior_distr(
       site_models,
       beauti_options = inference_model$beauti_options
     )
   )
   text <- c(
     text,
-    beautier::mrca_priors_to_xml_prior_distr(inference_model = inference_model)
+    mrca_priors_to_xml_prior_distr(inference_model = inference_model)
   )
   text <- c(
     text,
-    beautier::clock_model_to_xml_prior_distr(
-      inference_mode = inference_model
+    clock_model_to_xml_prior_distr(
+      inference_model = inference_model
     )
   )
 
-  text <- beautier::indent(text)
+  text <- indent(text)
 
   # Surround text by prior distribution tag
   text <- c(
@@ -169,6 +170,7 @@ create_beast2_input_distr_prior <- function( # nolint indeed long function name
 #' }
 #'
 #' @inheritParams default_params_doc
+#' @return lines of XML text
 #' @note this function is not intended for regular use, thus its
 #'   long name length is accepted
 #' @author Richèl J.C. Bilderbeek
@@ -178,9 +180,9 @@ create_beast2_input_distr_prior <- function( # nolint indeed long function name
 create_beast2_input_distr_lh <- function(
   inference_model
 ) {
-  text <- beautier::create_tree_likelihood_distr_xml(inference_model)
+  text <- create_tree_likelihood_distr_xml(inference_model)
 
-  text <- beautier::indent(text)
+  text <- indent(text)
 
   # Surround by likelihood distribution tags
   text <- c(
@@ -193,7 +195,7 @@ create_beast2_input_distr_lh <- function(
   text <- c(text, "</distribution>")
 
   # Must have one or zero branchRateModel
-  # testit::assert(sum(grepl(x = text, pattern = " *<branchRateModel.*")) < length(site_models)) # nolint perhaps one day
+  # check_true(sum(grepl(x = text, pattern = " *<branchRateModel.*")) < length(site_models)) # nolint perhaps one day
 
   text
 }
@@ -203,6 +205,7 @@ create_beast2_input_distr_lh <- function(
 #' the prior section of the distribution section
 #' of a BEAST2 XML parameter file for a Birth-Death tree prior
 #' @inheritParams default_params_doc
+#' @return lines of XML text
 #' @author Richèl J.C. Bilderbeek
 #' @examples
 #' check_empty_beautier_folder()
@@ -221,9 +224,9 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
   bd_tree_prior,
   beauti_options
 ) {
-  testit::assert(beautier::is_bd_tree_prior(bd_tree_prior))
+  check_true(is_bd_tree_prior(bd_tree_prior))
   id <- bd_tree_prior$id
-  testit::assert(beautier::is_id(id))
+  check_true(is_id(id))
 
   text <- NULL
 
@@ -249,8 +252,8 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
     )
   )
   text <- c(text,
-    beautier::indent(
-      beautier::distr_to_xml(
+    indent(
+      distr_to_xml(
         distr = bd_birth_rate_distr,
         beauti_options = beauti_options
       )
@@ -269,8 +272,8 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
     )
   )
   text <- c(text,
-    beautier::indent(
-      beautier::distr_to_xml(
+    indent(
+      distr_to_xml(
         distr = bd_death_rate_distr,
         beauti_options = beauti_options
       )
@@ -285,6 +288,7 @@ bd_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function name
 #' the prior section of the distribution section
 #' of a BEAST2 XML parameter file for a Birth-Death tree prior
 #' @inheritParams default_params_doc
+#' @return lines of XML text
 #' @author Richèl J.C. Bilderbeek
 #' @examples
 #' check_empty_beautier_folder()
@@ -303,9 +307,9 @@ cbs_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
   cbs_tree_prior,
   beauti_options
 ) {
-  testit::assert(beautier::is_cbs_tree_prior(cbs_tree_prior))
+  check_true(is_cbs_tree_prior(cbs_tree_prior))
   id <- cbs_tree_prior$id
-  testit::assert(beautier::is_id(id))
+  check_true(is_id(id))
 
   text <- NULL
   text <- c(
@@ -341,6 +345,7 @@ cbs_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
 #' of a BEAST2 XML parameter file for a
 #' Coalescent Constant Population tree prior
 #' @inheritParams default_params_doc
+#' @return lines of XML text
 #' @author Richèl J.C. Bilderbeek
 #' @examples
 #' check_empty_beautier_folder()
@@ -359,9 +364,9 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
   ccp_tree_prior,
   beauti_options
 ) {
-  testit::assert(beautier::is_ccp_tree_prior(ccp_tree_prior))
+  check_true(is_ccp_tree_prior(ccp_tree_prior))
   id <- ccp_tree_prior$id
-  testit::assert(beautier::is_id(id))
+  check_true(is_id(id))
 
   text <- NULL
 
@@ -401,8 +406,8 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
     )
   )
   text <- c(text,
-    beautier::indent(
-      beautier::distr_to_xml(
+    indent(
+      distr_to_xml(
         distr = ccp_tree_prior$pop_size_distr,
         beauti_options = beauti_options
       )
@@ -416,6 +421,7 @@ ccp_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
 #' of a BEAST2 XML parameter file for a
 #' Coalescent Exponential Population tree prior
 #' @inheritParams default_params_doc
+#' @return lines of XML text
 #' @author Richèl J.C. Bilderbeek
 #' @examples
 #' check_empty_beautier_folder()
@@ -434,9 +440,9 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
   cep_tree_prior,
   beauti_options
 ) {
-  testit::assert(beautier::is_cep_tree_prior(cep_tree_prior))
+  check_true(is_cep_tree_prior(cep_tree_prior))
   id <- cep_tree_prior$id
-  testit::assert(beautier::is_id(id))
+  check_true(is_id(id))
 
   text <- NULL
 
@@ -477,8 +483,8 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
     )
   )
   text <- c(text,
-    beautier::indent(
-      beautier::distr_to_xml(
+    indent(
+      distr_to_xml(
         distr = cep_tree_prior$pop_size_distr,
         beauti_options = beauti_options
       )
@@ -495,8 +501,8 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
     )
   )
   text <- c(text,
-    beautier::indent(
-      beautier::distr_to_xml(
+    indent(
+      distr_to_xml(
         distr = cep_tree_prior$growth_rate_distr,
         beauti_options = beauti_options
       )
@@ -510,6 +516,7 @@ cep_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function nam
 #' the prior section of the distribution section
 #' of a BEAST2 XML parameter file for a Yule tree prior
 #' @inheritParams default_params_doc
+#' @return lines of XML text
 #' @author Richèl J.C. Bilderbeek
 #' @examples
 #' check_empty_beautier_folder()
@@ -528,9 +535,9 @@ yule_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function na
   yule_tree_prior,
   beauti_options = create_beauti_options()
 ) {
-  testit::assert(beautier::is_yule_tree_prior(yule_tree_prior))
+  check_true(is_yule_tree_prior(yule_tree_prior))
   id <- yule_tree_prior$id
-  testit::assert(beautier::is_id(id))
+  check_true(is_id(id))
 
   text <- NULL
 
@@ -553,8 +560,8 @@ yule_tree_prior_to_xml_prior_distr <- function( # nolint indeed long function na
     )
   )
   text <- c(text,
-    beautier::indent(
-      beautier::distr_to_xml(
+    indent(
+      distr_to_xml(
         yule_tree_prior$birth_rate_distr,
         beauti_options = beauti_options
       )

@@ -4,6 +4,7 @@
 #' Use \link{create_tn93_site_model} to create a valid
 #' TN93 nucleotide substitution model.
 #' @inheritParams default_params_doc
+#' @return No return value, called for side effects
 #' @examples
 #' check_empty_beautier_folder()
 #'
@@ -13,30 +14,30 @@
 #' @export
 check_tn93_site_model <- function(tn93_site_model) {
 
-  if (!beautier::is_site_model(tn93_site_model)) {
+  if (!is_site_model(tn93_site_model)) {
     stop("'tn93_site_model' must be a site model")
   }
-  beautier::check_tn93_site_model_names(tn93_site_model)
+  check_tn93_site_model_names(tn93_site_model)
 
-  if (!beautier::is_distr(tn93_site_model$kappa_1_prior_distr)) {
+  if (!is_distr(tn93_site_model$kappa_1_prior_distr)) {
     stop("'tn93_site_model$kappa_1_prior_distr' must be a distribution")
   }
-  if (!beautier::is_distr(tn93_site_model$kappa_2_prior_distr)) {
+  if (!is_distr(tn93_site_model$kappa_2_prior_distr)) {
     stop("'tn93_site_model$kappa_2_prior_distr' must be a distribution")
   }
-  if (!beautier::is_param(tn93_site_model$kappa_1_param)) {
+  if (!is_param(tn93_site_model$kappa_1_param)) {
     stop("'tn93_site_model$kappa_1_param' must be a parameter")
   }
-  if (!beautier::is_param(tn93_site_model$kappa_2_param)) {
+  if (!is_param(tn93_site_model$kappa_2_param)) {
     stop("'tn93_site_model$kappa_2_param' must be a parameter")
   }
-  if (!beautier::is_freq_equilibrium_name(tn93_site_model$freq_equilibrium)) {
+  if (!is_freq_equilibrium_name(tn93_site_model$freq_equilibrium)) {
     stop(
       "'tn93_site_model$freq_equilibrium' must be ",
       "an equilibrium frequency name"
     )
   }
-
+  invisible(tn93_site_model)
 }
 
 #' Check if the \code{tn93_site_model} has the list elements

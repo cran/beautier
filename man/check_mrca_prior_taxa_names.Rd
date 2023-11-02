@@ -12,6 +12,9 @@ as returned by \code{\link{get_taxa_names}}.
 Keep at \code{NA} to have it initialized automatically,
 using all taxa in the alignment}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Will \link{stop} if not.
 }

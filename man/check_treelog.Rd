@@ -10,6 +10,9 @@ check_treelog(treelog)
 \item{treelog}{a \code{treelog},
 as created by \link{create_treelog}}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Will call \link{stop} if not.
 }

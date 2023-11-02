@@ -1,5 +1,6 @@
 #' Rename the filenames within an MCMC
 #' @inheritParams default_params_doc
+#' @return an `mcmc` (see \link{create_mcmc}) with renamed filenames
 #' @examples
 #' check_empty_beautier_folder()
 #'
@@ -33,8 +34,8 @@ rename_mcmc_filenames <- function(
   mcmc,
   rename_fun
 ) {
-  beautier::check_mcmc(mcmc)
-  beautier::check_rename_fun(rename_fun)
+  check_mcmc(mcmc)
+  check_rename_fun(rename_fun)
   mcmc$tracelog$filename <- rename_fun(mcmc$tracelog$filename)
   mcmc$screenlog$filename <-
     rename_fun(

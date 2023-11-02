@@ -2,6 +2,7 @@
 #' @inheritParams default_params_doc
 #' @param filename name of the file to store the posterior screens
 #' phylogenies to. By default, this is \code{$(screen).screens}
+#' @return a \code{screenlog} object
 #' @examples
 #' check_empty_beautier_folder()
 #'
@@ -24,6 +25,6 @@ create_screenlog <- function(
     sanitise_headers = sanitise_headers,
     sort = sort
   )
-  beautier::check_screenlog(screenlog)
+  check_screenlog(screenlog)
   screenlog
 }

@@ -1,5 +1,6 @@
 #' Check if the argument is one boolean
 #' @param x the argument to be tested to be boolean
+#' @return TRUE if the argument is one boolean, FALSE otherwise
 #' @examples
 #' check_empty_beautier_folder()
 #'
@@ -19,5 +20,5 @@
 #' @author Richèl J.C. Bilderbeek
 #' @export
 is_one_bool <- function(x) {
-  assertive::is_if_condition(x)
+  isTRUE(x) || isFALSE(x)
 }

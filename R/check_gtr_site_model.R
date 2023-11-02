@@ -4,6 +4,8 @@
 #' Use \link{create_gtr_site_model} to create a valid
 #' GTR nucleotide substitution model.
 #' @inheritParams default_params_doc
+#' @return TRUE is the \code{gtr_site_model} is a valid
+#' GTR nucleotide substitution model, FALSE otherwise
 #' @examples
 #' check_empty_beautier_folder()
 #'
@@ -12,11 +14,11 @@
 #' check_empty_beautier_folder()
 #' @export
 check_gtr_site_model <- function(gtr_site_model) {
-  beautier::check_site_model(gtr_site_model)
+  check_site_model(gtr_site_model)
   if (gtr_site_model$name != "GTR") {
     stop("'gtr_site_model$name' must be 'GTR'")
   }
-  beautier::check_gtr_site_model_names(gtr_site_model)
+  check_gtr_site_model_names(gtr_site_model)
 
   # Check if all distributions are valid distributions
   expected_distrs <- list(
@@ -27,7 +29,7 @@ check_gtr_site_model <- function(gtr_site_model) {
     gtr_site_model$rate_gt_prior_distr
   )
   for (expected_distr in expected_distrs) {
-    if (!beautier::is_distr(expected_distr)) {
+    if (!is_distr(expected_distr)) {
       stop("Invalid gtr_site_model$distr")
     }
   }
@@ -42,12 +44,12 @@ check_gtr_site_model <- function(gtr_site_model) {
     gtr_site_model$rate_gt_param
   )
   for (expected_param in expected_params) {
-    if (!beautier::is_param(expected_param)) {
+    if (!is_param(expected_param)) {
       stop("Invalid gtr_site_model$param")
     }
   }
 
-  if (!beautier::is_freq_equilibrium_name(gtr_site_model$freq_equilibrium)) {
+  if (!is_freq_equilibrium_name(gtr_site_model$freq_equilibrium)) {
     stop("Invalid gtr_site_model$freq_equilibrium")
   }
   TRUE

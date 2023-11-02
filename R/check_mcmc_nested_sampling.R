@@ -3,6 +3,7 @@
 #'
 #' Will \link{stop} if not, else will do nothing
 #' @inheritParams default_params_doc
+#' @return No return value, called for side effects
 #' @seealso use \code{\link{create_ns_mcmc}}
 #' to create an MCMC that uses Nested Sampling
 #' to estimate a marginal likelihood
@@ -12,7 +13,7 @@
 #' @export check_ns_mcmc check_mcmc_nested_sampling check_nested_sampling_mcmc
 check_ns_mcmc <- check_mcmc_nested_sampling <- check_nested_sampling_mcmc <- function(mcmc) { # nolint indeed a long line
 
-  beautier::check_mcmc(mcmc)
+  check_mcmc(mcmc)
 
   # The arguments 'chain_length' and 'store_every' are checked
   # by check_mcmc
@@ -40,4 +41,5 @@ check_ns_mcmc <- check_mcmc_nested_sampling <- check_nested_sampling_mcmc <- fun
   if (mcmc$epsilon <= 0.0) {
     stop("'mcmc$epsilon' must be non-zero and positive")
   }
+  invisible(mcmc)
 }

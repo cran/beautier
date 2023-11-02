@@ -10,6 +10,9 @@ check_tracelog(tracelog)
 \item{tracelog}{a \code{tracelog},
 as created by \link{create_tracelog}}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Will call \link{stop} if not.
 }

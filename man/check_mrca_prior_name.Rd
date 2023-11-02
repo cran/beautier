@@ -12,6 +12,9 @@ for example a genus, family,
 order or even class name.
 Leave at \link{NA} to have it named automatically.}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 A valid MRCA prior name is either \link{NA} or one character string.
 Will \link{stop} if not.

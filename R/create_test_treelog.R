@@ -1,5 +1,9 @@
-#' Create a \code{treelog} object
+#' Create a \code{treelog} object to be used in testing
 #' @inheritParams create_treelog
+#' @return a \code{treelog} object
+#' @examples
+#' create_test_treelog()
+#' @author Richèl J.C. Bilderbeek
 #' @export
 create_test_treelog <- function(
   filename = create_temp_treelog_filename(),
@@ -8,7 +12,7 @@ create_test_treelog <- function(
   sanitise_headers = FALSE,
   sort = "none"
 ) {
-  beautier::create_treelog(
+  create_treelog(
     filename = filename,
     log_every = log_every,
     mode = mode,

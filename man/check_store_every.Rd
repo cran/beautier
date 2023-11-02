@@ -11,6 +11,9 @@ check_store_every(store_every)
 before the posterior's state will be saved to file.
 Use -1 or \code{NA} to use the default frequency.}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Will \link{stop} if not
 }

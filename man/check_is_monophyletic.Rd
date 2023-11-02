@@ -11,6 +11,9 @@ check_is_monophyletic(is_monophyletic)
 a Most Recent Common Ancestor prior,
 as returned by \code{\link{create_mrca_prior}}}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Will \link{stop} if not.
 }
